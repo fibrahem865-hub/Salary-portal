@@ -16,7 +16,7 @@
         .btn:hover { background-color: #115293; }
         .btn-secondary { background-color: #78909c; margin-top: 8px; }
         .btn-secondary:hover { background-color: #607d8b; }
-        .btn-warning { background-color: #f57c00; margin-top: 8px; }
+        .btn-warning { background-color: #f57c00; margin-top: 8px; color: white; }
         .btn-warning:hover { background-color: #e65100; }
         .btn-danger { background-color: #d32f2f; color: white; }
         .btn-danger:hover { background-color: #c62828; }
@@ -98,7 +98,28 @@
             <button class="btn btn-danger" onclick="switchScreen('loginScreen')">تسجيل خروج الإدارة</button>
         </div>
 
-        <!-- 4. شاشة إضافة موظف جديد بواسطة الإدارة -->
+        <!-- 4. شاشة تعديل بيانات الموظف (للإدارة) -->
+        <div id="editEmployeeScreen" class="screen">
+            <div style="background:#f57c00; color:white; padding:8px 15px; border-radius:8px; font-weight:bold; display:inline-block; margin-bottom:15px; text-align:center; width:100%; box-sizing:border-box;">تعديل بيانات وراتب الموظف</div>
+            
+            <input type="hidden" id="editEmpKey">
+            <div class="input-group"><label>اسم الموظف</label><input type="text" id="editName"></div>
+            <div class="input-group"><label>كود الموظف</label><input type="text" id="editCode"></div>
+            <div class="input-group"><label>أيام الحضور</label><input type="text" id="editAttend"></div>
+            <div class="input-group"><label>أيام الإضافي</label><input type="text" id="editOvertime"></div>
+            <div class="input-group"><label>أيام الغياب</label><input type="text" id="editAbsent"></div>
+            <div class="input-group"><label>الاجازات</label><input type="text" id="editVacation"></div>
+            <div class="input-group"><label>الراتب الأساسي</label><input type="text" id="editBasic"></div>
+            <div class="input-group"><label>قيمة الإضافي</label><input type="text" id="editOvertimeVal"></div>
+            <div class="input-group"><label>خصومات الغياب</label><input type="text" id="editAbsentVal"></div>
+            <div class="input-group"><label>صافي المرتب</label><input type="text" id="editNet"></div>
+            <div class="input-group"><label>رابط البطاقة الطبية (صورة/PDF)</label><input type="text" id="editMedical"></div>
+
+            <button class="btn btn-warning" onclick="saveEditedEmployee()">حفظ التعديلات ✓</button>
+            <button class="btn btn-secondary" onclick="switchScreen('adminDashboardScreen')">إلغاء والعودة</button>
+        </div>
+
+        <!-- 5. شاشة إضافة موظف جديد بواسطة الإدارة -->
         <div id="addEmployeeScreen" class="screen">
             <div style="background:#2e7d32; color:white; padding:8px 15px; border-radius:8px; font-weight:bold; display:inline-block; margin-bottom:15px; text-align:center; width:100%; box-sizing:border-box;">إضافة موظف جديد</div>
             
@@ -112,7 +133,7 @@
             <button class="btn btn-secondary" onclick="switchScreen('adminDashboardScreen')">العودة للإدارة</button>
         </div>
 
-        <!-- 5. شاشة التسجيل لأول مرة بالرقم القومي -->
+        <!-- 6. شاشة التسجيل لأول مرة بالرقم القومي -->
         <div id="registerScreen" class="screen">
             <div style="background:#2e7d32; color:white; padding:8px 15px; border-radius:8px; font-weight:bold; display:inline-block; margin-bottom:15px; text-align:center; width:100%; box-sizing:border-box;">شركة اسمنت سيناء</div>
             <h2>تسجيل موظف جديد</h2>
@@ -126,7 +147,7 @@
             <button class="btn btn-secondary" onclick="switchScreen('loginScreen')">العودة لتسجيل الدخول</button>
         </div>
 
-        <!-- 6. شاشة استعادة كلمة المرور -->
+        <!-- 7. شاشة استعادة كلمة المرور -->
         <div id="forgotScreen" class="screen">
             <div style="background:#f57c00; color:white; padding:8px 15px; border-radius:8px; font-weight:bold; display:inline-block; margin-bottom:15px; text-align:center; width:100%; box-sizing:border-box;">شركة اسمنت سيناء</div>
             <h2>استعادة كلمة المرور</h2>
@@ -265,11 +286,56 @@
                     <div>الرقم القومي: ${emp.nationalId}</div>
                     <div>صافي المرتب: ${emp.net}</div>
                     <div style="margin-top:8px; display:flex; gap:5px;">
-                        <button class="btn btn-danger" style="margin:0; padding:5px; font-size:11px;" onclick="deleteEmployee('${key}')">حذف</button>
+                        <button class="btn btn-warning" style="margin:0; padding:5px; font-size:11px;" onclick="openEditEmployee('${key}')">✏️ تعديل</button>
+                        <button class="btn btn-danger" style="margin:0; padding:5px; font-size:11px;" onclick="deleteEmployee('${key}')">🗑️ حذف</button>
                     </div>
                 </div>`;
             }
             document.getElementById('adminEmployeesList').innerHTML = listHtml;
+        }
+
+        // فتح شاشة تعديل موظف محدد
+        function openEditEmployee(key) {
+            var db = getDatabase();
+            var emp = db[key];
+            
+            document.getElementById('editEmpKey').value = key;
+            document.getElementById('editName').value = emp.name;
+            document.getElementById('editCode').value = emp.code;
+            document.getElementById('editAttend').value = emp.attend || "";
+            document.getElementById('editOvertime').value = emp.overtime || "";
+            document.getElementById('editAbsent').value = emp.absent || "";
+            document.getElementById('editVacation').value = emp.vacation || "";
+            document.getElementById('editBasic').value = emp.basic || "";
+            document.getElementById('editOvertimeVal').value = emp.overtimeVal || "";
+            document.getElementById('editAbsentVal').value = emp.absentVal || "";
+            document.getElementById('editNet').value = emp.net || "";
+            document.getElementById('editMedical').value = emp.medicalUrl || "";
+
+            switchScreen('editEmployeeScreen');
+        }
+
+        // حفظ التعديلات التي أجراها المسؤول
+        function saveEditedEmployee() {
+            var key = document.getElementById('editEmpKey').value;
+            var db = getDatabase();
+
+            db[key].name = document.getElementById('editName').value.trim();
+            db[key].code = document.getElementById('editCode').value.trim();
+            db[key].attend = document.getElementById('editAttend').value.trim();
+            db[key].overtime = document.getElementById('editOvertime').value.trim();
+            db[key].absent = document.getElementById('editAbsent').value.trim();
+            db[key].vacation = document.getElementById('editVacation').value.trim();
+            db[key].basic = document.getElementById('editBasic').value.trim();
+            db[key].overtimeVal = document.getElementById('editOvertimeVal').value.trim();
+            db[key].absentVal = document.getElementById('editAbsentVal').value.trim();
+            db[key].net = document.getElementById('editNet').value.trim();
+            db[key].medicalUrl = document.getElementById('editMedical').value.trim();
+
+            saveDatabase(db);
+            alert("تم حفظ تعديلات الموظف بنجاح ✓");
+            loadAdminDashboard();
+            switchScreen('adminDashboardScreen');
         }
 
         // إضافة موظف جديد من الإدارة
