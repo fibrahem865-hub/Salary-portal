@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوابة الرواتب - اسمنت سيناء</title>
+    <title>بوابة الرواتب - شركة مصطفي فاروق</title>
     <style>
         body { font-family: Tahoma, sans-serif; background-color: #f4f4f4; margin: 0; padding: 10px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
         .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 450px; }
@@ -17,7 +17,6 @@
         .btn-secondary { background-color: #78909c; margin-top: 8px; }
         .btn-secondary:hover { background-color: #607d8b; }
         
-        /* الشاشات الفرعية */
         .screen { display: none; }
         .active-screen { display: block; }
 
@@ -31,7 +30,7 @@
     <div class="card">
         <!-- 1. شاشة تسجيل الدخول العادية -->
         <div id="loginScreen" class="screen active-screen">
-            <div style="background:#1976d2; color:white; padding:8px 15px; border-radius:8px; font-weight:bold; display:inline-block; margin-bottom:15px; text-align:center; width:100%; box-sizing:border-box;">اسمنت سيناء</div>
+            <div style="background:#1976d2; color:white; padding:8px 15px; border-radius:8px; font-weight:bold; display:inline-block; margin-bottom:15px; text-align:center; width:100%; box-sizing:border-box;">شركة مصطفي فاروق</div>
             <h2>بوابة الرواتب</h2>
             <p>ادخل كود الموظف وكلمة المرور الخاصة بك</p>
 
@@ -51,9 +50,9 @@
 
         <!-- 2. شاشة التسجيل لأول مرة بالرقم القومي -->
         <div id="registerScreen" class="screen">
-            <div style="background:#2e7d32; color:white; padding:8px 15px; border-radius:8px; font-weight:bold; display:inline-block; margin-bottom:15px; text-align:center; width:100%; box-sizing:border-box;">اسمنت سيناء</div>
+            <div style="background:#2e7d32; color:white; padding:8px 15px; border-radius:8px; font-weight:bold; display:inline-block; margin-bottom:15px; text-align:center; width:100%; box-sizing:border-box;">شركة مصطفي فاروق</div>
             <h2>تسجيل موظف جديد</h2>
-            <p>أدخل الرقم القومي المسجل لدى الإدارة لإنشاء حسابك</p>
+            <p>أدخل الرقم القومي لمرة واحدة فقط لإنشاء حسابك</p>
 
             <div class="input-group">
                 <label>🆔 الرقم القومي (14 رقم)</label>
@@ -98,31 +97,43 @@
     </div>
 
     <script>
-        // قاعدة بيانات تجريبية للإدارة (مربوطة بالرقم القومي للموظفين الجدد)
-        // يمكنك إضافة أرقام قومية جديدة هنا للعمال
-        var companyDatabase = {
+        // قاعدة البيانات المحفوظة محلياً أو الافتراضية
+        var defaultDatabase = {
             "30105120101234": {
                 name: "إبراهيم فتحي (مساعد مشغل)",
                 nationalId: "30105120101234",
                 attend: "17 يوم", overtime: "2 أيام", absent: "7 أيام", vacation: "2 أيام",
                 basic: "6,044.98 جنيه", overtimeVal: "1,304.28 جنيه", absentVal: "-1,762.11 جنيه", net: "4,828.50 جنيه",
-                code: "", pass: "" // سيتم تعيينهم عند أول تسجيل
+                code: "", pass: "", isRegistered: false
             },
             "29912010205678": {
                 name: "محمود علي (فني أول)",
                 nationalId: "29912010205678",
                 attend: "22 يوم", overtime: "4 أيام", absent: "0 أيام", vacation: "1 يوم",
                 basic: "7,500.00 جنيه", overtimeVal: "1,500.00 جنيه", absentVal: "0.00 جنيه", net: "9,000.00 جنيه",
-                code: "", pass: ""
+                code: "", pass: "", isRegistered: false
             }
         };
+
+        // استرجاع البيانات المحفوظة إن وجدت
+        function getDatabase() {
+            var saved = localStorage.getItem('companyDB');
+            if (saved) {
+                return JSON.parse(saved);
+            }
+            return defaultDatabase;
+        }
+
+        function saveDatabase(db) {
+            localStorage.setItem('companyDB', JSON.stringify(db));
+        }
 
         function switchScreen(screenId) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active-screen'));
             document.getElementById(screenId).classList.add('active-screen');
         }
 
-        // تسجيل الموظف لأول مرة باستخدام الرقم القومي
+        // تسجيل الموظف لأول مرة (تتم مرة واحدة فقط لكل رقم قومي)
         function registerNewEmployee() {
             var natId = document.getElementById('regNationalId').value.trim();
             var newCode = document.getElementById('regNewCode').value.trim();
@@ -133,33 +144,38 @@
                 return;
             }
 
-            // البحث عن الرقم القومي في قاعدة بيانات الشركة
+            var db = getDatabase();
             var foundEmp = null;
-            for(var key in companyDatabase) {
-                if(companyDatabase[key].nationalId === natId) {
-                    foundEmp = companyDatabase[key];
+            
+            for(var key in db) {
+                if(db[key].nationalId === natId) {
+                    foundEmp = db[key];
                     break;
                 }
             }
 
             if(foundEmp) {
-                if(foundEmp.code !== "") {
-                    alert("هذا الرقم القومي تم تفعيله من قبل! يمكنك تسجيل الدخول مباشرة بالكود وكلمة المرور.");
+                // التحقق هل تم التسجيل مسبقاً من قبل
+                if(foundEmp.isRegistered) {
+                    alert("⚠️ تم تسجيل هذا الرقم القومي مسبقاً! لا يمكن التسجيل به مرة أخرى. يرجى تسجيل الدخول بكودك وكلمة المرور مباشرة.");
                     switchScreen('loginScreen');
                     return;
                 }
 
-                // حفظ الكود والباسورد الجديدين للموظف
+                // تسجيل الحساب لأول مرة وحفظه نهائياً
                 foundEmp.code = newCode;
                 foundEmp.pass = newPass;
-                alert("تم التسجيل بنجاح يا " + foundEmp.name + "!\nتم حفظ الكود الخاص بك، يمكنك الآن تسجيل الدخول.");
+                foundEmp.isRegistered = true;
+                saveDatabase(db);
+
+                alert("تم إنشاء حسابك بنجاح يا " + foundEmp.name + "!\nتم حفظ الكود وكلمة المرور، ولن تحتاج للرقم القومي مرة أخرى.");
                 switchScreen('loginScreen');
             } else {
-                alert("الرقم القومي غير مسجل لدى الإدارة! يرجى مراجعة المسؤول.");
+                alert("الرقم القومي غير مسجل لدى الإدارة! يرجى مراجعة المسؤول لإضافتك.");
             }
         }
 
-        // تسجيل الدخول بالكود وكلمة المرور
+        // تسجيل الدخول بالكود وكلمة المرور فقط
         function login() {
             var code = document.getElementById('loginCode').value.trim();
             var pass = document.getElementById('loginPass').value.trim();
@@ -169,17 +185,19 @@
                 return;
             }
 
+            var db = getDatabase();
             var foundEmp = null;
-            for(var key in companyDatabase) {
-                if(companyDatabase[key].code === code) {
-                    foundEmp = companyDatabase[key];
+
+            for(var key in db) {
+                if(db[key].code === code) {
+                    foundEmp = db[key];
                     break;
                 }
             }
 
-            if(foundEmp) {
+            if(foundEmp && foundEmp.isRegistered) {
                 if(foundEmp.pass === pass) {
-                    // عرض بيانات الموظف
+                    // عرض بيانات الراتب
                     document.getElementById('empNameTitle').innerText = "الموظف: " + foundEmp.name;
                     document.getElementById('valAttend').innerText = foundEmp.attend;
                     document.getElementById('valOvertime').innerText = foundEmp.overtime;
@@ -195,7 +213,7 @@
                     alert("كلمة المرور غير صحيحة!");
                 }
             } else {
-                alert("كود الموظف غير مسجل أو لم تقم بالتسجيل لأول مرة!");
+                alert("كود الموظف غير صحيح أو لم يتم تفعيل الحساب بعد!");
             }
         }
 
