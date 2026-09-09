@@ -18,6 +18,8 @@
         .btn-warning { background-color: #f57c00; margin-top: 8px; color: white; }
         .btn-danger { background-color: #d32f2f; color: white; }
         .btn-success { background-color: #2e7d32; color: white; }
+        .btn-info { background-color: #00838f; color: white; }
+        .btn-info:hover { background-color: #006064; }
         
         .screen { display: none; }
         .active-screen { display: block; }
@@ -82,7 +84,7 @@
         <div id="adminDashboardScreen" class="screen">
             <div style="background:#37474f; color:white; padding:8px 15px; border-radius:8px; font-weight:bold; display:inline-block; margin-bottom:15px; text-align:center; width:100%; box-sizing:border-box;">لوحة تحكم الإدارة</div>
             <h2>إدارة الموظفين والرواتب</h2>
-            <p>إضافة موظفين جدد أو تعديل بياناتهم والبطاقات الطبية</p>
+            <p>إضافة موظفين جدد أو تعديل بياناتهم والتحويل للفيزا</p>
 
             <button class="btn btn-success" style="margin-bottom: 15px;" onclick="switchScreen('addEmployeeScreen')">➕ إضافة موظف جديد للقاعدة</button>
             
@@ -93,7 +95,38 @@
             <button class="btn btn-danger" onclick="switchScreen('loginScreen')">تسجيل خروج الإدارة</button>
         </div>
 
-        <!-- 4. شاشة تعديل بيانات الموظف (للإدارة) -->
+        <!-- 4. شاشة تحويل المرتب للفيزا (للإدارة) -->
+        <div id="transferVisaScreen" class="screen">
+            <div style="background:#00838f; color:white; padding:8px 15px; border-radius:8px; font-weight:bold; display:inline-block; margin-bottom:15px; text-align:center; width:100%; box-sizing:border-box;">💳 تحويل المرتب على الفيزا أو البنك</div>
+            
+            <input type="hidden" id="transferEmpKey">
+            <div class="info-box"><span>الموظف:</span> <strong id="transEmpName">-</strong></div>
+            <div class="info-box"><span>المبلغ المراد تحويله:</span> <strong style="color:green;" id="transEmpNet">-</strong></div>
+
+            <div class="input-group">
+                <label>طريقة التحويل</label>
+                <select id="transferMethod">
+                    <option value="visa">بطاقة ائتمان / فيزا بنكية (ATM)</option>
+                    <option value="wallet">محفظة إلكترونية (فودافون كاش / إنستا باي)</option>
+                    <option value="bank">تحويل مباشر لحساب بنكي</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>رقم الفيزا / الحساب / المحفظة</label>
+                <input type="text" id="transferNumber" placeholder="أدخل رقم الحساب أو 16 رقم للفيزا">
+            </div>
+
+            <div class="input-group">
+                <label>اسم البنك / جهة التحويل</label>
+                <input type="text" id="transferBankName" placeholder="مثلاً: البنك الأهلي المصري / فودافون">
+            </div>
+
+            <button class="btn btn-info" onclick="executeVisaTransfer()">تأكيد وإرسال التحويل الآن 🚀</button>
+            <button class="btn btn-secondary" onclick="switchScreen('adminDashboardScreen')">إلغاء والعودة</button>
+        </div>
+
+        <!-- 5. شاشة تعديل بيانات الموظف (للإدارة) -->
         <div id="editEmployeeScreen" class="screen">
             <div style="background:#f57c00; color:white; padding:8px 15px; border-radius:8px; font-weight:bold; display:inline-block; margin-bottom:15px; text-align:center; width:100%; box-sizing:border-box;">تعديل بيانات وراتب الموظف</div>
             
@@ -114,7 +147,7 @@
             <button class="btn btn-secondary" onclick="switchScreen('adminDashboardScreen')">إلغاء والعودة</button>
         </div>
 
-        <!-- 5. شاشة إضافة موظف جديد بواسطة الإدارة -->
+        <!-- 6. شاشة إضافة موظف جديد بواسطة الإدارة -->
         <div id="addEmployeeScreen" class="screen">
             <div style="background:#2e7d32; color:white; padding:8px 15px; border-radius:8px; font-weight:bold; display:inline-block; margin-bottom:15px; text-align:center; width:100%; box-sizing:border-box;">إضافة موظف جديد</div>
             
@@ -128,7 +161,7 @@
             <button class="btn btn-secondary" onclick="switchScreen('adminDashboardScreen')">العودة للإدارة</button>
         </div>
 
-        <!-- 6. شاشة التسجيل لأول مرة بالرقم القومي -->
+        <!-- 7. شاشة التسجيل لأول مرة بالرقم القومي -->
         <div id="registerScreen" class="screen">
             <div style="background:#2e7d32; color:white; padding:8px 15px; border-radius:8px; font-weight:bold; display:inline-block; margin-bottom:15px; text-align:center; width:100%; box-sizing:border-box;">شركة اسمنت سيناء</div>
             <h2>تسجيل موظف جديد</h2>
@@ -142,7 +175,7 @@
             <button class="btn btn-secondary" onclick="switchScreen('loginScreen')">العودة لتسجيل الدخول</button>
         </div>
 
-        <!-- 7. شاشة استعادة كلمة المرور -->
+        <!-- 8. شاشة استعادة كلمة المرور -->
         <div id="forgotScreen" class="screen">
             <div style="background:#f57c00; color:white; padding:8px 15px; border-radius:8px; font-weight:bold; display:inline-block; margin-bottom:15px; text-align:center; width:100%; box-sizing:border-box;">شركة اسمنت سيناء</div>
             <h2>استعادة كلمة المرور</h2>
@@ -167,8 +200,9 @@
                 <button class="nav-pill logout" onclick="logout()">🚪 خروج</button>
             </div>
 
-            <!-- تاب 1: تفاصيل الراتب -->
+            <!-- تاب 1: تفاصيل الراتب وحالة التحويل -->
             <div id="salaryTab" class="sub-tab">
+                <div id="transferStatusAlert" style="margin-bottom: 12px;"></div>
                 <div class="info-box"><span>أيام الحضور:</span> <strong id="valAttend">0</strong></div>
                 <div class="info-box"><span>أيام الإضافي:</span> <strong id="valOvertime">0</strong></div>
                 <div class="info-box"><span>أيام الغياب:</span> <strong style="color:red;" id="valAbsent">0</strong></div>
@@ -225,6 +259,7 @@
                 basic: "6,044.98 جنيه", overtimeVal: "1,304.28 جنيه", absentVal: "-1,762.11 جنيه", net: "4,828.50 جنيه",
                 shirt: "XXL", shoes: "43", phone: "01113697278",
                 medicalUrl: "",
+                transferStatus: "لم يتم التحويل بعد",
                 pass: "123456", isRegistered: true
             },
             "29912010205678": {
@@ -235,6 +270,7 @@
                 basic: "7,500.00 جنيه", overtimeVal: "1,500.00 جنيه", absentVal: "0.00 جنيه", net: "9,000.00 جنيه",
                 shirt: "L", shoes: "38", phone: "01234567890",
                 medicalUrl: "",
+                transferStatus: "لم يتم التحويل بعد",
                 pass: "123456", isRegistered: true
             }
         };
@@ -278,13 +314,52 @@
                     <h4>${emp.name} (كود: ${emp.code})</h4>
                     <div>الرقم القومي: ${emp.nationalId}</div>
                     <div>صافي المرتب: ${emp.net}</div>
-                    <div style="margin-top:10px; display:flex; gap:8px;">
-                        <button class="btn btn-warning" style="margin:0; padding:6px 12px; font-size:12px; flex:1;" onclick="openEditEmployee('${key}')">✏️ تعديل بيانات الموظف</button>
-                        <button class="btn btn-danger" style="margin:0; padding:6px 12px; font-size:12px; width:80px;" onclick="deleteEmployee('${key}')">🗑️ حذف</button>
+                    <div style="font-size:11px; color:#555; margin-top:3px;">حالة التحويل: <strong>${emp.transferStatus || 'لم يتم التحويل'}</strong></div>
+                    <div style="margin-top:8px; display:flex; gap:5px; flex-wrap:wrap;">
+                        <button class="btn btn-info" style="margin:0; padding:5px 8px; font-size:11px; flex:1;" onclick="openTransferScreen('${key}')">💳 تحويل للفيزا</button>
+                        <button class="btn btn-warning" style="margin:0; padding:5px 8px; font-size:11px;" onclick="openEditEmployee('${key}')">✏️ تعديل</button>
+                        <button class="btn btn-danger" style="margin:0; padding:5px 8px; font-size:11px;" onclick="deleteEmployee('${key}')">🗑️ حذف</button>
                     </div>
                 </div>`;
             }
             document.getElementById('adminEmployeesList').innerHTML = listHtml;
+        }
+
+        // فتح شاشة تحويل المرتب للفيزا
+        function openTransferScreen(key) {
+            var db = getDatabase();
+            var emp = db[key];
+
+            document.getElementById('transferEmpKey').value = key;
+            document.getElementById('transEmpName').innerText = emp.name + " (كود: " + emp.code + ")";
+            document.getElementById('transEmpNet').innerText = emp.net;
+            document.getElementById('transferNumber').value = "";
+            document.getElementById('transferBankName').value = "";
+
+            switchScreen('transferVisaScreen');
+        }
+
+        // تنفيذ التحويل للفيزا
+        function executeVisaTransfer() {
+            var key = document.getElementById('transferEmpKey').value;
+            var number = document.getElementById('transferNumber').value.trim();
+            var bank = document.getElementById('transferBankName').value.trim();
+
+            if(number === "") {
+                alert("يرجى إدخال رقم الفيزا أو الحساب المحول إليه!");
+                return;
+            }
+
+            var db = getDatabase();
+            var now = new Date();
+            var dateStr = now.toLocaleDateString('ar-EG') + " " + now.toLocaleTimeString('ar-EG');
+            
+            db[key].transferStatus = `تم التحويل بنجاح (${db[key].net}) في ${dateStr}`;
+            saveDatabase(db);
+
+            alert("✅ تم تحويل المرتب بنجاح إلى الفيزا/الحساب الخاص بالموظف!");
+            loadAdminDashboard();
+            switchScreen('adminDashboardScreen');
         }
 
         function openEditEmployee(key) {
@@ -349,7 +424,8 @@
                 attend: "22 يوم", overtime: "0 أيام", absent: "0 أيام", vacation: "1 يوم",
                 basic: net, overtimeVal: "0.00 جنيه", absentVal: "0.00 جنيه", net: net,
                 shirt: "", shoes: "", phone: "",
-                medicalUrl: medUrl,
+                medicalUrl: "",
+                transferStatus: "لم يتم التحويل بعد",
                 pass: "", isRegistered: false
             };
 
@@ -460,6 +536,15 @@
 
         function loadEmployeeDashboard(emp) {
             document.getElementById('empHeaderInfo').innerHTML = emp.name + " - كود " + emp.code;
+            
+            // عرض حالة تحويل المرتب للموظف
+            var transferAlert = document.getElementById('transferStatusAlert');
+            if(emp.transferStatus && emp.transferStatus.includes("تم التحويل")) {
+                transferAlert.innerHTML = `<div style="background:#e8f5e9; border:1px solid #c8e6c9; color:#2e7d32; padding:10px; border-radius:8px; font-size:12px; text-align:right;">✔ ${emp.transferStatus}</div>`;
+            } else {
+                transferAlert.innerHTML = `<div style="background:#fff9c4; border:1px solid #fff59d; color:#f57f17; padding:10px; border-radius:8px; font-size:12px; text-align:right;">⏳ حالة المرتب: بانتظار التحويل من الإدارة</div>`;
+            }
+
             document.getElementById('valAttend').innerText = emp.attend;
             document.getElementById('valOvertime').innerText = emp.overtime;
             document.getElementById('valAbsent').innerText = emp.absent;
