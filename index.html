@@ -16,6 +16,8 @@
         .btn:hover { background-color: #115293; }
         .btn-secondary { background-color: #78909c; margin-top: 8px; }
         .btn-secondary:hover { background-color: #607d8b; }
+        .btn-warning { background-color: #f57c00; margin-top: 8px; }
+        .btn-warning:hover { background-color: #e65100; }
         
         .screen { display: none; }
         .active-screen { display: block; }
@@ -46,6 +48,7 @@
 
             <button class="btn" onclick="login()">دخول ←</button>
             <button class="btn btn-secondary" onclick="switchScreen('registerScreen')">تسجيل لأول مرة (بالرقم القومي)</button>
+            <button class="btn btn-warning" onclick="switchScreen('forgotScreen')">نسيت كلمة المرور؟</button>
         </div>
 
         <!-- 2. شاشة التسجيل لأول مرة بالرقم القومي -->
@@ -73,7 +76,27 @@
             <button class="btn btn-secondary" onclick="switchScreen('loginScreen')">العودة لتسجيل الدخول</button>
         </div>
 
-        <!-- 3. شاشة تفاصيل الراتب -->
+        <!-- 3. شاشة استعادة كلمة المرور -->
+        <div id="forgotScreen" class="screen">
+            <div style="background:#f57c00; color:white; padding:8px 15px; border-radius:8px; font-weight:bold; display:inline-block; margin-bottom:15px; text-align:center; width:100%; box-sizing:border-box;">شركة اسمنت سيناء</div>
+            <h2>استعادة كلمة المرور</h2>
+            <p>أدخل الرقم القومي المسجل لتعيين كلمة مرور جديدة</p>
+
+            <div class="input-group">
+                <label>🆔 الرقم القومي</label>
+                <input type="text" id="forgotNationalId" placeholder="أدخل الرقم القومي الخاص بك">
+            </div>
+
+            <div class="input-group">
+                <label>🔒 كلمة المرور الجديدة</label>
+                <input type="password" id="forgotNewPass" placeholder="أدخل كلمة المرور الجديدة">
+            </div>
+
+            <button class="btn" style="background-color: #f57c00;" onclick="resetPassword()">تحديث كلمة المرور</button>
+            <button class="btn btn-secondary" onclick="switchScreen('loginScreen')">العودة لتسجيل الدخول</button>
+        </div>
+
+        <!-- 4. شاشة تفاصيل الراتب -->
         <div id="detailsScreen" class="screen">
             <div class="emp-header" id="empNameTitle">اسم الموظف: -</div>
             
@@ -97,7 +120,6 @@
     </div>
 
     <script>
-        // قاعدة البيانات المحفوظة محلياً أو الافتراضية
         var defaultDatabase = {
             "30105120101234": {
                 name: "إبراهيم فتحي (مساعد مشغل)",
@@ -107,15 +129,14 @@
                 code: "", pass: "", isRegistered: false
             },
             "29912010205678": {
-                name: "رانيا ابراهيم (ملكه جمال االعالم)",
+                name: "رانيا ابراهيم (ملكه جمال العالم)",
                 nationalId: "29912010205678",
                 attend: "22 يوم", overtime: "4 أيام", absent: "0 أيام", vacation: "1 يوم",
-                basic: "7,500.00 جنيه", overtimeVal: "1,500.00 جنيه", absentVal: "0.00 جنيه", net: "9,000.000 جنيه",
+                basic: "7,500.00 جنيه", overtimeVal: "1,500.00 جنيه", absentVal: "0.00 جنيه", net: "9,000.00 جنيه",
                 code: "", pass: "", isRegistered: false
             }
         };
 
-        // استرجاع البيانات المحفوظة إن وجدت
         function getDatabase() {
             var saved = localStorage.getItem('companyDB');
             if (saved) {
@@ -133,7 +154,7 @@
             document.getElementById(screenId).classList.add('active-screen');
         }
 
-        // تسجيل الموظف لأول مرة (تتم مرة واحدة فقط لكل رقم قومي)
+        // تسجيل الموظف لأول مرة
         function registerNewEmployee() {
             var natId = document.getElementById('regNationalId').value.trim();
             var newCode = document.getElementById('regNewCode').value.trim();
@@ -155,27 +176,63 @@
             }
 
             if(foundEmp) {
-                // التحقق هل تم التسجيل مسبقاً من قبل
                 if(foundEmp.isRegistered) {
-                    alert("⚠️ تم تسجيل هذا الرقم القومي مسبقاً! لا يمكن التسجيل به مرة أخرى. يرجى تسجيل الدخول بكودك وكلمة المرور مباشرة.");
+                    alert("⚠️ تم تسجيل هذا الرقم القومي مسبقاً! يمكنك تسجيل الدخول مباشرة أو استخدام زر 'نسيت كلمة المرور'.");
                     switchScreen('loginScreen');
                     return;
                 }
 
-                // تسجيل الحساب لأول مرة وحفظه نهائياً
                 foundEmp.code = newCode;
                 foundEmp.pass = newPass;
                 foundEmp.isRegistered = true;
                 saveDatabase(db);
 
-                alert("تم إنشاء حسابك بنجاح يا " + foundEmp.name + "!\nتم حفظ الكود وكلمة المرور، ولن تحتاج للرقم القومي مرة أخرى.");
+                alert("تم إنشاء حسابك بنجاح يا " + foundEmp.name + "!\nتم حفظ الكود وكلمة المرور.");
                 switchScreen('loginScreen');
             } else {
                 alert("الرقم القومي غير مسجل لدى الإدارة! يرجى مراجعة المسؤول لإضافتك.");
             }
         }
 
-        // تسجيل الدخول بالكود وكلمة المرور فقط
+        // استعادة / تغيير كلمة المرور في حال نسيتها
+        function resetPassword() {
+            var natId = document.getElementById('forgotNationalId').value.trim();
+            var newPass = document.getElementById('forgotNewPass').value.trim();
+
+            if(natId === "" || newPass === "") {
+                alert("الرجاء إدخال الرقم القومي وكلمة المرور الجديدة!");
+                return;
+            }
+
+            var db = getDatabase();
+            var foundEmp = null;
+
+            for(var key in db) {
+                if(db[key].nationalId === natId) {
+                    foundEmp = db[key];
+                    break;
+                }
+            }
+
+            if(foundEmp) {
+                if(!foundEmp.isRegistered) {
+                    alert("هذا الحساب لم يتم تسجيله لأول مرة بعد! يرجى اختيار 'تسجيل لأول مرة' أولاً.");
+                    switchScreen('registerScreen');
+                    return;
+                }
+
+                // تحديث كلمة المرور
+                foundEmp.pass = newPass;
+                saveDatabase(db);
+
+                alert("تم تحديث كلمة المرور بنجاح يا " + foundEmp.name + "!\nيمكنك الآن تسجيل الدخول بكودك وكلمة المرور الجديدة.");
+                switchScreen('loginScreen');
+            } else {
+                alert("الرقم القومي غير صحيح أو غير مسجل في النظام!");
+            }
+        }
+
+        // تسجيل الدخول
         function login() {
             var code = document.getElementById('loginCode').value.trim();
             var pass = document.getElementById('loginPass').value.trim();
@@ -197,7 +254,6 @@
 
             if(foundEmp && foundEmp.isRegistered) {
                 if(foundEmp.pass === pass) {
-                    // عرض بيانات الراتب
                     document.getElementById('empNameTitle').innerText = "الموظف: " + foundEmp.name;
                     document.getElementById('valAttend').innerText = foundEmp.attend;
                     document.getElementById('valOvertime').innerText = foundEmp.overtime;
