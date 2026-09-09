@@ -15,17 +15,13 @@
         .btn { background-color: #1976d2; color: white; border: none; width: 100%; padding: 11px; border-radius: 8px; font-size: 15px; cursor: pointer; margin-top: 10px; font-weight: bold; }
         .btn:hover { background-color: #115293; }
         .btn-secondary { background-color: #78909c; margin-top: 8px; }
-        .btn-secondary:hover { background-color: #607d8b; }
         .btn-warning { background-color: #f57c00; margin-top: 8px; color: white; }
-        .btn-warning:hover { background-color: #e65100; }
         .btn-danger { background-color: #d32f2f; color: white; }
-        .btn-danger:hover { background-color: #c62828; }
         .btn-success { background-color: #2e7d32; color: white; }
         
         .screen { display: none; }
         .active-screen { display: block; }
 
-        /* شريط الأزرار العلوية داخل صفحة الموظف */
         .top-nav-bar { display: flex; gap: 5px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
         .nav-pill { flex: 1; padding: 8px 5px; font-size: 11px; text-align: center; border-radius: 8px; border: 1px solid #ddd; background: #fff; cursor: pointer; font-weight: bold; white-space: nowrap; text-decoration: none; color: #333; }
         .nav-pill.active { background: #fff3e0; border-color: #ffb74d; color: #e65100; }
@@ -38,8 +34,7 @@
         .net-salary { background: #e8f5e9; border: 1px solid #c8e6c9; padding: 12px; border-radius: 8px; text-align: center; margin-top: 15px; font-size: 16px; font-weight: bold; color: #2e7d32; }
         .alert-box { background: #e3f2fd; border: 1px solid #bbdefb; color: #0d47a1; padding: 10px; border-radius: 8px; font-size: 12px; margin-bottom: 15px; text-align: right; }
         
-        /* تنسيق لوحة الإدارة */
-        .admin-emp-card { background: #fafafa; border: 1px solid #ddd; padding: 12px; border-radius: 8px; margin-bottom: 10px; font-size: 13px; }
+        .admin-emp-card { background: #fafafa; border: 1px solid #ddd; padding: 12px; border-radius: 8px; margin-bottom: 10px; font-size: 13px; text-align: right; }
         .admin-emp-card h4 { margin: 0 0 8px 0; color: #1976d2; }
     </style>
 </head>
@@ -263,7 +258,6 @@
             document.getElementById(screenId).classList.add('active-screen');
         }
 
-        // دخول الإدارة
         function loginAdmin() {
             var pass = document.getElementById('adminPassInput').value.trim();
             if(pass === "admin297241560" || pass === "123456") {
@@ -271,11 +265,10 @@
                 loadAdminDashboard();
                 switchScreen('adminDashboardScreen');
             } else {
-                alert("كلمة مرور الإدارة غير صحيحة! (الباسورد الافتراضي: admin297241560)");
+                alert("كلمة مرور الإدارة غير صحيحة!");
             }
         }
 
-        // تحميل قائمة الموظفين في لوحة الإدارة
         function loadAdminDashboard() {
             var db = getDatabase();
             var listHtml = "";
@@ -285,16 +278,15 @@
                     <h4>${emp.name} (كود: ${emp.code})</h4>
                     <div>الرقم القومي: ${emp.nationalId}</div>
                     <div>صافي المرتب: ${emp.net}</div>
-                    <div style="margin-top:8px; display:flex; gap:5px;">
-                        <button class="btn btn-warning" style="margin:0; padding:5px; font-size:11px;" onclick="openEditEmployee('${key}')">✏️ تعديل</button>
-                        <button class="btn btn-danger" style="margin:0; padding:5px; font-size:11px;" onclick="deleteEmployee('${key}')">🗑️ حذف</button>
+                    <div style="margin-top:10px; display:flex; gap:8px;">
+                        <button class="btn btn-warning" style="margin:0; padding:6px 12px; font-size:12px; flex:1;" onclick="openEditEmployee('${key}')">✏️ تعديل بيانات الموظف</button>
+                        <button class="btn btn-danger" style="margin:0; padding:6px 12px; font-size:12px; width:80px;" onclick="deleteEmployee('${key}')">🗑️ حذف</button>
                     </div>
                 </div>`;
             }
             document.getElementById('adminEmployeesList').innerHTML = listHtml;
         }
 
-        // فتح شاشة تعديل موظف محدد
         function openEditEmployee(key) {
             var db = getDatabase();
             var emp = db[key];
@@ -315,7 +307,6 @@
             switchScreen('editEmployeeScreen');
         }
 
-        // حفظ التعديلات التي أجراها المسؤول
         function saveEditedEmployee() {
             var key = document.getElementById('editEmpKey').value;
             var db = getDatabase();
@@ -338,7 +329,6 @@
             switchScreen('adminDashboardScreen');
         }
 
-        // إضافة موظف جديد من الإدارة
         function addNewEmployeeByAdmin() {
             var name = document.getElementById('newEmpName').value.trim();
             var natId = document.getElementById('newEmpNatId').value.trim();
@@ -369,7 +359,6 @@
             loadAdminDashboard();
         }
 
-        // حذف موظف من الإدارة
         function deleteEmployee(key) {
             if(confirm("هل أنت متأكد من حذف هذا الموظف؟")) {
                 var db = getDatabase();
@@ -379,7 +368,6 @@
             }
         }
 
-        // التنقل بين الأقسام داخل لوحة الموظف
         function switchTab(tabId) {
             document.querySelectorAll('.sub-tab').forEach(t => t.style.display = 'none');
             document.getElementById(tabId).style.display = 'block';
@@ -387,7 +375,6 @@
             event.currentTarget.classList.add('active');
         }
 
-        // تسجيل الموظف لأول مرة
         function registerNewEmployee() {
             var natId = document.getElementById('regNationalId').value.trim();
             var newCode = document.getElementById('regNewCode').value.trim();
@@ -418,7 +405,6 @@
             }
         }
 
-        // استعادة كلمة المرور
         function resetPasswordFromLogin() {
             var natId = document.getElementById('forgotNationalId').value.trim();
             var newPass = document.getElementById('forgotNewPass').value.trim();
@@ -439,7 +425,6 @@
             }
         }
 
-        // تسجيل الدخول
         function login() {
             var code = document.getElementById('loginCode').value.trim();
             var pass = document.getElementById('loginPass').value.trim();
@@ -473,7 +458,6 @@
             }
         }
 
-        // تعبئة بيانات الموظف
         function loadEmployeeDashboard(emp) {
             document.getElementById('empHeaderInfo').innerHTML = emp.name + " - كود " + emp.code;
             document.getElementById('valAttend').innerText = emp.attend;
@@ -491,7 +475,6 @@
 
             document.getElementById('medicalCardId').innerText = "MED-" + emp.nationalId.substring(0, 8);
             
-            // عرض البطاقة الطبية إن وجدت
             var medContainer = document.getElementById('medicalCardContainer');
             if(emp.medicalUrl) {
                 medContainer.innerHTML = `<img src="${emp.medicalUrl}" style="max-width:100%; border-radius:6px;" alt="البطاقة الطبية">`;
@@ -510,7 +493,6 @@
             }
         }
 
-        // حفظ بيانات التيشرت والحذاء
         function saveEmployeeData() {
             if(!currentLoggedInKey) return;
             var db = getDatabase();
@@ -521,7 +503,6 @@
             alert("تم حفظ البيانات بنجاح ✓");
         }
 
-        // تحديث كلمة المرور
         function updateInnerPassword() {
             var newPass = document.getElementById('innerNewPass').value.trim();
             if(newPass === "") {
