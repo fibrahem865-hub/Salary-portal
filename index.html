@@ -3,21 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوابة الرواتب - Mustafa Farouk Company</title>
+    <title>بوابة الرواتب - اسمنت سيناء</title>
     <style>
         body { font-family: Tahoma, sans-serif; background-color: #f4f4f4; margin: 0; padding: 10px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 450px; }
-        .login-section { text-align: center; }
-        h2 { color: #1976d2; margin-bottom: 5px; font-size: 20px; }
-        p { color: #666; font-size: 13px; margin-bottom: 20px; }
+        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 450px; }
+        h2 { color: #1976d2; margin-bottom: 5px; font-size: 20px; text-align: center; }
+        p { color: #666; font-size: 13px; margin-bottom: 20px; text-align: center; }
         .input-group { text-align: right; margin-bottom: 12px; }
         label { display: block; margin-bottom: 5px; font-size: 12px; color: #444; }
         input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 14px; text-align: right; }
         .btn { background-color: #1976d2; color: white; border: none; width: 100%; padding: 11px; border-radius: 8px; font-size: 15px; cursor: pointer; margin-top: 10px; font-weight: bold; }
         .btn:hover { background-color: #115293; }
+        .btn-secondary { background-color: #78909c; margin-top: 8px; }
+        .btn-secondary:hover { background-color: #607d8b; }
         
-        /* تصميم تفاصيل الراتب */
-        .details-section { display: none; }
+        /* الشاشات الفرعية */
+        .screen { display: none; }
+        .active-screen { display: block; }
+
         .emp-header { background: #e3f2fd; padding: 10px; border-radius: 8px; margin-bottom: 15px; text-align: right; font-size: 14px; color: #0d47a1; font-weight: bold; }
         .info-box { background: #f9f9f9; border: 1px solid #eee; padding: 10px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; font-size: 13px; }
         .net-salary { background: #e8f5e9; border: 1px solid #c8e6c9; padding: 12px; border-radius: 8px; text-align: center; margin-top: 15px; font-size: 16px; font-weight: bold; color: #2e7d32; }
@@ -26,27 +29,53 @@
 <body>
 
     <div class="card">
-        <!-- شاشة تسجيل الدخول -->
-        <div id="loginScreen" class="login-section">
-            <div style="background:#1976d2; color:white; padding:8px 15px; border-radius:8px; font-weight:bold; display:inline-block; margin-bottom:15px;">شركة مصطفي فاروق</div>
+        <!-- 1. شاشة تسجيل الدخول العادية -->
+        <div id="loginScreen" class="screen active-screen">
+            <div style="background:#1976d2; color:white; padding:8px 15px; border-radius:8px; font-weight:bold; display:inline-block; margin-bottom:15px; text-align:center; width:100%; box-sizing:border-box;">اسمنت سيناء</div>
             <h2>بوابة الرواتب</h2>
-            <p>ادخل كود الموظف للاطلاع على تفاصيل راتبك</p>
+            <p>ادخل كود الموظف وكلمة المرور الخاصة بك</p>
 
             <div class="input-group">
-                <label>👤 كود الموظف (جرب 101)</label>
-                <input type="text" id="empCode" placeholder="أدخل الكود">
+                <label>👤 كود الموظف</label>
+                <input type="text" id="loginCode" placeholder="أدخل الكود الخاص بك">
             </div>
 
             <div class="input-group">
-                <label>🔒 كلمة المرور (جرب 1234)</label>
-                <input type="password" id="empPass" placeholder="أدخل كلمة المرور">
+                <label>🔒 كلمة المرور</label>
+                <input type="password" id="loginPass" placeholder="أدخل كلمة المرور">
             </div>
 
-            <button class="btn" onclick="login()">عرض تفاصيل الراتب</button>
+            <button class="btn" onclick="login()">دخول ←</button>
+            <button class="btn btn-secondary" onclick="switchScreen('registerScreen')">تسجيل لأول مرة (بالرقم القومي)</button>
         </div>
 
-        <!-- شاشة تفاصيل الراتب (مخفية لحين تسجيل الدخول) -->
-        <div id="detailsScreen" class="details-section">
+        <!-- 2. شاشة التسجيل لأول مرة بالرقم القومي -->
+        <div id="registerScreen" class="screen">
+            <div style="background:#2e7d32; color:white; padding:8px 15px; border-radius:8px; font-weight:bold; display:inline-block; margin-bottom:15px; text-align:center; width:100%; box-sizing:border-box;">اسمنت سيناء</div>
+            <h2>تسجيل موظف جديد</h2>
+            <p>أدخل الرقم القومي المسجل لدى الإدارة لإنشاء حسابك</p>
+
+            <div class="input-group">
+                <label>🆔 الرقم القومي (14 رقم)</label>
+                <input type="text" id="regNationalId" placeholder="أدخل الرقم القومي">
+            </div>
+
+            <div class="input-group">
+                <label>👤 اختر كود خاص بك (مثلاً: 103)</label>
+                <input type="text" id="regNewCode" placeholder="اختر كود للدخول مستقبلاً">
+            </div>
+
+            <div class="input-group">
+                <label>🔒 أنشئ كلمة مرور جديدة</label>
+                <input type="password" id="regNewPass" placeholder="اختر كلمة مرور قوية">
+            </div>
+
+            <button class="btn" style="background-color: #2e7d32;" onclick="registerNewEmployee()">إتمام التسجيل</button>
+            <button class="btn btn-secondary" onclick="switchScreen('loginScreen')">العودة لتسجيل الدخول</button>
+        </div>
+
+        <!-- 3. شاشة تفاصيل الراتب -->
+        <div id="detailsScreen" class="screen">
             <div class="emp-header" id="empNameTitle">اسم الموظف: -</div>
             
             <div class="info-box"><span>أيام الحضور:</span> <strong id="valAttend">0</strong></div>
@@ -69,73 +98,111 @@
     </div>
 
     <script>
-        // بيانات تجريبية للعمال
-        var employeesData = {
-            "101": {
+        // قاعدة بيانات تجريبية للإدارة (مربوطة بالرقم القومي للموظفين الجدد)
+        // يمكنك إضافة أرقام قومية جديدة هنا للعمال
+        var companyDatabase = {
+            "30105120101234": {
                 name: "إبراهيم فتحي (مساعد مشغل)",
-                attend: "17 يوم",
-                overtime: "2 أيام",
-                absent: "7 أيام",
-                vacation: "2 أيام",
-                basic: "6,044.98 جنيه",
-                overtimeVal: "1,304.28 جنيه",
-                absentVal: "-1,762.11 جنيه",
-                net: "4,828.50 جنيه",
-                pass: "1234"
+                nationalId: "30105120101234",
+                attend: "17 يوم", overtime: "2 أيام", absent: "7 أيام", vacation: "2 أيام",
+                basic: "6,044.98 جنيه", overtimeVal: "1,304.28 جنيه", absentVal: "-1,762.11 جنيه", net: "4,828.50 جنيه",
+                code: "", pass: "" // سيتم تعيينهم عند أول تسجيل
             },
-            "102": {
-                name: "محمد أحمد (فني أول)",
-                attend: "22 يوم",
-                overtime: "4 أيام",
-                absent: "0 أيام",
-                vacation: "1 يوم",
-                basic: "7,500.00 جنيه",
-                overtimeVal: "1,500.00 جنيه",
-                absentVal: "0.00 جنيه",
-                net: "9,000.00 جنيه",
-                pass: "5678"
+            "29912010205678": {
+                name: "محمود علي (فني أول)",
+                nationalId: "29912010205678",
+                attend: "22 يوم", overtime: "4 أيام", absent: "0 أيام", vacation: "1 يوم",
+                basic: "7,500.00 جنيه", overtimeVal: "1,500.00 جنيه", absentVal: "0.00 جنيه", net: "9,000.00 جنيه",
+                code: "", pass: ""
             }
         };
 
+        function switchScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active-screen'));
+            document.getElementById(screenId).classList.add('active-screen');
+        }
+
+        // تسجيل الموظف لأول مرة باستخدام الرقم القومي
+        function registerNewEmployee() {
+            var natId = document.getElementById('regNationalId').value.trim();
+            var newCode = document.getElementById('regNewCode').value.trim();
+            var newPass = document.getElementById('regNewPass').value.trim();
+
+            if(natId === "" || newCode === "" || newPass === "") {
+                alert("الرجاء ملء جميع الحقول المطلوبة!");
+                return;
+            }
+
+            // البحث عن الرقم القومي في قاعدة بيانات الشركة
+            var foundEmp = null;
+            for(var key in companyDatabase) {
+                if(companyDatabase[key].nationalId === natId) {
+                    foundEmp = companyDatabase[key];
+                    break;
+                }
+            }
+
+            if(foundEmp) {
+                if(foundEmp.code !== "") {
+                    alert("هذا الرقم القومي تم تفعيله من قبل! يمكنك تسجيل الدخول مباشرة بالكود وكلمة المرور.");
+                    switchScreen('loginScreen');
+                    return;
+                }
+
+                // حفظ الكود والباسورد الجديدين للموظف
+                foundEmp.code = newCode;
+                foundEmp.pass = newPass;
+                alert("تم التسجيل بنجاح يا " + foundEmp.name + "!\nتم حفظ الكود الخاص بك، يمكنك الآن تسجيل الدخول.");
+                switchScreen('loginScreen');
+            } else {
+                alert("الرقم القومي غير مسجل لدى الإدارة! يرجى مراجعة المسؤول.");
+            }
+        }
+
+        // تسجيل الدخول بالكود وكلمة المرور
         function login() {
-            var code = document.getElementById('empCode').value.trim();
-            var pass = document.getElementById('empPass').value.trim();
+            var code = document.getElementById('loginCode').value.trim();
+            var pass = document.getElementById('loginPass').value.trim();
 
             if(code === "" || pass === "") {
                 alert("الرجاء إدخال الكود وكلمة المرور");
                 return;
             }
 
-            var emp = employeesData[code];
-            if(emp) {
-                if(emp.pass === pass) {
-                    // تعبئة البيانات في الشاشة
-                    document.getElementById('empNameTitle').innerText = "الموظف: " + emp.name;
-                    document.getElementById('valAttend').innerText = emp.attend;
-                    document.getElementById('valOvertime').innerText = emp.overtime;
-                    document.getElementById('valAbsent').innerText = emp.absent;
-                    document.getElementById('valVacation').innerText = emp.vacation;
-                    document.getElementById('valBasic').innerText = emp.basic;
-                    document.getElementById('valOvertimeVal').innerText = emp.overtimeVal;
-                    document.getElementById('valAbsentVal').innerText = emp.absentVal;
-                    document.getElementById('valNet').innerText = emp.net;
+            var foundEmp = null;
+            for(var key in companyDatabase) {
+                if(companyDatabase[key].code === code) {
+                    foundEmp = companyDatabase[key];
+                    break;
+                }
+            }
 
-                    // تبديل الشاشات
-                    document.getElementById('loginScreen').style.display = "none";
-                    document.getElementById('detailsScreen').style.display = "block";
+            if(foundEmp) {
+                if(foundEmp.pass === pass) {
+                    // عرض بيانات الموظف
+                    document.getElementById('empNameTitle').innerText = "الموظف: " + foundEmp.name;
+                    document.getElementById('valAttend').innerText = foundEmp.attend;
+                    document.getElementById('valOvertime').innerText = foundEmp.overtime;
+                    document.getElementById('valAbsent').innerText = foundEmp.absent;
+                    document.getElementById('valVacation').innerText = foundEmp.vacation;
+                    document.getElementById('valBasic').innerText = foundEmp.basic;
+                    document.getElementById('valOvertimeVal').innerText = foundEmp.overtimeVal;
+                    document.getElementById('valAbsentVal').innerText = foundEmp.absentVal;
+                    document.getElementById('valNet').innerText = foundEmp.net;
+
+                    switchScreen('detailsScreen');
                 } else {
                     alert("كلمة المرور غير صحيحة!");
                 }
             } else {
-                alert("كود الموظف غير مسجل بالنظام!");
+                alert("كود الموظف غير مسجل أو لم تقم بالتسجيل لأول مرة!");
             }
         }
 
         function logout() {
-            document.getElementById('empCode').value = "";
-            document.getElementById('empPass').value = "";
-            document.getElementById('loginScreen').style.display = "block";
-            document.getElementById('detailsScreen').style.display = "none";
+            document.getElementById('loginCode').value = "";
+            document.getElementById('loginPass').value = "";
+            switchScreen('loginScreen');
         }
     </script>
 </body>
