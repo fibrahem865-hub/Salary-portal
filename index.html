@@ -6,7 +6,7 @@
     <title>بوابة الرواتب - شركة اسمنت سيناء</title>
     <style>
         body { font-family: Tahoma, sans-serif; background-color: #f4f4f4; margin: 0; padding: 10px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 450px; }
+        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 450px; box-sizing: border-box; }
         h2 { color: #1976d2; margin-bottom: 5px; font-size: 20px; text-align: center; }
         p { color: #666; font-size: 13px; margin-bottom: 20px; text-align: center; }
         .input-group { text-align: right; margin-bottom: 12px; }
@@ -18,13 +18,25 @@
         .btn-secondary:hover { background-color: #607d8b; }
         .btn-warning { background-color: #f57c00; margin-top: 8px; }
         .btn-warning:hover { background-color: #e65100; }
+        .btn-danger { background-color: #d32f2f; }
+        .btn-danger:hover { background-color: #c62828; }
         
         .screen { display: none; }
         .active-screen { display: block; }
 
-        .emp-header { background: #e3f2fd; padding: 10px; border-radius: 8px; margin-bottom: 15px; text-align: right; font-size: 14px; color: #0d47a1; font-weight: bold; }
+        /* شريط الأزرار العلوية داخل صفحة الموظف */
+        .top-nav-bar { display: flex; gap: 5px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
+        .nav-pill { flex: 1; padding: 8px 5px; font-size: 11px; text-align: center; border-radius: 8px; border: 1px solid #ddd; background: #fff; cursor: pointer; font-weight: bold; white-space: nowrap; text-decoration: none; color: #333; }
+        .nav-pill.active { background: #fff3e0; border-color: #ffb74d; color: #e65100; }
+        .nav-pill.med { background: #e3f2fd; border-color: #90caf9; color: #1565c0; }
+        .nav-pill.pass { background: #ffebee; border-color: #ef9a9a; color: #c62828; }
+        .nav-pill.logout { background: #f5f5f5; color: #d32f2f; border-color: #ddd; }
+
+        .emp-header { background: #f8f9fa; padding: 10px; border-radius: 8px; margin-bottom: 12px; text-align: right; font-size: 13px; color: #333; line-height: 1.6; border: 1px solid #eee; }
         .info-box { background: #f9f9f9; border: 1px solid #eee; padding: 10px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; font-size: 13px; }
         .net-salary { background: #e8f5e9; border: 1px solid #c8e6c9; padding: 12px; border-radius: 8px; text-align: center; margin-top: 15px; font-size: 16px; font-weight: bold; color: #2e7d32; }
+        
+        .alert-box { background: #e3f2fd; border: 1px solid #bbdefb; color: #0d47a1; padding: 10px; border-radius: 8px; font-size: 12px; margin-bottom: 15px; text-align: right; }
     </style>
 </head>
 <body>
@@ -76,7 +88,7 @@
             <button class="btn btn-secondary" onclick="switchScreen('loginScreen')">العودة لتسجيل الدخول</button>
         </div>
 
-        <!-- 3. شاشة استعادة كلمة المرور -->
+        <!-- 3. شاشة استعادة كلمة المرور (الخارجية) -->
         <div id="forgotScreen" class="screen">
             <div style="background:#f57c00; color:white; padding:8px 15px; border-radius:8px; font-weight:bold; display:inline-block; margin-bottom:15px; text-align:center; width:100%; box-sizing:border-box;">شركة اسمنت سيناء</div>
             <h2>استعادة كلمة المرور</h2>
@@ -92,50 +104,113 @@
                 <input type="password" id="forgotNewPass" placeholder="أدخل كلمة المرور الجديدة">
             </div>
 
-            <button class="btn" style="background-color: #f57c00;" onclick="resetPassword()">تحديث كلمة المرور</button>
+            <button class="btn" style="background-color: #f57c00;" onclick="resetPasswordFromLogin()">تحديث كلمة المرور</button>
             <button class="btn btn-secondary" onclick="switchScreen('loginScreen')">العودة لتسجيل الدخول</button>
         </div>
 
-        <!-- 4. شاشة تفاصيل الراتب -->
-        <div id="detailsScreen" class="screen">
-            <div class="emp-header" id="empNameTitle">اسم الموظف: -</div>
-            
-            <div class="info-box"><span>أيام الحضور:</span> <strong id="valAttend">0</strong></div>
-            <div class="info-box"><span>أيام الإضافي:</span> <strong id="valOvertime">0</strong></div>
-            <div class="info-box"><span>أيام الغياب:</span> <strong style="color:red;" id="valAbsent">0</strong></div>
-            <div class="info-box"><span>الاجازات:</span> <strong id="valVacation">0</strong></div>
-            
-            <hr style="border:0; border-top:1px solid #eee; margin:15px 0;">
+        <!-- ================= شاشات لوحة التحكم الداخلية للموظف ================= -->
 
-            <div class="info-box"><span>الراتب الأساسي:</span> <strong id="valBasic">0 جنيه</strong></div>
-            <div class="info-box"><span>قيمة الإضافي:</span> <strong style="color:green;" id="valOvertimeVal">0 جنيه</strong></div>
-            <div class="info-box"><span>خصومات الغياب:</span> <strong style="color:red;" id="valAbsentVal">0 جنيه</strong></div>
-
-            <div class="net-salary">
-                صافي المرور: <span id="valNet">0 جنيه</span>
+        <!-- أزرار التنقل المشتركة فوق كل صفحات الموظف الداخلية -->
+        <div id="innerAppContainer" class="screen">
+            <div class="emp-header" id="empHeaderInfo">اسم الموظف: -</div>
+            
+            <div class="top-nav-bar">
+                <button class="nav-pill active" onclick="switchTab('salaryTab')">📋 الراتب</button>
+                <button class="nav-pill" onclick="switchTab('requiredTab')">⚠️ مطلوب وهام</button>
+                <button class="nav-pill med" onclick="switchTab('medicalTab')">➕ البطاقة الطبية</button>
+                <button class="nav-pill pass" onclick="switchTab('passwordTab')">🔒 كلمة المرور</button>
+                <button class="nav-pill logout" onclick="logout()">🚪 خروج</button>
             </div>
 
-            <button class="btn" style="background-color: #d32f2f; margin-top: 15px;" onclick="logout()">تسجيل خروج</button>
+            <!-- تاب 1: تفاصيل الراتب -->
+            <div id="salaryTab" class="sub-tab">
+                <div class="info-box"><span>أيام الحضور:</span> <strong id="valAttend">0</strong></div>
+                <div class="info-box"><span>أيام الإضافي:</span> <strong id="valOvertime">0</strong></div>
+                <div class="info-box"><span>أيام الغياب:</span> <strong style="color:red;" id="valAbsent">0</strong></div>
+                <div class="info-box"><span>الاجازات:</span> <strong id="valVacation">0</strong></div>
+                
+                <hr style="border:0; border-top:1px solid #eee; margin:12px 0;">
+
+                <div class="info-box"><span>الراتب الأساسي:</span> <strong id="valBasic">0 جنيه</strong></div>
+                <div class="info-box"><span>قيمة الإضافي:</span> <strong style="color:green;" id="valOvertimeVal">0 جنيه</strong></div>
+                <div class="info-box"><span>خصومات الغياب:</span> <strong style="color:red;" id="valAbsentVal">0 جنيه</strong></div>
+
+                <div class="net-salary">
+                    صافي المرتب: <span id="valNet">0 جنيه</span>
+                </div>
+            </div>
+
+            <!-- تاب 2: بيانات مطلوبة (مقاس التيرشتر، الحذاء، رقم التليفون) -->
+            <div id="requiredTab" class="sub-tab" style="display:none;">
+                <div class="alert-box">ℹ️ من فضلك اكتب البيانات دي بدقة، هنحتاجها في تجهيز مستلزماتك.</div>
+                
+                <div class="input-group">
+                    <label>مقاس التيشرت</label>
+                    <input type="text" id="inputShirt" placeholder="مثلاً: XXL أو L">
+                </div>
+
+                <div class="input-group">
+                    <label>مقاس الحذاء</label>
+                    <input type="text" id="inputShoes" placeholder="مثلاً: 43">
+                </div>
+
+                <div class="input-group">
+                    <label>رقم التليفون</label>
+                    <input type="text" id="inputPhone" placeholder="01xxxxxxxx1">
+                </div>
+
+                <button class="btn btn-danger" onclick="saveEmployeeData()">حفظ البيانات ✓</button>
+            </div>
+
+            <!-- تاب 3: البطاقة الطبية -->
+            <div id="medicalTab" class="sub-tab" style="display:none;">
+                <div class="alert-box">ℹ️ دي البطاقة الطبية الخاصة بك. تقدر تحفظها أو تفتحها في نافذة جديدة.</div>
+                <div style="background: #212121; padding: 25px; border-radius: 8px; text-align: center; margin-bottom: 12px;">
+                    <span style="color: #aaa; font-size: 12px; display: block; margin-bottom: 10px;">كود الكارت الطبي</span>
+                    <strong style="color: #fff; font-size: 14px; direction: ltr; display: block;" id="medicalCardId">MED-CODE-000</strong>
+                </div>
+                <button class="btn btn-danger" onclick="alert('جاري تحميل البطاقة الطبية...')">📥 تحميل البطاقة</button>
+                <button class="btn btn-secondary" onclick="alert('فتح البطاقة الطبية في نافذة جديدة')">🌐 فتح في نافذة جديدة</button>
+            </div>
+
+            <!-- تاب 4: تغيير كلمة المرور من جوه -->
+            <div id="passwordTab" class="sub-tab" style="display:none;">
+                <div class="alert-box">🔒 لتغيير كلمة المرور الخاصة بحسابك أدخل كلمة المرور الجديدة بالأسفل.</div>
+
+                <div class="input-group">
+                    <label>كلمة المرور الجديدة</label>
+                    <input type="password" id="innerNewPass" placeholder="أدخل الباسورد الجديد">
+                </div>
+
+                <button class="btn btn-danger" onclick="updateInnerPassword()">تحديث كلمة المرور</button>
+            </div>
         </div>
+
     </div>
 
     <script>
         var defaultDatabase = {
             "30105120101234": {
-                name: "إبراهيم فتحي (مساعد مشغل)",
+                name: "إبراهيم فتحي ابراهيم حسن",
+                code: "40669",
                 nationalId: "30105120101234",
                 attend: "17 يوم", overtime: "2 أيام", absent: "7 أيام", vacation: "2 أيام",
                 basic: "6,044.98 جنيه", overtimeVal: "1,304.28 جنيه", absentVal: "-1,762.11 جنيه", net: "4,828.50 جنيه",
-                code: "", pass: "", isRegistered: false
+                shirt: "XXL", shoes: "43", phone: "01113697278",
+                pass: "123456", isRegistered: true
             },
             "29912010205678": {
                 name: "رانيا ابراهيم (ملكه جمال العالم)",
+                code: "40670",
                 nationalId: "29912010205678",
                 attend: "22 يوم", overtime: "4 أيام", absent: "0 أيام", vacation: "1 يوم",
                 basic: "7,500.00 جنيه", overtimeVal: "1,500.00 جنيه", absentVal: "0.00 جنيه", net: "9,000.00 جنيه",
-                code: "", pass: "", isRegistered: false
+                shirt: "L", shoes: "38", phone: "01234567890",
+                pass: "123456", isRegistered: true
             }
         };
+
+        var currentLoggedInKey = null;
 
         function getDatabase() {
             var saved = localStorage.getItem('companyDB');
@@ -154,6 +229,18 @@
             document.getElementById(screenId).classList.add('active-screen');
         }
 
+        // التنقل بين الأقسام داخل لوحة الموظف
+        function switchTab(tabId) {
+            document.querySelectorAll('.sub-tab').forEach(t => t.style.display = 'none');
+            document.getElementById(tabId).style.display = 'block';
+
+            // تلوين الأزرار العلوية حسب النشط
+            document.querySelectorAll('.top-nav-bar .nav-pill').forEach(btn => btn.classList.remove('active', 'med', 'pass'));
+            
+            // إعادة تعيين الألوان البسيطة
+            event.currentTarget.classList.add('active');
+        }
+
         // تسجيل الموظف لأول مرة
         function registerNewEmployee() {
             var natId = document.getElementById('regNationalId').value.trim();
@@ -166,36 +253,37 @@
             }
 
             var db = getDatabase();
-            var foundEmp = null;
+            var foundKey = null;
             
             for(var key in db) {
                 if(db[key].nationalId === natId) {
-                    foundEmp = db[key];
+                    foundKey = key;
                     break;
                 }
             }
 
-            if(foundEmp) {
-                if(foundEmp.isRegistered) {
-                    alert("⚠️ تم تسجيل هذا الرقم القومي مسبقاً! يمكنك تسجيل الدخول مباشرة أو استخدام زر 'نسيت كلمة المرور'.");
+            if(foundKey) {
+                var emp = db[foundKey];
+                if(emp.isRegistered) {
+                    alert("⚠️ تم تسجيل هذا الرقم القومي مسبقاً! يمكنك تسجيل الدخول مباشرة.");
                     switchScreen('loginScreen');
                     return;
                 }
 
-                foundEmp.code = newCode;
-                foundEmp.pass = newPass;
-                foundEmp.isRegistered = true;
+                emp.code = newCode;
+                emp.pass = newPass;
+                emp.isRegistered = true;
                 saveDatabase(db);
 
-                alert("تم إنشاء حسابك بنجاح يا " + foundEmp.name + "!\nتم حفظ الكود وكلمة المرور.");
+                alert("تم إنشاء حسابك بنجاح يا " + emp.name + "!");
                 switchScreen('loginScreen');
             } else {
-                alert("الرقم القومي غير مسجل لدى الإدارة! يرجى مراجعة المسؤول لإضافتك.");
+                alert("الرقم القومي غير مسجل لدى الإدارة!");
             }
         }
 
-        // استعادة / تغيير كلمة المرور في حال نسيتها
-        function resetPassword() {
+        // استعادة كلمة المرور من شاشة الدخول
+        function resetPasswordFromLogin() {
             var natId = document.getElementById('forgotNationalId').value.trim();
             var newPass = document.getElementById('forgotNewPass').value.trim();
 
@@ -205,30 +293,22 @@
             }
 
             var db = getDatabase();
-            var foundEmp = null;
+            var foundKey = null;
 
             for(var key in db) {
                 if(db[key].nationalId === natId) {
-                    foundEmp = db[key];
+                    foundKey = key;
                     break;
                 }
             }
 
-            if(foundEmp) {
-                if(!foundEmp.isRegistered) {
-                    alert("هذا الحساب لم يتم تسجيله لأول مرة بعد! يرجى اختيار 'تسجيل لأول مرة' أولاً.");
-                    switchScreen('registerScreen');
-                    return;
-                }
-
-                // تحديث كلمة المرور
-                foundEmp.pass = newPass;
+            if(foundKey) {
+                db[foundKey].pass = newPass;
                 saveDatabase(db);
-
-                alert("تم تحديث كلمة المرور بنجاح يا " + foundEmp.name + "!\nيمكنك الآن تسجيل الدخول بكودك وكلمة المرور الجديدة.");
+                alert("تم تحديث كلمة المرور بنجاح!");
                 switchScreen('loginScreen');
             } else {
-                alert("الرقم القومي غير صحيح أو غير مسجل في النظام!");
+                alert("الرقم القومي غير صحيح أو غير مسجل!");
             }
         }
 
@@ -243,28 +323,21 @@
             }
 
             var db = getDatabase();
-            var foundEmp = null;
+            var foundKey = null;
 
             for(var key in db) {
                 if(db[key].code === code) {
-                    foundEmp = db[key];
+                    foundKey = key;
                     break;
                 }
             }
 
-            if(foundEmp && foundEmp.isRegistered) {
-                if(foundEmp.pass === pass) {
-                    document.getElementById('empNameTitle').innerText = "الموظف: " + foundEmp.name;
-                    document.getElementById('valAttend').innerText = foundEmp.attend;
-                    document.getElementById('valOvertime').innerText = foundEmp.overtime;
-                    document.getElementById('valAbsent').innerText = foundEmp.absent;
-                    document.getElementById('valVacation').innerText = foundEmp.vacation;
-                    document.getElementById('valBasic').innerText = foundEmp.basic;
-                    document.getElementById('valOvertimeVal').innerText = foundEmp.overtimeVal;
-                    document.getElementById('valAbsentVal').innerText = foundEmp.absentVal;
-                    document.getElementById('valNet').innerText = foundEmp.net;
-
-                    switchScreen('detailsScreen');
+            if(foundKey && db[foundKey].isRegistered) {
+                var emp = db[foundKey];
+                if(emp.pass === pass) {
+                    currentLoggedInKey = foundKey;
+                    loadEmployeeDashboard(emp);
+                    switchScreen('innerAppContainer');
                 } else {
                     alert("كلمة المرور غير صحيحة!");
                 }
@@ -273,7 +346,58 @@
             }
         }
 
+        // تعبئة بيانات الموظف في لوحة التحكم
+        function loadEmployeeDashboard(emp) {
+            document.getElementById('empHeaderInfo').innerHTML = emp.name + " - كود " + emp.code;
+            document.getElementById('valAttend').innerText = emp.attend;
+            document.getElementById('valOvertime').innerText = emp.overtime;
+            document.getElementById('valAbsent').innerText = emp.absent;
+            document.getElementById('valVacation').innerText = emp.vacation;
+            document.getElementById('valBasic').innerText = emp.basic;
+            document.getElementById('valOvertimeVal').innerText = emp.overtimeVal;
+            document.getElementById('valAbsentVal').innerText = emp.absentVal;
+            document.getElementById('valNet').innerText = emp.net;
+
+            // تعبئة البيانات المطلوبة
+            document.getElementById('inputShirt').value = emp.shirt || "";
+            document.getElementById('inputShoes').value = emp.shoes || "";
+            document.getElementById('inputPhone').value = emp.phone || "";
+
+            // كود البطاقة الطبية
+            document.getElementById('medicalCardId').innerText = "MED-" + emp.nationalId.substring(0, 8);
+        }
+
+        // حفظ بيانات التيشرت والحذاء ورقم التليفون
+        function saveEmployeeData() {
+            if(!currentLoggedInKey) return;
+            var db = getDatabase();
+            
+            db[currentLoggedInKey].shirt = document.getElementById('inputShirt').value.trim();
+            db[currentLoggedInKey].shoes = document.getElementById('inputShoes').value.trim();
+            db[currentLoggedInKey].phone = document.getElementById('inputPhone').value.trim();
+
+            saveDatabase(db);
+            alert("تم حفظ البيانات بنجاح ✓");
+        }
+
+        // تحديث كلمة المرور من داخل حساب الموظف
+        function updateInnerPassword() {
+            var newPass = document.getElementById('innerNewPass').value.trim();
+            if(newPass === "") {
+                alert("الرجاء إدخال كلمة المرور الجديدة!");
+                return;
+            }
+
+            var db = getDatabase();
+            db[currentLoggedInKey].pass = newPass;
+            saveDatabase(db);
+
+            alert("تم تحديث كلمة المرور بنجاح!");
+            document.getElementById('innerNewPass').value = "";
+        }
+
         function logout() {
+            currentLoggedInKey = null;
             document.getElementById('loginCode').value = "";
             document.getElementById('loginPass').value = "";
             switchScreen('loginScreen');
