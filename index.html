@@ -3,66 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوابة الرواتب - شركة مصطفي فاروق</title>
+    <title>بوابة الرواتب - Mustafa Farouk Company</title>
     <style>
-        body { font-family: Tahoma, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
-        .login-card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
-        h2 { color: #1976d2; margin-bottom: 5px; font-size: 22px; }
-        p { color: #666; font-size: 14px; margin-bottom: 25px; }
-        .input-group { text-align: right; margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-size: 13px; color: #444; }
-        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 14px; text-align: right; }
-        .btn-login { background-color: #1976d2; color: white; border: none; width: 100%; padding: 12px; border-radius: 8px; font-size: 16px; cursor: pointer; margin-top: 10px; font-weight: bold; }
-        .btn-login:hover { background-color: #115293; }
-        .admin-link { margin-top: 20px; display: block; color: #888; font-size: 12px; text-decoration: none; }
+        body { font-family: Tahoma, sans-serif; background-color: #f4f4f4; margin: 0; padding: 10px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 450px; }
+        .login-section { text-align: center; }
+        h2 { color: #1976d2; margin-bottom: 5px; font-size: 20px; }
+        p { color: #666; font-size: 13px; margin-bottom: 20px; }
+        .input-group { text-align: right; margin-bottom: 12px; }
+        label { display: block; margin-bottom: 5px; font-size: 12px; color: #444; }
+        input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 14px; text-align: right; }
+        .btn { background-color: #1976d2; color: white; border: none; width: 100%; padding: 11px; border-radius: 8px; font-size: 15px; cursor: pointer; margin-top: 10px; font-weight: bold; }
+        .btn:hover { background-color: #115293; }
+        
+        /* تصميم تفاصيل الراتب */
+        .details-section { display: none; }
+        .emp-header { background: #e3f2fd; padding: 10px; border-radius: 8px; margin-bottom: 15px; text-align: right; font-size: 14px; color: #0d47a1; font-weight: bold; }
+        .info-box { background: #f9f9f9; border: 1px solid #eee; padding: 10px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; font-size: 13px; }
+        .net-salary { background: #e8f5e9; border: 1px solid #c8e6c9; padding: 12px; border-radius: 8px; text-align: center; margin-top: 15px; font-size: 16px; font-weight: bold; color: #2e7d32; }
     </style>
 </head>
 <body>
 
-    <div class="login-card">
-        <div style="background:#1976d2; color:white; padding:10px; border-radius:8px; font-weight:bold; display:inline-block; margin-bottom:15px;">شركة مصطفي فاروق</div>
-        <h2>بوابة الرواتب</h2>
-        <p>ادخل بياناتك للاطلاع على كشف راتبك</p>
+    <div class="card">
+        <!-- شاشة تسجيل الدخول -->
+        <div id="loginScreen" class="login-section">
+            <div style="background:#1976d2; color:white; padding:8px 15px; border-radius:8px; font-weight:bold; display:inline-block; margin-bottom:15px;">شركة مصطفي فاروق</div>
+            <h2>بوابة الرواتب</h2>
+            <p>ادخل كود الموظف للاطلاع على تفاصيل راتبك</p>
 
-        <div class="input-group">
-            <label>👤 كود الموظف</label>
-            <input type="text" id="empCode" placeholder="مثال: 101">
+            <div class="input-group">
+                <label>👤 كود الموظف (جرب 101)</label>
+                <input type="text" id="empCode" placeholder="أدخل الكود">
+            </div>
+
+            <div class="input-group">
+                <label>🔒 كلمة المرور (جرب 1234)</label>
+                <input type="password" id="empPass" placeholder="أدخل كلمة المرور">
+            </div>
+
+            <button class="btn" onclick="login()">عرض تفاصيل الراتب</button>
         </div>
 
-        <div class="input-group">
-            <label>🔒 كلمة المرور</label>
-            <input type="password" id="empPass" placeholder="ادخل كلمة المرور">
-        </div>
+        <!-- شاشة تفاصيل الراتب (مخفية لحين تسجيل الدخول) -->
+        <div id="detailsScreen" class="details-section">
+            <div class="emp-header" id="empNameTitle">اسم الموظف: -</div>
+            
+            <div class="info-box"><span>أيام الحضور:</span> <strong id="valAttend">0</strong></div>
+            <div class="info-box"><span>أيام الإضافي:</span> <strong id="valOvertime">0</strong></div>
+            <div class="info-box"><span>أيام الغياب:</span> <strong style="color:red;" id="valAbsent">0</strong></div>
+            <div class="info-box"><span>الاجازات:</span> <strong id="valVacation">0</strong></div>
+            
+            <hr style="border:0; border-top:1px solid #eee; margin:15px 0;">
 
-        <button class="btn-login" onclick="login()">دخول ←</button>
-        <a href="#" class="admin-link">⚙ دخول الإدارة</a>
+            <div class="info-box"><span>الراتب الأساسي:</span> <strong id="valBasic">0 جنيه</strong></div>
+            <div class="info-box"><span>قيمة الإضافي:</span> <strong style="color:green;" id="valOvertimeVal">0 جنيه</strong></div>
+            <div class="info-box"><span>خصومات الغياب:</span> <strong style="color:red;" id="valAbsentVal">0 جنيه</strong></div>
+
+            <div class="net-salary">
+                صافي المرور: <span id="valNet">0 جنيه</span>
+            </div>
+
+            <button class="btn" style="background-color: #d32f2f; margin-top: 15px;" onclick="logout()">تسجيل خروج</button>
+        </div>
     </div>
 
     <script>
+        // بيانات تجريبية للعمال
+        var employeesData = {
+            "101": {
+                name: "إبراهيم فتحي (مساعد مشغل)",
+                attend: "17 يوم",
+                overtime: "2 أيام",
+                absent: "7 أيام",
+                vacation: "2 أيام",
+                basic: "6,044.98 جنيه",
+                overtimeVal: "1,304.28 جنيه",
+                absentVal: "-1,762.11 جنيه",
+                net: "4,828.50 جنيه",
+                pass: "1234"
+            },
+            "102": {
+                name: "محمد أحمد (فني أول)",
+                attend: "22 يوم",
+                overtime: "4 أيام",
+                absent: "0 أيام",
+                vacation: "1 يوم",
+                basic: "7,500.00 جنيه",
+                overtimeVal: "1,500.00 جنيه",
+                absentVal: "0.00 جنيه",
+                net: "9,000.00 جنيه",
+                pass: "5678"
+            }
+        };
+
         function login() {
             var code = document.getElementById('empCode').value.trim();
             var pass = document.getElementById('empPass').value.trim();
 
-            // قاعدة بيانات تجريبية مؤقتة للأكواد
-            var employees = {
-                "101": { name: "أحمد محمد", salary: "7500 جنيه", pass: "1234" },
-                "102": { name: "محمود علي", salary: "8200 جنيه", pass: "5678" }
-            };
-
             if(code === "" || pass === "") {
-                alert("الرجاء إدخال كود الموظف وكلمة المرور");
+                alert("الرجاء إدخال الكود وكلمة المرور");
                 return;
             }
 
-            if(employees[code]) {
-                if(employees[code].pass === pass) {
-                    alert("مرحباً بك يا " + employees[code].name + "\nراتبك الأساسي هو: " + employees[code].salary);
+            var emp = employeesData[code];
+            if(emp) {
+                if(emp.pass === pass) {
+                    // تعبئة البيانات في الشاشة
+                    document.getElementById('empNameTitle').innerText = "الموظف: " + emp.name;
+                    document.getElementById('valAttend').innerText = emp.attend;
+                    document.getElementById('valOvertime').innerText = emp.overtime;
+                    document.getElementById('valAbsent').innerText = emp.absent;
+                    document.getElementById('valVacation').innerText = emp.vacation;
+                    document.getElementById('valBasic').innerText = emp.basic;
+                    document.getElementById('valOvertimeVal').innerText = emp.overtimeVal;
+                    document.getElementById('valAbsentVal').innerText = emp.absentVal;
+                    document.getElementById('valNet').innerText = emp.net;
+
+                    // تبديل الشاشات
+                    document.getElementById('loginScreen').style.display = "none";
+                    document.getElementById('detailsScreen').style.display = "block";
                 } else {
                     alert("كلمة المرور غير صحيحة!");
                 }
             } else {
                 alert("كود الموظف غير مسجل بالنظام!");
             }
+        }
+
+        function logout() {
+            document.getElementById('empCode').value = "";
+            document.getElementById('empPass').value = "";
+            document.getElementById('loginScreen').style.display = "block";
+            document.getElementById('detailsScreen').style.display = "none";
         }
     </script>
 </body>
