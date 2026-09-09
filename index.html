@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة الرواتب - Theama Company</title>
+    <style>
+        body { font-family: Tahoma, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .login-card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
+        h2 { color: #d32f2f; margin-bottom: 5px; font-size: 22px; }
+        p { color: #666; font-size: 14px; margin-bottom: 25px; }
+        .input-group { text-align: right; margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-size: 13px; color: #444; }
+        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 14px; text-align: right; }
+        .btn-login { background-color: #d32f2f; color: white; border: none; width: 100%; padding: 12px; border-radius: 8px; font-size: 16px; cursor: pointer; margin-top: 10px; font-weight: bold; }
+        .btn-login:hover { background-color: #b71c1c; }
+        .admin-link { margin-top: 20px; display: block; color: #888; font-size: 12px; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <div style="background:#d32f2f; color:white; padding:10px; border-radius:8px; font-weight:bold; display:inline-block; margin-bottom:15px;">Theama Company</div>
+        <h2>بوابة الرواتب</h2>
+        <p>ادخل بياناتك للاطلاع على كشف راتبك</p>
+
+        <div class="input-group">
+            <label>👤 كود الموظف</label>
+            <input type="text" id="empCode" placeholder="ادخل كود الموظف">
+        </div>
+
+        <div class="input-group">
+            <label>🔒 كلمة المرور</label>
+            <input type="password" id="empPass" placeholder="ادخل كلمة المرور">
+        </div>
+
+        <button class="btn-login" onclick="login()">دخول ←</button>
+        <a href="#" class="admin-link">⚙ دخول الإدارة</a>
+    </div>
+
+    <script>
+        function login() {
+            var code = document.getElementById('empCode').value;
+            if(code === "") {
+                alert("الرجاء إدخال كود الموظف");
+            } else {
+                alert("تم تسجيل الدخول بنجاح (هذه نسخة تجريبية واجهة الموقع)");
+            }
+        }
+    </script>
+</body>
+</html>
