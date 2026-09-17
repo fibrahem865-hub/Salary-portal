@@ -3,622 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوابة الرواتب - شركة اسمنت سيناء</title>
+    <title>إسلام ويب - شبكة إسلامية شاملة</title>
     <style>
-        body { font-family: Tahoma, sans-serif; background-color: #f4f4f4; margin: 0; padding: 10px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 480px; box-sizing: border-box; }
-        h2 { color: #1976d2; margin-bottom: 5px; font-size: 20px; text-align: center; }
-        p { color: #666; font-size: 13px; margin-bottom: 20px; text-align: center; }
-        .input-group { text-align: right; margin-bottom: 12px; }
-        label { display: block; margin-bottom: 5px; font-size: 12px; color: #444; font-weight: bold; }
-        input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 14px; text-align: right; background: #fff; }
-        .btn { background-color: #1976d2; color: white; border: none; width: 100%; padding: 11px; border-radius: 8px; font-size: 15px; cursor: pointer; margin-top: 10px; font-weight: bold; }
-        .btn:hover { background-color: #115293; }
-        .btn-secondary { background-color: #78909c; margin-top: 8px; }
-        .btn-warning { background-color: #f57c00; margin-top: 8px; color: white; }
-        .btn-danger { background-color: #d32f2f; color: white; }
-        .btn-success { background-color: #2e7d32; color: white; }
-        .btn-info { background-color: #00838f; color: white; }
-        
-        .screen { display: none; }
-        .active-screen { display: block; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tahoma', sans-serif; }
+        body { background-color: #f4f6f9; color: #333; }
 
-        .top-nav-bar { display: flex; gap: 5px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
-        .nav-pill { flex: 1; padding: 8px 5px; font-size: 11px; text-align: center; border-radius: 8px; border: 1px solid #ddd; background: #fff; cursor: pointer; font-weight: bold; white-space: nowrap; text-decoration: none; color: #333; }
-        .nav-pill.active { background: #fff3e0; border-color: #ffb74d; color: #e65100; }
-        .nav-pill.med { background: #e3f2fd; border-color: #90caf9; color: #1565c0; }
-        .nav-pill.pass { background: #ffebee; border-color: #ef9a9a; color: #c62828; }
-        .nav-pill.logout { background: #f5f5f5; color: #d32f2f; border-color: #ddd; }
+        /* الهيدر العلوي */
+        header { background-color: #0d47a1; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .logo h1 { font-size: 24px; color: #fff; }
+        .logo span { color: #4caf50; }
+        .search-bar input { padding: 8px 12px; border-radius: 5px; border: none; width: 250px; text-align: right; }
 
-        .emp-header { background: #f8f9fa; padding: 10px; border-radius: 8px; margin-bottom: 12px; text-align: right; font-size: 13px; color: #333; line-height: 1.6; border: 1px solid #eee; }
-        .period-badge { background: #e3f2fd; border: 1px solid #bbdefb; color: #1565c0; padding: 8px 12px; border-radius: 8px; font-size: 13px; text-align: center; margin-bottom: 12px; font-weight: bold; }
-        .info-box { background: #f9f9f9; border: 1px solid #eee; padding: 10px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; font-size: 13px; }
-        .net-salary { background: #e8f5e9; border: 1px solid #c8e6c9; padding: 12px; border-radius: 8px; text-align: center; margin-top: 15px; font-size: 16px; font-weight: bold; color: #2e7d32; }
-        .alert-box { background: #e3f2fd; border: 1px solid #bbdefb; color: #0d47a1; padding: 10px; border-radius: 8px; font-size: 12px; margin-bottom: 15px; text-align: right; }
-        
-        .admin-emp-card { background: #fafafa; border: 1px solid #ddd; padding: 12px; border-radius: 8px; margin-bottom: 10px; font-size: 13px; text-align: right; }
-        .admin-emp-card h4 { margin: 0 0 8px 0; color: #1976d2; }
+ثر
+        /* شريط التنقل الرئيسي */
+        nav { background-color: #1565c0; display: flex; justify-content: center; gap: 15px; padding: 10px; flex-wrap: wrap; }
+        nav a { color: white; text-decoration: none; font-size: 14px; padding: 5px 10px; border-radius: 4px; transition: background 0.3s; }
+        nav a:hover { background-color: #0d47a1; }
+
+        /* المحتوى الرئيسي */
+        .container { max-width: 1100px; margin: 20px auto; padding: 0 15px; display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+        @media (max-width: 768px) { .container { grid-template-columns: 1fr; } }
+
+        /* البطاقات والمقالات */
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        .card h3 { color: #0d47a1; margin-bottom: 12px; font-size: 18px; border-bottom: 2px solid #e3f2fd; padding-bottom: 8px; }
+        .card p { font-size: 14px; line-height: 1.6; color: #555; margin-bottom: 15px; }
+
+        /* أزرار الخدمات */
+        .services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .service-btn { background: #e3f2fd; color: #0d47a1; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; text-align: center; text-decoration: none; transition: 0.3s; }
+        .service-btn:hover { background: #bbdefb; }
+
+        /* الفوتر */
+        footer { background-color: #263238; color: white; text-align: center; padding: 15px; margin-top: 30px; font-size: 13px; }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <!-- 1. شاشة تسجيل الدخول العادية -->
-        <div id="loginScreen" class="screen active-screen">
-            <div style="background:#1976d2; color:white; padding:8px 15px; border-radius:8px; font-weight:bold; display:inline-block; margin-bottom:15px; text-align:center; width:100%; box-sizing:border-box;">شركة اسمنت سيناء</div>
-            <h2>بوابة الرواتب</h2>
-            <p>ادخل كود الموظف وكلمة المرور الخاصة بك</p>
+    <!-- الهيدر -->
+    <header>
+        <div class="logo">
+            <h1>إسلام <span>ويب</span></h1>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="ابحث في الموقع (فتاوى، مقالات...)...">
+        </div>
+    </header>
 
-            <div class="input-group">
-                <label>👤 كود الموظف</label>
-                <input type="text" id="loginCode" placeholder="أدخل الكود الخاص بك">
+    <!-- شريط الأقسام -->
+    <nav>
+        <a href="#">الرئيسية</a>
+        <a href="#">مركز الفتوى</a>
+        <a href="#">القرآن الكريم</a>
+        <a href="#">الحديث الشريف</a>
+        <a href="#">المكتبة الإسلامية</a>
+        <a href="#">الاستشارات</a>
+        <a href="#">الصوتيات والمرئيات</a>
+    </nav>
+
+    <!-- المحتوى -->
+    <div class="container">
+        <!-- العمود الأيمن (المحتوى الرئيسي) -->
+        <main>
+            <div class="card">
+                <h3>📖 آية وتفسير</h3>
+                <p>قال الله تعالى: ﴿إِنَّ اللَّهَ مَعَ الَّذِينَ اتَّقَوْا وَالَّذِينَ هُم مُّحْسِنُونَ﴾ [النحل: 128]. يخبر تعالى أنه مع أهل التقوى والإحسان بالعون والنصر والتسديد.</p>
+                <a href="#" style="color: #1565c0; font-size: 13px; text-decoration: none;">اقرأ التفسير الكامل ←</a>
             </div>
 
-            <div class="input-group">
-                <label>🔒 كلمة المرور</label>
-                <input type="password" id="loginPass" placeholder="أدخل كلمة المرور">
+            <div class="card">
+                <h3>💡 فتوى مختارة</h3>
+                <p><strong>السؤال:</strong> ما حكم الصلاة في الثياب التي عليها صور أو رسومات؟<br>
+                <strong>الجواب:</strong> الصلاة في الثياب التي تحتوي على صور ذوات الأرواح مكروهة، والأولى التحرز منها لئلا تشغل المصلي...</p>
+                <a href="#" style="color: #1565c0; font-size: 13px; text-decoration: none;">المزيد من الفتاوى ←</a>
             </div>
+        </main>
 
-            <button class="btn" onclick="login()">دخول ←</button>
-            <button class="btn btn-secondary" onclick="switchScreen('registerScreen')">تسجيل لأول مرة (بالرقم القومي)</button>
-            <button class="btn btn-warning" onclick="switchScreen('forgotScreen')">نسيت كلمة المرور؟</button>
-            <button class="btn" style="background-color: #37474f; margin-top: 15px;" onclick="switchScreen('adminLoginScreen')">🔑 دخول لوحة الإدارة</button>
-        </div>
-
-        <!-- 2. شاشة تسجيل الدخول للإدارة -->
-        <div id="adminLoginScreen" class="screen">
-            <div style="background:#37474f; color:white; padding:8px 15px; border-radius:8px; font-weight:bold; display:inline-block; margin-bottom:15px; text-align:center; width:100%; box-sizing:border-box;">لوحة تحكم الإدارة</div>
-            <h2>تسجيل دخول المسؤول</h2>
-            <p>أدخل كلمة مرور الإدارة للتحكم في بيانات الموظفين</p>
-
-            <div class="input-group">
-                <label>🔒 كلمة مرور الإدارة</label>
-                <input type="password" id="adminPassInput" placeholder="أدخل كلمة المرور السرية">
-            </div>
-
-            <button class="btn" style="background-color: #37474f;" onclick="loginAdmin()">دخول للإدارة</button>
-            <button class="btn btn-secondary" onclick="switchScreen('loginScreen')">العودة لتسجيل الدخول</button>
-        </div>
-
-        <!-- 3. لوحة تحكم الإدارة الرئيسية -->
-        <div id="adminDashboardScreen" class="screen">
-            <div style="background:#37474f; color:white; padding:8px 15px; border-radius:8px; font-weight:bold; display:inline-block; margin-bottom:15px; text-align:center; width:100%; box-sizing:border-box;">لوحة تحكم الإدارة</div>
-            <h2>إدارة الموظفين والرواتب</h2>
-            <p>إضافة موظفين جدد أو تعديل بياناتهم والتحويل للفيزا</p>
-
-            <button class="btn btn-success" style="margin-bottom: 15px;" onclick="switchScreen('addEmployeeScreen')">➕ إضافة موظف جديد للقاعدة</button>
-            
-            <div id="adminEmployeesList" style="max-height: 350px; overflow-y: auto; margin-bottom: 15px;">
-                <!-- يتم تعبئتها برمجياً -->
-            </div>
-
-            <button class="btn btn-danger" onclick="switchScreen('loginScreen')">تسجيل خروج الإدارة</button>
-        </div>
-
-        <!-- 4. شاشة تحويل المرتب للفيزا (للإدارة) -->
-        <div id="transferVisaScreen" class="screen">
-            <div style="background:#00838f; color:white; padding:8px 15px; border-radius:8px; font-weight:bold; display:inline-block; margin-bottom:15px; text-align:center; width:100%; box-sizing:border-box;">💳 تحويل المرتب على الفيزا أو البنك</div>
-            
-            <input type="hidden" id="transferEmpKey">
-            <div class="info-box"><span>الموظف:</span> <strong id="transEmpName">-</strong></div>
-            <div class="info-box"><span>المبلغ المراد تحويله:</span> <strong style="color:green;" id="transEmpNet">-</strong></div>
-
-            <div class="input-group">
-                <label>طريقة التحويل</label>
-                <select id="transferMethod">
-                    <option value="visa">بطاقة ائتمان / فيزا بنكية (ATM)</option>
-                    <option value="wallet">محفظة إلكترونية (فودافون كاش / إنستا باي)</option>
-                    <option value="bank">تحويل مباشر لحساب بنكي</option>
-                </select>
-            </div>
-
-            <div class="input-group">
-                <label>رقم الفيزا / الحساب / المحفظة</label>
-                <input type="text" id="transferNumber" placeholder="أدخل رقم الحساب أو 16 رقم للفيزا">
-            </div>
-
-            <div class="input-group">
-                <label>اسم البنك / جهة التحويل</label>
-                <input type="text" id="transferBankName" placeholder="مثلاً: البنك الأهلي المصري / فودافون">
-            </div>
-
-            <button class="btn btn-info" onclick="executeVisaTransfer()">تأكيد وإرسال التحويل الآن 🚀</button>
-            <button class="btn btn-secondary" onclick="switchScreen('adminDashboardScreen')">إلغاء والعودة</button>
-        </div>
-
-        <!-- 5. شاشة تعديل بيانات الموظف (للإدارة) -->
-        <div id="editEmployeeScreen" class="screen">
-            <div style="background:#f57c00; color:white; padding:8px 15px; border-radius:8px; font-weight:bold; display:inline-block; margin-bottom:15px; text-align:center; width:100%; box-sizing:border-box;">تعديل بيانات وراتب الموظف</div>
-            
-            <input type="hidden" id="editEmpKey">
-            <div class="input-group"><label>اسم الموظف</label><input type="text" id="editName"></div>
-            <div class="input-group"><label>كود الموظف</label><input type="text" id="editCode"></div>
-            <div class="input-group"><label>فترة الراتب (مثلاً: من 1 يوليو 2026 إلى 31 يوليو 2026)</label><input type="text" id="editPeriod"></div>
-            <div class="input-group"><label>أيام الحضور</label><input type="text" id="editAttend"></div>
-            <div class="input-group"><label>أيام الإضافي</label><input type="text" id="editOvertime"></div>
-            <div class="input-group"><label>أيام الغياب</label><input type="text" id="editAbsent"></div>
-            <div class="input-group"><label>الاجازات</label><input type="text" id="editVacation"></div>
-            <div class="input-group"><label>الراتب الأساسي</label><input type="text" id="editBasic"></div>
-            <div class="input-group"><label>قيمة الإضافي</label><input type="text" id="editOvertimeVal"></div>
-            <div class="input-group"><label>خصومات الغياب</label><input type="text" id="editAbsentVal"></div>
-            <div class="input-group"><label>صافي المرتب</label><input type="text" id="editNet"></div>
-            <div class="input-group"><label>رابط البطاقة الطبية (صورة/PDF)</label><input type="text" id="editMedical"></div>
-
-            <button class="btn btn-warning" onclick="saveEditedEmployee()">حفظ التعديلات ✓</button>
-            <button class="btn btn-secondary" onclick="switchScreen('adminDashboardScreen')">إلغاء والعودة</button>
-        </div>
-
-        <!-- 6. شاشة إضافة موظف جديد بواسطة الإدارة -->
-        <div id="addEmployeeScreen" class="screen">
-            <div style="background:#2e7d32; color:white; padding:8px 15px; border-radius:8px; font-weight:bold; display:inline-block; margin-bottom:15px; text-align:center; width:100%; box-sizing:border-box;">إضافة موظف جديد</div>
-            
-            <div class="input-group"><label>اسم الموظف الكامل</label><input type="text" id="newEmpName" placeholder="مثلاً: محمد علي حسن"></div>
-            <div class="input-group"><label>الرقم القومي (14 رقم)</label><input type="text" id="newEmpNatId" placeholder="30105120101234"></div>
-            <div class="input-group"><label>كود الموظف (تحدده الإدارة)</label><input type="text" id="newEmpCode" placeholder="40671"></div>
-            <div class="input-group"><label>فترة الراتب</label><input type="text" id="newEmpPeriod" value="من 1 يوليو 2026 إلى 31 يوليو 2026"></div>
-            <div class="input-group"><label>صافي المرتب / الأساسي</label><input type="text" id="newEmpNet" placeholder="5000.00 جنيه"></div>
-            <div class="input-group"><label>رابط أو مسار البطاقة الطبية (صورة/PDF)</label><input type="text" id="newEmpMedical" placeholder="رابط الصورة أو اتركها فارغة"></div>
-
-            <button class="btn btn-success" onclick="addNewEmployeeByAdmin()">حفظ وإضافة الموظف</button>
-            <button class="btn btn-secondary" onclick="switchScreen('adminDashboardScreen')">العودة للإدارة</button>
-        </div>
-
-        <!-- 7. شاشة التسجيل لأول مرة بالرقم القومي -->
-        <div id="registerScreen" class="screen">
-            <div style="background:#2e7d32; color:white; padding:8px 15px; border-radius:8px; font-weight:bold; display:inline-block; margin-bottom:15px; text-align:center; width:100%; box-sizing:border-box;">شركة اسمنت سيناء</div>
-            <h2>تسجيل موظف جديد</h2>
-            <p>أدخل الرقم القومي لمرة واحدة فقط لإنشاء حسابك</p>
-
-            <div class="input-group"><label>🆔 الرقم القومي (14 رقم)</label><input type="text" id="regNationalId" placeholder="أدخل الرقم القومي"></div>
-            <div class="input-group"><label>👤 اختر كود خاص بك</label><input type="text" id="regNewCode" placeholder="اختر كود للدخول مستقبلاً"></div>
-            <div class="input-group"><label>🔒 أنشئ كلمة مرور جديدة</label><input type="password" id="regNewPass" placeholder="اختر كلمة مرور قوية"></div>
-
-            <button class="btn" style="background-color: #2e7d32;" onclick="registerNewEmployee()">إتمام التسجيل</button>
-            <button class="btn btn-secondary" onclick="switchScreen('loginScreen')">العودة لتسجيل الدخول</button>
-        </div>
-
-        <!-- 8. شاشة استعادة كلمة المرور -->
-        <div id="forgotScreen" class="screen">
-            <div style="background:#f57c00; color:white; padding:8px 15px; border-radius:8px; font-weight:bold; display:inline-block; margin-bottom:15px; text-align:center; width:100%; box-sizing:border-box;">شركة اسمنت سيناء</div>
-            <h2>استعادة كلمة المرور</h2>
-            <p>أدخل الرقم القومي المسجل لتعيين كلمة مرور جديدة</p>
-
-            <div class="input-group"><label>🆔 الرقم القومي</label><input type="text" id="forgotNationalId" placeholder="أدخل الرقم القومي الخاص بك"></div>
-            <div class="input-group"><label>🔒 كلمة المرور الجديدة</label><input type="password" id="forgotNewPass" placeholder="أدخل كلمة المرور الجديدة"></div>
-
-            <button class="btn" style="background-color: #f57c00;" onclick="resetPasswordFromLogin()">تحديث كلمة المرور</button>
-            <button class="btn btn-secondary" onclick="switchScreen('loginScreen')">العودة لتسجيل الدخول</button>
-        </div>
-
-        <!-- ================= شاشات لوحة التحكم الداخلية للموظف ================= -->
-        <div id="innerAppContainer" class="screen">
-            <div class="emp-header" id="empHeaderInfo">اسم الموظف: -</div>
-            
-            <div class="top-nav-bar">
-                <button class="nav-pill active" onclick="switchTab('salaryTab')">📋 الراتب</button>
-                <button class="nav-pill" onclick="switchTab('requiredTab')">⚠️ مطلوب وهام</button>
-                <button class="nav-pill med" onclick="switchTab('medicalTab')">➕ البطاقة الطبية</button>
-                <button class="nav-pill pass" onclick="switchTab('passwordTab')">🔒 كلمة المرور</button>
-                <button class="nav-pill logout" onclick="logout()">🚪 خروج</button>
-            </div>
-
-            <!-- تاب 1: تفاصيل الراتب وحالة التحويل وفترة الراتب -->
-            <div id="salaryTab" class="sub-tab">
-                <div id="transferStatusAlert" style="margin-bottom: 10px;"></div>
-                
-                <!-- شريط الفترة زاي الصورة -->
-                <div class="period-badge" id="valPeriod">من 1 يوليو 2026 إلى 31 يوليو 2026</div>
-
-                <div class="info-box"><span>أيام الحضور:</span> <strong id="valAttend">0</strong></div>
-                <div class="info-box"><span>أيام الإضافي:</span> <strong id="valOvertime">0</strong></div>
-                <div class="info-box"><span>أيام الغياب:</span> <strong style="color:red;" id="valAbsent">0</strong></div>
-                <div class="info-box"><span>الاجازات:</span> <strong id="valVacation">0</strong></div>
-                
-                <hr style="border:0; border-top:1px solid #eee; margin:12px 0;">
-
-                <div class="info-box"><span>الراتب الأساسي:</span> <strong id="valBasic">0 جنيه</strong></div>
-                <div class="info-box"><span>قيمة الإضافي:</span> <strong style="color:green;" id="valOvertimeVal">0 جنيه</strong></div>
-                <div class="info-box"><span>خصومات الغياب:</span> <strong style="color:red;" id="valAbsentVal">0 جنيه</strong></div>
-
-                <div class="net-salary">
-                    صافي المرتب: <span id="valNet">0 جنيه</span>
+        <!-- العمود الأيسر (الخدمات والأقسام الجانبية) -->
+        <aside>
+            <div class="card">
+                <h3>🌟 خدمات مميزة</h3>
+                <div class="services-grid">
+                    <a href="#" class="service-btn">المصحف الشريف</a>
+                    <a href="#" class="service-btn">أرسل فتواك</a>
+                    <a href="#" class="service-btn">الباحث الحديثي</a>
+                    <a href="#" class="service-btn">الاستشارات</a>
                 </div>
             </div>
 
-            <!-- تاب 2: بيانات مطلوبة -->
-            <div id="requiredTab" class="sub-tab" style="display:none;">
-                <div class="alert-box">ℹ️ من فضلك اكتب البيانات دي بدقة، هنحتاجها في تجهيز مستلزماتك.</div>
-                <div class="input-group"><label>مقاس التيشرت</label><input type="text" id="inputShirt" placeholder="مثلاً: XXL أو L"></div>
-                <div class="input-group"><label>مقاس الحذاء</label><input type="text" id="inputShoes" placeholder="مثلاً: 43"></div>
-                <div class="input-group"><label>رقم التليفون</label><input type="text" id="inputPhone" placeholder="01xxxxxxxx1"></div>
-                <button class="btn btn-danger" onclick="saveEmployeeData()">حفظ البيانات ✓</button>
+            <div class="card">
+                <h3>📌 إضاءات تربوية</h3>
+                <p>البر حسن الخلق، والإثم ما حاك في صدرك وكرهت أن يطلع عليه الناس.</p>
             </div>
-
-            <!-- تاب 3: البطاقة الطبية -->
-            <div id="medicalTab" class="sub-tab" style="display:none;">
-                <div class="alert-box">ℹ️ دي البطاقة الطبية الخاصة بك. تقدر تحفظها أو تفتحها في نافذة جديدة.</div>
-                <div style="background: #212121; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 12px;">
-                    <span style="color: #aaa; font-size: 12px; display: block; margin-bottom: 8px;">كود الكارت الطبي</span>
-                    <strong style="color: #fff; font-size: 14px; direction: ltr; display: block; margin-bottom: 12px;" id="medicalCardId">MED-CODE-000</strong>
-                    <div id="medicalCardContainer"></div>
-                </div>
-                <button class="btn btn-secondary" onclick="openMedicalCard()">🌐 فتح البطاقة في نافذة جديدة</button>
-            </div>
-
-            <!-- تاب 4: تغيير كلمة المرور -->
-            <div id="passwordTab" class="sub-tab" style="display:none;">
-                <div class="alert-box">🔒 لتغيير كلمة المرور الخاصة بحسابك أدخل كلمة المرور الجديدة بالأسفل.</div>
-                <div class="input-group"><label>كلمة المرور الجديدة</label><input type="password" id="innerNewPass" placeholder="أدخل الباسورد الجديد"></div>
-                <button class="btn btn-danger" onclick="updateInnerPassword()">تحديث كلمة المرور</button>
-            </div>
-        </div>
-
+        </aside>
     </div>
 
-    <script>
-        var defaultDatabase = {
-            "30105120101234": {
-                name: "إبراهيم فتحي ابراهيم حسن",
-                code: "40669",
-                nationalId: "30105120101234",
-                period: "من 1 يوليو 2026 إلى 31 يوليو 2026",
-                attend: "17 يوم", overtime: "2 أيام", absent: "7 أيام", vacation: "2 أيام",
-                basic: "6,044.98 جنيه", overtimeVal: "1,304.28 جنيه", absentVal: "-1,762.11 جنيه", net: "4,828.50 جنيه",
-                shirt: "XXL", shoes: "43", phone: "01113697278",
-                medicalUrl: "",
-                transferStatus: "لم يتم التحويل بعد",
-                pass: "123456", isRegistered: true
-            },
-            "29912010205678": {
-                name: "رانيا ابراهيم (ملكه جمال العالم)",
-                code: "40670",
-                nationalId: "29912010205678",
-                period: "من 1 يوليو 2026 إلى 31 يوليو 2026",
-                attend: "22 يوم", overtime: "4 أيام", absent: "0 أيام", vacation: "1 يوم",
-                basic: "7,500.00 جنيه", overtimeVal: "1,500.00 جنيه", absentVal: "0.00 جنيه", net: "9,000.00 جنيه",
-                shirt: "L", shoes: "38", phone: "01234567890",
-                medicalUrl: "",
-                transferStatus: "لم يتم التحويل بعد",
-                pass: "123456", isRegistered: true
-            }
-        };
+    <!-- الفوتر -->
+    <footer>
+        جميع الحقوق محفوظة © شبكة إسلام ويب 2026
+    </footer>
 
-        var currentLoggedInKey = null;
-
-        function getDatabase() {
-            var saved = localStorage.getItem('companyDB');
-            if (saved) {
-                return JSON.parse(saved);
-            }
-            return defaultDatabase;
-        }
-
-        function saveDatabase(db) {
-            localStorage.setItem('companyDB', JSON.stringify(db));
-        }
-
-        function switchScreen(screenId) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active-screen'));
-            document.getElementById(screenId).classList.add('active-screen');
-        }
-
-        function loginAdmin() {
-            var pass = document.getElementById('adminPassInput').value.trim();
-            if(pass === "admin297241560" || pass === "123456") {
-                document.getElementById('adminPassInput').value = "";
-                loadAdminDashboard();
-                switchScreen('adminDashboardScreen');
-            } else {
-                alert("كلمة مرور الإدارة غير صحيحة!");
-            }
-        }
-
-        function loadAdminDashboard() {
-            var db = getDatabase();
-            var listHtml = "";
-            for(var key in db) {
-                var emp = db[key];
-                listHtml += `<div class="admin-emp-card">
-                    <h4>${emp.name} (كود: ${emp.code})</h4>
-                    <div>الرقم القومي: ${emp.nationalId}</div>
-                    <div>فترة الراتب: ${emp.period || 'غير محددة'}</div>
-                    <div>صافي المرتب: ${emp.net}</div>
-                    <div style="font-size:11px; color:#555; margin-top:3px;">حالة التحويل: <strong>${emp.transferStatus || 'لم يتم التحويل'}</strong></div>
-                    <div style="margin-top:8px; display:flex; gap:5px; flex-wrap:wrap;">
-                        <button class="btn btn-info" style="margin:0; padding:5px 8px; font-size:11px; flex:1;" onclick="openTransferScreen('${key}')">💳 تحويل للفيزا</button>
-                        <button class="btn btn-warning" style="margin:0; padding:5px 8px; font-size:11px;" onclick="openEditEmployee('${key}')">✏️ تعديل</button>
-                        <button class="btn btn-danger" style="margin:0; padding:5px 8px; font-size:11px;" onclick="deleteEmployee('${key}')">🗑️ حذف</button>
-                    </div>
-                </div>`;
-            }
-            document.getElementById('adminEmployeesList').innerHTML = listHtml;
-        }
-
-        function openTransferScreen(key) {
-            var db = getDatabase();
-            var emp = db[key];
-
-            document.getElementById('transferEmpKey').value = key;
-            document.getElementById('transEmpName').innerText = emp.name + " (كود: " + emp.code + ")";
-            document.getElementById('transEmpNet').innerText = emp.net;
-            document.getElementById('transferNumber').value = "";
-            document.getElementById('transferBankName').value = "";
-
-            switchScreen('transferVisaScreen');
-        }
-
-        function executeVisaTransfer() {
-            var key = document.getElementById('transferEmpKey').value;
-            var number = document.getElementById('transferNumber').value.trim();
-
-            if(number === "") {
-                alert("يرجى إدخال رقم الفيزا أو الحساب المحول إليه!");
-                return;
-            }
-
-            var db = getDatabase();
-            var now = new Date();
-            var dateStr = now.toLocaleDateString('ar-EG') + " " + now.toLocaleTimeString('ar-EG');
-            
-            db[key].transferStatus = `تم التحويل بنجاح (${db[key].net}) في ${dateStr}`;
-            saveDatabase(db);
-
-            alert("✅ تم تحويل المرتب بنجاح إلى الفيزا/الحساب الخاص بالموظف!");
-            loadAdminDashboard();
-            switchScreen('adminDashboardScreen');
-        }
-
-        function openEditEmployee(key) {
-            var db = getDatabase();
-            var emp = db[key];
-            
-            document.getElementById('editEmpKey').value = key;
-            document.getElementById('editName').value = emp.name;
-            document.getElementById('editCode').value = emp.code;
-            document.getElementById('editPeriod').value = emp.period || "";
-            document.getElementById('editAttend').value = emp.attend || "";
-            document.getElementById('editOvertime').value = emp.overtime || "";
-            document.getElementById('editAbsent').value = emp.absent || "";
-            document.getElementById('editVacation').value = emp.vacation || "";
-            document.getElementById('editBasic').value = emp.basic || "";
-            document.getElementById('editOvertimeVal').value = emp.overtimeVal || "";
-            document.getElementById('editAbsentVal').value = emp.absentVal || "";
-            document.getElementById('editNet').value = emp.net || "";
-            document.getElementById('editMedical').value = emp.medicalUrl || "";
-
-            switchScreen('editEmployeeScreen');
-        }
-
-        function saveEditedEmployee() {
-            var key = document.getElementById('editEmpKey').value;
-            var db = getDatabase();
-
-            db[key].name = document.getElementById('editName').value.trim();
-            db[key].code = document.getElementById('editCode').value.trim();
-            db[key].period = document.getElementById('editPeriod').value.trim();
-            db[key].attend = document.getElementById('editAttend').value.trim();
-            db[key].overtime = document.getElementById('editOvertime').value.trim();
-            db[key].absent = document.getElementById('editAbsent').value.trim();
-            db[key].vacation = document.getElementById('editVacation').value.trim();
-            db[key].basic = document.getElementById('editBasic').value.trim();
-            db[key].overtimeVal = document.getElementById('editOvertimeVal').value.trim();
-            db[key].absentVal = document.getElementById('editAbsentVal').value.trim();
-            db[key].net = document.getElementById('editNet').value.trim();
-            db[key].medicalUrl = document.getElementById('editMedical').value.trim();
-
-            saveDatabase(db);
-            alert("تم حفظ تعديلات الموظف بنجاح ✓");
-            loadAdminDashboard();
-            switchScreen('adminDashboardScreen');
-        }
-
-        function addNewEmployeeByAdmin() {
-            var name = document.getElementById('newEmpName').value.trim();
-            var natId = document.getElementById('newEmpNatId').value.trim();
-            var code = document.getElementById('newEmpCode').value.trim();
-            var period = document.getElementById('newEmpPeriod').value.trim();
-            var net = document.getElementById('newEmpNet').value.trim();
-            var medUrl = document.getElementById('newEmpMedical').value.trim();
-
-            if(name === "" || natId === "" || code === "") {
-                alert("يرجى ملء الحقول الأساسية (الاسم، الرقم القومي، الكود)!");
-                return;
-            }
-
-            var db = getDatabase();
-            db[natId] = {
-                name: name,
-                code: code,
-                nationalId: natId,
-                period: period || "من 1 يوليو 2026 إلى 31 يوليو 2026",
-                attend: "22 يوم", overtime: "0 أيام", absent: "0 أيام", vacation: "1 يوم",
-                basic: net, overtimeVal: "0.00 جنيه", absentVal: "0.00 جنيه", net: net,
-                shirt: "", shoes: "", phone: "",
-                medicalUrl: medUrl,
-                transferStatus: "لم يتم التحويل بعد",
-                pass: "", isRegistered: false
-            };
-
-            saveDatabase(db);
-            alert("تمت إضافة الموظف بنجاح للقاعدة!");
-            switchScreen('adminDashboardScreen');
-            loadAdminDashboard();
-        }
-
-        function deleteEmployee(key) {
-            if(confirm("هل أنت متأكد من حذف هذا الموظف؟")) {
-                var db = getDatabase();
-                delete db[key];
-                saveDatabase(db);
-                loadAdminDashboard();
-            }
-        }
-
-        function switchTab(tabId) {
-            document.querySelectorAll('.sub-tab').forEach(t => t.style.display = 'none');
-            document.getElementById(tabId).style.display = 'block';
-            document.querySelectorAll('.top-nav-bar .nav-pill').forEach(btn => btn.classList.remove('active', 'med', 'pass'));
-            event.currentTarget.classList.add('active');
-        }
-
-        function registerNewEmployee() {
-            var natId = document.getElementById('regNationalId').value.trim();
-            var newCode = document.getElementById('regNewCode').value.trim();
-            var newPass = document.getElementById('regNewPass').value.trim();
-
-            if(natId === "" || newCode === "" || newPass === "") {
-                alert("الرجاء ملء جميع الحقول المطلوبة!");
-                return;
-            }
-
-            var db = getDatabase();
-            var emp = db[natId];
-
-            if(emp) {
-                if(emp.isRegistered) {
-                    alert("⚠️ تم تسجيل هذا الرقم القومي مسبقاً!");
-                    switchScreen('loginScreen');
-                    return;
-                }
-                emp.code = newCode;
-                emp.pass = newPass;
-                emp.isRegistered = true;
-                saveDatabase(db);
-                alert("تم إنشاء حسابك بنجاح يا " + emp.name + "!");
-                switchScreen('loginScreen');
-            } else {
-                alert("الرقم القومي غير مسجل لدى الإدارة!");
-            }
-        }
-
-        function resetPasswordFromLogin() {
-            var natId = document.getElementById('forgotNationalId').value.trim();
-            var newPass = document.getElementById('forgotNewPass').value.trim();
-
-            if(natId === "" || newPass === "") {
-                alert("الرجاء إدخال الرقم القومي وكلمة المرور الجديدة!");
-                return;
-            }
-
-            var db = getDatabase();
-            if(db[natId]) {
-                db[natId].pass = newPass;
-                saveDatabase(db);
-                alert("تم تحديث كلمة المرور بنجاح!");
-                switchScreen('loginScreen');
-            } else {
-                alert("الرقم القومي غير صحيح أو غير مسجل!");
-            }
-        }
-
-        function login() {
-            var code = document.getElementById('loginCode').value.trim();
-            var pass = document.getElementById('loginPass').value.trim();
-
-            if(code === "" || pass === "") {
-                alert("الرجاء إدخال الكود وكلمة المرور");
-                return;
-            }
-
-            var db = getDatabase();
-            var foundKey = null;
-
-            for(var key in db) {
-                if(db[key].code === code) {
-                    foundKey = key;
-                    break;
-                }
-            }
-
-            if(foundKey && db[foundKey].isRegistered) {
-                var emp = db[foundKey];
-                if(emp.pass === pass) {
-                    currentLoggedInKey = foundKey;
-                    loadEmployeeDashboard(emp);
-                    switchScreen('innerAppContainer');
-                } else {
-                    alert("كلمة المرور غير صحيحة!");
-                }
-            } else {
-                alert("كود الموظف غير صحيح أو لم يتم تفعيل الحساب بعد!");
-            }
-        }
-
-        function loadEmployeeDashboard(emp) {
-            document.getElementById('empHeaderInfo').innerHTML = emp.name + " - كود " + emp.code;
-            
-            var transferAlert = document.getElementById('transferStatusAlert');
-            if(emp.transferStatus && emp.transferStatus.includes("تم التحويل")) {
-                transferAlert.innerHTML = `<div style="background:#e8f5e9; border:1px solid #c8e6c9; color:#2e7d32; padding:10px; border-radius:8px; font-size:12px; text-align:right;">✔ ${emp.transferStatus}</div>`;
-            } else {
-                transferAlert.innerHTML = `<div style="background:#fff9c4; border:1px solid #fff59d; color:#f57f17; padding:10px; border-radius:8px; font-size:12px; text-align:right;">⏳ حالة المرتب: بانتظار التحويل من الإدارة</div>`;
-            }
-
-            // عرض فترة الراتب زي الصورة
-            document.getElementById('valPeriod').innerText = emp.period || "من 1 يوليو 2026 إلى 31 يوليو 2026";
-
-            document.getElementById('valAttend').innerText = emp.attend;
-            document.getElementById('valOvertime').innerText = emp.overtime;
-            document.getElementById('valAbsent').innerText = emp.absent;
-            document.getElementById('valVacation').innerText = emp.vacation;
-            document.getElementById('valBasic').innerText = emp.basic;
-            document.getElementById('valOvertimeVal').innerText = emp.overtimeVal;
-            document.getElementById('valAbsentVal').innerText = emp.absentVal;
-            document.getElementById('valNet').innerText = emp.net;
-
-            document.getElementById('inputShirt').value = emp.shirt || "";
-            document.getElementById('inputShoes').value = emp.shoes || "";
-            document.getElementById('inputPhone').value = emp.phone || "";
-
-            document.getElementById('medicalCardId').innerText = "MED-" + emp.nationalId.substring(0, 8);
-            
-            var medContainer = document.getElementById('medicalCardContainer');
-            if(emp.medicalUrl) {
-                medContainer.innerHTML = `<img src="${emp.medicalUrl}" style="max-width:100%; border-radius:6px;" alt="البطاقة الطبية">`;
-            } else {
-                medContainer.innerHTML = `<span style="color:#ccc; font-size:12px;">لم يتم رفع البطاقة الطبية من قبل الإدارة بعد</span>`;
-            }
-        }
-
-        function openMedicalCard() {
-            var db = getDatabase();
-            var emp = db[currentLoggedInKey];
-            if(emp && emp.medicalUrl) {
-                window.open(emp.medicalUrl, '_blank');
-            } else {
-                alert("عذراً، لم ترفع الإدارة البطاقة الطبية بعد.");
-            }
-        }
-
-        function saveEmployeeData() {
-            if(!currentLoggedInKey) return;
-            var db = getDatabase();
-            db[currentLoggedInKey].shirt = document.getElementById('inputShirt').value.trim();
-            db[currentLoggedInKey].shoes = document.getElementById('inputShoes').value.trim();
-            db[currentLoggedInKey].phone = document.getElementById('inputPhone').value.trim();
-            saveDatabase(db);
-            alert("تم حفظ البيانات بنجاح ✓");
-        }
-
-        function updateInnerPassword() {
-            var newPass = document.getElementById('innerNewPass').value.trim();
-            if(newPass === "") {
-                alert("الرجاء إدخال كلمة المرور الجديدة!");
-                return;
-            }
-            var db = getDatabase();
-            db[currentLoggedInKey].pass = newPass;
-            saveDatabase(db);
-            alert("تم تحديث كلمة المرور بنجاح!");
-            document.getElementById('innerNewPass').value = "";
-        }
-
-        function logout() {
-            currentLoggedInKey = null;
-            document.getElementById('loginCode').value = "";
-            document.getElementById('loginPass').value = "";
-            switchScreen('loginScreen');
-        }
-    </script>
 </body>
 </html>
