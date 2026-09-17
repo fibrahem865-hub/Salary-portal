@@ -3,105 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إسلام ويب - شبكة إسلامية شاملة</title>
+    <title>منصة الفيديوهات القصيرة</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tahoma', sans-serif; }
-        body { background-color: #f4f6f9; color: #333; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Tahoma, sans-serif; }
+        body { background-color: #000; color: #fff; height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+        
+        /* حاوية الفيديوهات الرئيسية (تكون بحجم الشاشة) */
+        .reels-container {
+            width: 100%;
+            max-width: 400px;
+            height: 100vh;
+            background: #111;
+            position: relative;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scrollbar-width: none; /* إخفاء الشريط لمتصفحات فايرفوكس */
+        }
+        .reels-container::-webkit-scrollbar { display: none; /* إخفاء الشريط لمتصفحات كروم وسفاري */ }
 
-        /* الهيدر العلوي */
-        header { background-color: #0d47a1; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .logo h1 { font-size: 24px; color: #fff; }
-        .logo span { color: #4caf50; }
-        .search-bar input { padding: 8px 12px; border-radius: 5px; border: none; width: 250px; text-align: right; }
+        /* كل فيديو وشاشته */
+        .reel-card {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            scroll-snap-align: start;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+        }
 
-ثر
-        /* شريط التنقل الرئيسي */
-        nav { background-color: #1565c0; display: flex; justify-content: center; gap: 15px; padding: 10px; flex-wrap: wrap; }
-        nav a { color: white; text-decoration: none; font-size: 14px; padding: 5px 10px; border-radius: 4px; transition: background 0.3s; }
-        nav a:hover { background-color: #0d47a1; }
+        .reel-card video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-        /* المحتوى الرئيسي */
-        .container { max-width: 1100px; margin: 20px auto; padding: 0 15px; display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
-        @media (max-width: 768px) { .container { grid-template-columns: 1fr; } }
+        /* تفاصيل وصناع المحتوى أسفل الفيديو */
+        .reel-info {
+            position: absolute;
+            bottom: 20px;
+            right: 15px;
+            left: 70px;
+            text-align: right;
+            z-index: 2;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+        }
 
-        /* البطاقات والمقالات */
-        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        .card h3 { color: #0d47a1; margin-bottom: 12px; font-size: 18px; border-bottom: 2px solid #e3f2fd; padding-bottom: 8px; }
-        .card p { font-size: 14px; line-height: 1.6; color: #555; margin-bottom: 15px; }
+        .username { font-weight: bold; font-size: 15px; margin-bottom: 5px; }
+        .description { font-size: 13px; color: #ddd; }
 
-        /* أزرار الخدمات */
-        .services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-        .service-btn { background: #e3f2fd; color: #0d47a1; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; text-align: center; text-decoration: none; transition: 0.3s; }
-        .service-btn:hover { background: #bbdefb; }
+        /* أزرار التفاعل الجانبية (إعجاب، تعليق، مشاركة) */
+        .action-buttons {
+            position: absolute;
+            bottom: 30px;
+            left: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            z-index: 2;
+        }
 
-        /* الفوتر */
-        footer { background-color: #263238; color: white; text-align: center; padding: 15px; margin-top: 30px; font-size: 13px; }
+        .action-btn {
+            background: rgba(0, 0, 0, 0.4);
+            border: none;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            transition: transform 0.2s;
+        }
+        .action-btn:hover { transform: scale(1.1); background: rgba(255, 255, 255, 0.2); }
+        .action-label { font-size: 11px; margin-top: 2px; text-align: center; }
     </style>
 </head>
 <body>
 
-    <!-- الهيدر -->
-    <header>
-        <div class="logo">
-            <h1>إسلام <span>ويب</span></h1>
-        </div>
-        <div class="search-bar">
-            <input type="text" placeholder="ابحث في الموقع (فتاوى، مقالات...)...">
-        </div>
-    </header>
-
-    <!-- شريط الأقسام -->
-    <nav>
-        <a href="#">الرئيسية</a>
-        <a href="#">مركز الفتوى</a>
-        <a href="#">القرآن الكريم</a>
-        <a href="#">الحديث الشريف</a>
-        <a href="#">المكتبة الإسلامية</a>
-        <a href="#">الاستشارات</a>
-        <a href="#">الصوتيات والمرئيات</a>
-    </nav>
-
-    <!-- المحتوى -->
-    <div class="container">
-        <!-- العمود الأيمن (المحتوى الرئيسي) -->
-        <main>
-            <div class="card">
-                <h3>📖 آية وتفسير</h3>
-                <p>قال الله تعالى: ﴿إِنَّ اللَّهَ مَعَ الَّذِينَ اتَّقَوْا وَالَّذِينَ هُم مُّحْسِنُونَ﴾ [النحل: 128]. يخبر تعالى أنه مع أهل التقوى والإحسان بالعون والنصر والتسديد.</p>
-                <a href="#" style="color: #1565c0; font-size: 13px; text-decoration: none;">اقرأ التفسير الكامل ←</a>
-            </div>
-
-            <div class="card">
-                <h3>💡 فتوى مختارة</h3>
-                <p><strong>السؤال:</strong> ما حكم الصلاة في الثياب التي عليها صور أو رسومات؟<br>
-                <strong>الجواب:</strong> الصلاة في الثياب التي تحتوي على صور ذوات الأرواح مكروهة، والأولى التحرز منها لئلا تشغل المصلي...</p>
-                <a href="#" style="color: #1565c0; font-size: 13px; text-decoration: none;">المزيد من الفتاوى ←</a>
-            </div>
-        </main>
-
-        <!-- العمود الأيسر (الخدمات والأقسام الجانبية) -->
-        <aside>
-            <div class="card">
-                <h3>🌟 خدمات مميزة</h3>
-                <div class="services-grid">
-                    <a href="#" class="service-btn">المصحف الشريف</a>
-                    <a href="#" class="service-btn">أرسل فتواك</a>
-                    <a href="#" class="service-btn">الباحث الحديثي</a>
-                    <a href="#" class="service-btn">الاستشارات</a>
+    <div class="reels-container">
+        <!-- فيديو رقم 1 -->
+        <div class="reel-card">
+            <video src="https://www.w3schools.com/html/mov_bbb.mp4" loop autoplay muted playsinline></video>
+            
+            <div class="action-buttons">
+                <div>
+                    <button class="action-btn" onclick="toggleLike(this)">❤️</button>
+                    <div class="action-label">12.5K</div>
+                </div>
+                <div>
+                    <button class="action-btn">💬</button>
+                    <div class="action-label">430</div>
+                </div>
+                <div>
+                    <button class="action-btn">↗️</button>
+                    <div class="action-label">مشاركة</div>
                 </div>
             </div>
 
-            <div class="card">
-                <h3>📌 إضاءات تربوية</h3>
-                <p>البر حسن الخلق، والإثم ما حاك في صدرك وكرهت أن يطلع عليه الناس.</p>
+            <div class="reel-info">
+                <div class="username">@ibrahim_fathy</div>
+                <div class="description">تجربة تصميم واجهة فيديوهات قصيرة شبيهة بتيك توك برمجة ذاتية 🚀 #تطوير_مواقع</div>
             </div>
-        </aside>
+        </div>
+
+        <!-- فيديو رقم 2 -->
+        <div class="reel-card">
+            <video src="https://www.w3schools.com/html/mov_bbb.mp4" loop muted playsinline></video>
+            
+            <div class="action-buttons">
+                <div>
+                    <button class="action-btn" onclick="toggleLike(this)">❤️</button>
+                    <div class="action-label">8.2K</div>
+                </div>
+                <div>
+                    <button class="action-btn">💬</button>
+                    <div class="action-label">120</div>
+                </div>
+                <div>
+                    <button class="action-btn">↗️</button>
+                    <div class="action-label">مشاركة</div>
+                </div>
+            </div>
+
+            <div class="reel-info">
+                <div class="username">@sinai_cement</div>
+                <div class="description">أجواء العمل داخل المصنع اليوم بالتوفيق للجميع 👷‍♂️⚙️</div>
+            </div>
+        </div>
     </div>
 
-    <!-- الفوتر -->
-    <footer>
-        جميع الحقوق محفوظة © شبكة إسلام ويب 2026
-    </footer>
+    <script>
+        // تشغيل وإيقاف الفيديو عند الضغط عليه، وتفعيل التمرير التلقائي للصوت
+        document.querySelectorAll('.reel-card video').forEach(video => {
+            video.addEventListener('click', () => {
+                if (video.paused) {
+                    video.play();
+                } else {
+                    video.pause();
+                }
+            });
+        });
 
+        // تشغيل الفيديو الظاهر في الشاشة فقط وإيقاف الباقي (Intersection Observer)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const video = entry.target.querySelector('video');
+                if (entry.isIntersecting) {
+                    video.play();
+                } else {
+                    video.pause();
+                }
+            });
+        }, { threshold: 0.6 });
+
+        document.querySelectorAll('.reel-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        function toggleLike(btn) {
+            btn.style.color = btn.style.color === 'red' ? 'white' : 'red';
+        }
+    </script>
 </body>
 </html>
