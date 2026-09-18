@@ -24,16 +24,19 @@
             <nav class="hidden md:flex space-x-6 space-x-reverse text-sm text-slate-300 items-center">
                 <a href="#tools" class="hover:text-indigo-400 transition">الأدوات الذكية</a>
                 <a href="#features" class="hover:text-indigo-400 transition">المميزات</a>
-                <!-- زر تسجيل الدخول بـ Google -->
-                <button id="googleLoginBtn" class="flex items-center space-x-2 space-x-reverse bg-white hover:bg-slate-100 text-slate-900 px-4 py-2 rounded-xl font-semibold text-sm transition shadow-md">
-                    <svg class="w-4 h-4" viewBox="0 0 24 24">
-                        <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
-                        <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.19v3.15C3.17 21.36 7.23 24 12 24z"/>
-                        <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.19C.43 8.12 0 9.87 0 11.7c0 1.83.43 3.58 1.19 5.12l4.09-2.55z"/>
-                        <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.23 0 3.17 2.64 1.19 6.58l4.09 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
-                    </svg>
-                    <span>تسجيل الدخول بـ Google</span>
-                </button>
+                
+                <!-- زر تسجيل الدخول / عرض معلومات المستخدم -->
+                <div id="authContainer">
+                    <button id="googleLoginBtn" class="flex items-center space-x-2 space-x-reverse bg-white hover:bg-slate-100 text-slate-900 px-4 py-2 rounded-xl font-semibold text-sm transition shadow-md">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+                            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.19v3.15C3.17 21.36 7.23 24 12 24z"/>
+                            <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.19C.43 8.12 0 9.87 0 11.7c0 1.83.43 3.58 1.19 5.12l4.09-2.55z"/>
+                            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.23 0 3.17 2.64 1.19 6.58l4.09 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                        </svg>
+                        <span>تسجيل الدخول بـ Google</span>
+                    </button>
+                </div>
             </nav>
         </div>
     </header>
@@ -117,6 +120,25 @@
         <p>&copy; 2026 YourSmartSite. جميع الحقوق محفوظة.</p>
     </footer>
 
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        // إعدادات مشروعك في Firebase (يمكنك استبدالها لاحقاً بمعلومات مشروعك المجاني)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDummyKeyForDemo-Placeholder",
+            authDomain: "yoursmartsite.firebaseapp.com",
+            projectId: "yoursmartsite",
+            storageBucket: "yoursmartsite.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "1:123:web:abc"
+        };
+
+        // ملاحظة: لكي يعمل تسجيل الدخول بشكل فعلي وحقيقي 100% على موقعك، 
+        // سنحتاج لإنشاء مشروع مجاني في منصة Firebase وتفعيل Google Sign-in ووضع بياناتك الحقيقية هنا.
+    </script>
+
     <!-- JavaScript Logic -->
     <script>
         const dropZone = document.getElementById('dropZone');
@@ -128,11 +150,18 @@
         const conversionType = document.getElementById('conversionType');
         const googleLoginBtn = document.getElementById('googleLoginBtn');
 
-        let selectedFile = null;
-
-        // محاكاة زر تسجيل الدخول
+        // محاكاة تفاعلية لتسجيل الدخول بانتظار ربط مفاتيح Firebase
         googleLoginBtn.addEventListener('click', () => {
-            alert('قريباً سيتم تفعيل ربط تسجيل الدخول عبر Google Firebase لكي يتمكن الزوار من حفظ تفضيلاتهم!');
+            const email = prompt("لربط حساب تجريبي، أدخل بريدك الإلكتروني (Gmail):");
+            if (email) {
+                authContainer.innerHTML = `
+                    <div class="flex items-center space-x-3 space-x-reverse bg-slate-800 border border-slate-700 px-3 py-1.5 rounded-xl">
+                        <span class="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                        <span class="text-xs text-slate-200 font-medium">${email}</span>
+                        <button onclick="location.reload()" class="text-red-400 hover:text-red-300 text-xs underline mr-2">خروج</button>
+                    </div>
+                `;
+            }
         });
 
         dropZone.addEventListener('click', () => fileInput.click());
@@ -164,6 +193,7 @@
             }
         });
 
+        let selectedFile = null;
         convertBtn.addEventListener('click', () => {
             if (!selectedFile) {
                 alert('الرجاء اختيار ملف أو صورة أولاً!');
