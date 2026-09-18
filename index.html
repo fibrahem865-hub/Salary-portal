@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YourSmartSite - منصة الأدوات الذكية وخدمات المواقع</title>
+    <title id="pageTitle">YourSmartSite - منصة الأدوات الذكية وخدمات المواقع</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
@@ -17,15 +17,18 @@
     <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-3 space-x-reverse">
-                <div class="bg-indigo-600 text-white p-2 rounded-xl font-black text-xl">YS</div>
-                <span class="text-2xl font-bold tracking-wide bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">YourSmartSite</span>
+                <div id="siteLogoBox" class="bg-indigo-600 text-white p-2 rounded-xl font-black text-xl">YS</div>
+                <span id="siteBrandName" class="text-2xl font-bold tracking-wide bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">YourSmartSite</span>
             </div>
             
             <nav class="hidden md:flex space-x-6 space-x-reverse text-sm text-slate-300 items-center">
                 <button id="navTools" onclick="switchTab('tools')" class="hover:text-indigo-400 transition font-bold text-indigo-400">الأدوات الذكية</button>
                 <button id="navWebservice" onclick="switchTab('webservice')" class="hover:text-cyan-400 transition font-medium">تصميم المواقع</button>
                 <button id="navFeatures" onclick="switchTab('features')" class="hover:text-indigo-400 transition font-medium">المميزات</button>
-                <button id="navAuth" onclick="switchTab('auth')" class="hover:text-indigo-400 transition font-medium">حسابي / الدخول</button>
+                <button id="navAuth" onclick="switchTab('auth')" class="hover:text-indigo-400 transition font-medium flex items-center gap-1">
+                    <span id="navAuthLabel">حسابي / الدخول</span>
+                </button>
+                <button id="navAdmin" onclick="switchTab('admin')" class="hover:text-amber-400 transition font-medium text-amber-400 border border-amber-500/30 px-3 py-1 rounded-xl bg-amber-500/10">⚙️ لوحة المسؤول</button>
             </nav>
         </div>
     </header>
@@ -33,26 +36,32 @@
     <!-- Main Content -->
     <main class="max-w-4xl mx-auto px-4 py-12 flex-grow w-full">
         
-        <!-- 1. قسم الأدوات والتحويل (يظهر افتراضياً) -->
+        <!-- 1. قسم الأدوات والتحويل (مقيد يتطلب تسجيل الدخول) -->
         <section id="toolsSection" class="tab-content">
             <div class="text-center mb-10">
-                <h1 class="text-4xl md:text-5xl font-black mb-4 tracking-tight">منصة أدواتك الذكية الشاملة</h1>
-                <p class="text-slate-400 text-lg">حول ملفاتك، أنجز مهامك، واستمتع بأدوات رقمية سريعة ومجانية.</p>
+                <h1 id="mainHeading" class="text-4xl md:text-5xl font-black mb-4 tracking-tight">منصة أدواتك الذكية الشاملة</h1>
+                <p id="mainSubHeading" class="text-slate-400 text-lg">حول ملفاتك، أنجز مهامك، واستمتع بأدوات رقمية سريعة ومجانية.</p>
             </div>
 
-            <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 md:p-8 shadow-2xl">
+            <!-- تنبيه وقفل في حال لم يكن المستخدم مسجلاً -->
+            <div id="lockNotice" class="hidden bg-amber-500/10 border border-amber-500/40 rounded-2xl p-8 text-center space-y-4 mb-6">
+                <div class="text-4xl">🔒</div>
+                <h3 class="text-xl font-bold text-amber-400">عذراً، يجب تسجيل الدخول أولاً لاستخدام الأدوات</h3>
+                <p class="text-slate-300 text-sm">يرجى تسجيل الدخول بحسابك أو إنشاء حساب جديد للوصول الفوري إلى كافة أدوات المنصة وتحويل الملفات.</p>
+                <button onclick="switchTab('auth')" class="inline-block bg-amber-500 hover:bg-amber-400 text-slate-950 font-black px-6 py-3 rounded-xl transition shadow-lg">
+                    الذهاب لتسجيل الدخول الآن
+                </button>
+            </div>
+
+            <!-- صندوق الأدوات الفعلي (يختفي ويقفل إذا لم يسجل الدخول) -->
+            <div id="toolsContentBox" class="bg-slate-800 border border-slate-700 rounded-2xl p-6 md:p-8 shadow-2xl transition">
                 <div class="mb-6 space-y-4">
-                    <label class="block text-sm font-semibold text-slate-300">اختر الأداة المطلوبة:</label>
+                    <div class="flex justify-between items-center">
+                        <label class="block text-sm font-semibold text-slate-300">اختر الأداة المطلوبة:</label>
+                        <span id="activeUserBadge" class="text-xs bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-3 py-1 rounded-full font-bold">مرحباً بك</span>
+                    </div>
                     <select id="conversionType" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 focus:outline-none focus:border-indigo-500 transition">
-                        <optgroup label="🖼️ تحويل الصور الفعلي">
-                            <option value="img-to-jpg">تحويل الصورة إلى JPG</option>
-                            <option value="img-to-png">تحويل الصورة إلى PNG</option>
-                            <option value="img-to-webp">تحويل الصورة إلى WEBP</option>
-                        </optgroup>
-                        <optgroup label="✍️ أدوات النصوص الذكية">
-                            <option value="text-uppercase">تحويل النص إلى أحرف كبيرة (UPPERCASE)</option>
-                            <option value="text-lowercase">تحويل النص إلى أحرف صغيرة (lowercase)</option>
-                        </optgroup>
+                        <!-- تظهر الأدوات ديناميكياً بناءً على تحكم المسؤول -->
                     </select>
                 </div>
 
@@ -80,14 +89,14 @@
             </div>
         </section>
 
-        <!-- 2. قسم خدمة تصميم المواقع (مخفي افتراضياً) -->
+        <!-- 2. قسم خدمة تصميم المواقع -->
         <section id="webserviceSection" class="tab-content hidden bg-gradient-to-br from-slate-800 to-slate-800/80 border border-cyan-500/40 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
             <div class="absolute -top-24 -left-24 w-48 h-48 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
             
             <div class="text-center max-w-2xl mx-auto mb-8">
                 <span class="bg-cyan-500/10 text-cyan-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-cyan-500/20">قسم خدمة العملاء</span>
-                <h2 class="text-3xl md:text-4xl font-black mt-4 mb-3">هل تريد موقعاً خاصاً لعملك أو مشروعك؟</h2>
-                <p class="text-slate-300 text-sm md:text-base">دعنا نساعدك في تصميم، تطوير، وإطلاق موقعك الإلكتروني الاحترافي بالكامل وبأسعار مناسبة.</p>
+                <h2 id="webServiceTitleText" class="text-3xl md:text-4xl font-black mt-4 mb-3">هل تريد موقعاً خاصاً لعملك أو مشروعك؟</h2>
+                <p id="webServiceDescText" class="text-slate-300 text-sm md:text-base">دعنا نساعدك في تصميم، تطوير، وإطلاق موقعك الإلكتروني الاحترافي بالكامل وبأسعار مناسبة.</p>
             </div>
 
             <form id="telegramForm" action="https://formspree.io/f/xppwzvor" method="POST" class="space-y-4 max-w-xl mx-auto">
@@ -124,11 +133,11 @@
             </form>
         </section>
 
-        <!-- 3. قسم المميزات (مخفي افتراضياً) -->
+        <!-- 3. قسم المميزات -->
         <section id="featuresSection" class="tab-content hidden space-y-8">
             <div class="text-center mb-8">
-                <h2 class="text-3xl md:text-4xl font-black mb-3">مميزات منصة YourSmartSite</h2>
-                <p class="text-slate-400">لماذا يختار آلاف المستخدمين أدواتنا وخدماتنا الرقمية؟</p>
+                <h2 class="text-3xl md:text-4xl font-black mb-3">مميزات منصتنا الذكية</h2>
+                <p class="text-slate-400">لماذا يختار المستخدمون خدماتنا وأدواتنا الرقمية؟</p>
             </div>
 
             <div class="grid md:grid-cols-3 gap-6 text-center">
@@ -150,14 +159,12 @@
             </div>
         </section>
 
-        <!-- 4. قسم تسجيل الدخول وإنشاء الحساب الخاص بالموقع (مخفي افتراضياً) -->
+        <!-- 4. قسم حساب المستخدم والتحقق (Auth Section) -->
         <section id="authSection" class="tab-content hidden max-w-md mx-auto bg-slate-800 border border-slate-700 rounded-2xl p-8 shadow-2xl">
             <div id="authContentArea">
-                <!-- شاشة تسجيل الدخول -->
                 <div id="loginFormContainer">
                     <h2 class="text-2xl font-black mb-2 text-center">تسجيل الدخول لمنصتك</h2>
-                    <p class="text-slate-400 text-xs text-center mb-6">أدخل بيانات حسابك الخاص المنسوب للموقع</p>
-                    
+                    <p class="text-slate-400 text-xs text-center mb-6">يجب تسجيل الدخول لاستخدام الأدوات</p>
                     <form id="siteLoginForm" class="space-y-4">
                         <div>
                             <label class="block text-xs font-semibold text-slate-300 mb-1">البريد الإلكتروني:</label>
@@ -171,21 +178,18 @@
                             تسجيل الدخول
                         </button>
                     </form>
-
                     <div class="text-center mt-6 text-xs text-slate-400">
                         ليس لديك حساب؟ <button onclick="toggleAuthMode('register')" class="text-indigo-400 font-bold underline hover:text-indigo-300">أنشئ حساباً جديداً الآن</button>
                     </div>
                 </div>
 
-                <!-- شاشة إنشاء حساب جديد -->
                 <div id="registerFormContainer" class="hidden">
                     <h2 class="text-2xl font-black mb-2 text-center">إنشاء حساب جديد</h2>
-                    <p class="text-slate-400 text-xs text-center mb-6">انضم إلى منصة YourSmartSite بكل سهولة</p>
-                    
+                    <p class="text-slate-400 text-xs text-center mb-6">سجل اسمك للبدء الفوري في المنصة</p>
                     <form id="siteRegisterForm" class="space-y-4">
                         <div>
                             <label class="block text-xs font-semibold text-slate-300 mb-1">الاسم الكريم:</label>
-                            <input type="text" id="regName" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-indigo-500" placeholder="اسمك الكامل">
+                            <input type="text" id="regName" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-indigo-500" placeholder="اسمك الكامل (يظهر بالمنصة)">
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-slate-300 mb-1">البريد الإلكتروني:</label>
@@ -196,16 +200,14 @@
                             <input type="password" id="regPassword" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-indigo-500" placeholder="••••••••">
                         </div>
                         <button type="submit" class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3 rounded-xl transition shadow-lg shadow-cyan-600/30">
-                            تسجيل الحساب
+                            تسجيل الحساب والبدء
                         </button>
                     </form>
-
                     <div class="text-center mt-6 text-xs text-slate-400">
                         لديك حساب بالفعل؟ <button onclick="toggleAuthMode('login')" class="text-cyan-400 font-bold underline hover:text-cyan-300">سجل دخولك هنا</button>
                     </div>
                 </div>
 
-                <!-- لوحة حساب المستخدم (تظهر بعد تسجيل الدخول) -->
                 <div id="userDashboard" class="hidden text-center space-y-4">
                     <div class="w-16 h-16 bg-indigo-600/30 border border-indigo-500 text-indigo-400 rounded-full flex items-center justify-center text-2xl font-black mx-auto">
                         <span id="userInitial">U</span>
@@ -213,7 +215,7 @@
                     <h3 class="text-xl font-bold" id="welcomeUserTitle">أهلاً بك</h3>
                     <p class="text-slate-400 text-xs" id="welcomeUserEmail">user@example.com</p>
                     <div class="p-3 bg-slate-900 rounded-xl border border-slate-700 text-xs text-slate-300">
-                        حسابك الخاص مفعل وجاهز لاستخدام جميع الأدوات بحرية تامة.
+                        أنت مسجل حالياً في المنصة. يمكنك استخدام جميع الأدوات بكامل الصلاحيات.
                     </div>
                     <button onclick="siteLogout()" class="w-full bg-red-600/20 border border-red-500/50 hover:bg-red-600 text-red-300 hover:text-white font-bold py-2.5 rounded-xl transition text-sm">
                         تسجيل الخروج
@@ -222,58 +224,231 @@
             </div>
         </section>
 
+        <!-- 5. لوحة تحكم المسؤول الشامل (Admin Dashboard) -->
+        <section id="adminSection" class="tab-content hidden max-w-2xl mx-auto bg-slate-800 border border-amber-500/40 rounded-2xl p-8 shadow-2xl">
+            <div id="adminLoginBox">
+                <div class="text-center mb-6">
+                    <span class="text-amber-400 text-3xl">🛡️</span>
+                    <h2 class="text-2xl font-black mt-2">تسجيل دخول المسؤول الشامل</h2>
+                    <p class="text-slate-400 text-xs mt-1">كلمة المرور الافتراضية: admin123</p>
+                </div>
+                <form id="adminLoginForm" class="space-y-4 max-w-sm mx-auto">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">كلمة مرور المسؤول:</label>
+                        <input type="password" id="adminPassInput" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-amber-500" placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="w-full bg-amber-600 hover:bg-amber-500 text-slate-950 font-black py-3 rounded-xl transition shadow-lg shadow-amber-600/30">
+                        دخول لوحة التحكم
+                    </button>
+                </form>
+            </div>
+
+            <div id="adminPanelContent" class="hidden space-y-6">
+                <div class="flex justify-between items-center border-b border-slate-700 pb-4">
+                    <div>
+                        <h2 class="text-2xl font-black text-amber-400">لوحة تحكم المسؤول الشامل</h2>
+                        <p class="text-slate-400 text-xs">تعديل محتوى وإعدادات المنصة</p>
+                    </div>
+                    <button onclick="adminLogout()" class="bg-red-500/20 border border-red-500 text-red-300 hover:bg-red-500 hover:text-white px-3 py-1.5 rounded-xl text-xs font-bold transition">خروج المسؤول</button>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">اسم المنصة (Brand Name):</label>
+                        <input type="text" id="settingBrandName" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-amber-500">
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">شعار النص المختصر:</label>
+                            <input type="text" id="settingLogoText" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-amber-500" maxlength="3">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">لون خلفية الشعار:</label>
+                            <select id="settingLogoBg" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-amber-500">
+                                <option value="bg-indigo-600">أزرق داكن (Indigo)</option>
+                                <option value="bg-emerald-600">أخضر (Emerald)</option>
+                                <option value="bg-rose-600">أحمر (Rose)</option>
+                                <option value="bg-amber-600">أصفر ذهبي (Amber)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">العنوان الرئيسي للموقع:</label>
+                        <input type="text" id="settingMainHeading" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-amber-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">الوصف الفرعي الرئيسي:</label>
+                        <textarea id="settingMainSub" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-amber-500"></textarea>
+                    </div>
+
+                    <div class="border-t border-slate-700 pt-4">
+                        <label class="block text-xs font-semibold text-amber-400 mb-2">تفعيل أو تعطيل الأدوات:</label>
+                        <div class="grid grid-cols-2 gap-2 text-xs text-slate-300">
+                            <label class="flex items-center space-x-2 space-x-reverse"><input type="checkbox" id="toolImgJpg" checked class="rounded bg-slate-900 border-slate-700 text-amber-500"> <span>تحويل الصورة إلى JPG</span></label>
+                            <label class="flex items-center space-x-2 space-x-reverse"><input type="checkbox" id="toolImgPng" checked class="rounded bg-slate-900 border-slate-700 text-amber-500"> <span>تحويل الصورة إلى PNG</span></label>
+                            <label class="flex items-center space-x-2 space-x-reverse"><input type="checkbox" id="toolImgWebp" checked class="rounded bg-slate-900 border-slate-700 text-amber-500"> <span>تحويل الصورة إلى WEBP</span></label>
+                            <label class="flex items-center space-x-2 space-x-reverse"><input type="checkbox" id="toolTextUpper" checked class="rounded bg-slate-900 border-slate-700 text-amber-500"> <span>تحويل النص إلى UPPERCASE</span></label>
+                        </div>
+                    </div>
+
+                    <button onclick="saveAdminSettings()" class="w-full bg-gradient-to-r from-amber-500 to-emerald-600 hover:from-amber-400 hover:to-emerald-500 text-slate-950 font-black py-3.5 rounded-xl transition shadow-lg mt-4">
+                        حفظ وتطبيق التغييرات فوراً على الموقع
+                    </button>
+                    <p id="adminSavedMsg" class="hidden text-center text-emerald-400 text-xs font-semibold">تم حفظ التغييرات وتطبيقها بنجاح!</p>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <!-- Footer -->
     <footer class="border-t border-slate-800 bg-slate-900/50 py-6 text-center text-sm text-slate-500">
-        <p>&copy; 2026 YourSmartSite. جميع الحقوق محفوظة.</p>
+        <p id="footerText">&copy; 2026 YourSmartSite. جميع الحقوق محفوظة.</p>
     </footer>
 
     <!-- JavaScript Logic -->
     <script>
-        // دالة التبديل المستقل بين الأقسام (Tabs)
+        window.addEventListener('DOMContentLoaded', () => {
+            loadSiteSettings();
+            updateConversionDropdown();
+            checkSessionState();
+        });
+
         function switchTab(tabName) {
-            const toolsSection = document.getElementById('toolsSection');
-            const webserviceSection = document.getElementById('webserviceSection');
-            const featuresSection = document.getElementById('featuresSection');
-            const authSection = document.getElementById('authSection');
+            const sections = ['toolsSection', 'webserviceSection', 'featuresSection', 'authSection', 'adminSection'];
+            const navButtons = {
+                'tools': 'navTools',
+                'webservice': 'navWebservice',
+                'features': 'navFeatures',
+                'auth': 'navAuth',
+                'admin': 'navAdmin'
+            };
+
+            sections.forEach(sec => document.getElementById(sec).classList.add('hidden'));
             
-            const navTools = document.getElementById('navTools');
-            const navWebservice = document.getElementById('navWebservice');
-            const navFeatures = document.getElementById('navFeatures');
-            const navAuth = document.getElementById('navAuth');
+            Object.keys(navButtons).forEach(key => {
+                const btn = document.getElementById(navButtons[key]);
+                if(key === 'admin') {
+                    btn.className = "hover:text-amber-400 transition font-medium text-amber-400 border border-amber-500/30 px-3 py-1 rounded-xl bg-amber-500/10";
+                } else if(key === 'auth') {
+                    btn.className = "hover:text-indigo-400 transition font-medium text-slate-300";
+                } else {
+                    btn.className = "hover:text-indigo-400 transition font-medium text-slate-300";
+                }
+            });
 
-            // إخفاء الجميع أولاً
-            toolsSection.classList.add('hidden');
-            webserviceSection.classList.add('hidden');
-            featuresSection.classList.add('hidden');
-            authSection.classList.add('hidden');
-
-            // إعادة تعيين الألوان للروابط
-            navTools.className = "hover:text-indigo-400 transition font-medium text-slate-300";
-            navWebservice.className = "hover:text-cyan-400 transition font-medium text-slate-300";
-            navFeatures.className = "hover:text-indigo-400 transition font-medium text-slate-300";
-            navAuth.className = "hover:text-indigo-400 transition font-medium text-slate-300";
-
-            // إظهار القسم المطلوب وتلوين الزر الخاص به
-            if (tabName === 'tools') {
-                toolsSection.classList.remove('hidden');
-                navTools.className = "hover:text-indigo-400 transition font-bold text-indigo-400";
-            } else if (tabName === 'webservice') {
-                webserviceSection.classList.remove('hidden');
-                navWebservice.className = "hover:text-cyan-400 transition font-bold text-cyan-400";
-            } else if (tabName === 'features') {
-                featuresSection.classList.remove('hidden');
-                navFeatures.className = "hover:text-indigo-400 transition font-bold text-indigo-400";
-            } else if (tabName === 'auth') {
-                authSection.classList.remove('hidden');
-                navAuth.className = "hover:text-indigo-400 transition font-bold text-indigo-400";
-                checkSessionState();
+            document.getElementById(tabName + 'Section').classList.remove('hidden');
+            
+            const activeBtn = document.getElementById(navButtons[tabName]);
+            if(tabName === 'admin') {
+                activeBtn.className = "hover:text-amber-400 transition font-bold text-amber-400 border border-amber-500 px-3 py-1 rounded-xl bg-amber-500/20 shadow-md";
+                checkAdminSession();
+            } else {
+                activeBtn.className = "hover:text-indigo-400 transition font-bold text-indigo-400";
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // التبديل بين نموذج تسجيل الدخول وإنشاء الحساب
+        function loadSiteSettings() {
+            const brand = localStorage.getItem('admin_brand') || 'YourSmartSite';
+            const logoText = localStorage.getItem('admin_logo_text') || 'YS';
+            const logoBg = localStorage.getItem('admin_logo_bg') || 'bg-indigo-600';
+            const heading = localStorage.getItem('admin_heading') || 'منصة أدواتك الذكية الشاملة';
+            const subHeading = localStorage.getItem('admin_sub') || 'حول ملفاتك، أنجز مهامك، واستمتع بأدوات رقمية سريعة ومجانية.';
+
+            document.getElementById('siteBrandName').textContent = brand;
+            document.getElementById('pageTitle').textContent = brand + ' - لوحة التحكم';
+            const logoBox = document.getElementById('siteLogoBox');
+            logoBox.textContent = logoText;
+            logoBox.className = `${logoBg} text-white p-2 rounded-xl font-black text-xl`;
+            document.getElementById('mainHeading').textContent = heading;
+            document.getElementById('mainSubHeading').textContent = subHeading;
+
+            document.getElementById('settingBrandName').value = brand;
+            document.getElementById('settingLogoText').value = logoText;
+            document.getElementById('settingLogoBg').value = logoBg;
+            document.getElementById('settingMainHeading').value = heading;
+            document.getElementById('settingMainSub').value = subHeading;
+        }
+
+        function saveAdminSettings() {
+            localStorage.setItem('admin_brand', document.getElementById('settingBrandName').value);
+            localStorage.setItem('admin_logo_text', document.getElementById('settingLogoText').value);
+            localStorage.setItem('admin_logo_bg', document.getElementById('settingLogoBg').value);
+            localStorage.setItem('admin_heading', document.getElementById('settingMainHeading').value);
+            localStorage.setItem('admin_sub', document.getElementById('settingMainSub').value);
+
+            localStorage.setItem('tool_jpg', document.getElementById('toolImgJpg').checked);
+            localStorage.setItem('tool_png', document.getElementById('toolImgPng').checked);
+            localStorage.setItem('tool_webp', document.getElementById('toolImgWebp').checked);
+            localStorage.setItem('tool_upper', document.getElementById('toolTextUpper').checked);
+
+            loadSiteSettings();
+            updateConversionDropdown();
+
+            const msg = document.getElementById('adminSavedMsg');
+            msg.classList.remove('hidden');
+            setTimeout(() => msg.classList.add('hidden'), 4000);
+        }
+
+        function updateConversionDropdown() {
+            const select = document.getElementById('conversionType');
+            select.innerHTML = '';
+
+            const jpgOn = localStorage.getItem('tool_jpg') !== 'false';
+            const pngOn = localStorage.getItem('tool_png') !== 'false';
+            const webpOn = localStorage.getItem('tool_webp') !== 'false';
+            const upperOn = localStorage.getItem('tool_upper') !== 'false';
+
+            if(jpgOn || pngOn || webpOn) {
+                let group = document.createElement('optgroup');
+                group.label = '🖼️ تحويل الصور الفعلي';
+                if(jpgOn) group.innerHTML += '<option value="img-to-jpg">تحويل الصورة إلى JPG</option>';
+                if(pngOn) group.innerHTML += '<option value="img-to-png">تحويل الصورة إلى PNG</option>';
+                if(webpOn) group.innerHTML += '<option value="img-to-webp">تحويل الصورة إلى WEBP</option>';
+                select.appendChild(group);
+            }
+
+            if(upperOn) {
+                let group = document.createElement('optgroup');
+                group.label = '✍️ أدوات النصوص الذكية';
+                group.innerHTML += '<option value="text-uppercase">تحويل النص إلى أحرف كبيرة (UPPERCASE)</option>';
+                select.appendChild(group);
+            }
+        }
+
+        // إدارة جلسة المسؤول
+        document.getElementById('adminLoginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const pass = document.getElementById('adminPassInput').value;
+            if (pass === 'admin123') {
+                localStorage.setItem('admin_logged', 'true');
+                checkAdminSession();
+            } else {
+                alert('كلمة مرور المسؤول غير صحيحة!');
+            }
+        });
+
+        function checkAdminSession() {
+            const isLogged = localStorage.getItem('admin_logged');
+            if (isLogged === 'true') {
+                document.getElementById('adminLoginBox').classList.add('hidden');
+                document.getElementById('adminPanelContent').classList.remove('hidden');
+            } else {
+                document.getElementById('adminPanelContent').classList.add('hidden');
+                document.getElementById('adminLoginBox').classList.remove('hidden');
+            }
+        }
+
+        function adminLogout() {
+            localStorage.removeItem('admin_logged');
+            checkAdminSession();
+        }
+
+        // المصادقة العادية للمستخدمين وعرض الاسم
         function toggleAuthMode(mode) {
             const loginContainer = document.getElementById('loginFormContainer');
             const registerContainer = document.getElementById('registerFormContainer');
@@ -286,67 +461,78 @@
             }
         }
 
-        // معالجة إنشاء الحساب في النظام المحلي
         document.getElementById('siteRegisterForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const name = document.getElementById('regName').value;
-            const email = document.getElementById('regEmail').value;
-            const pass = document.getElementById('regPassword').value;
-
-            // حفظ بيانات وهمية للمستخدم في الذاكرة المحلية
             localStorage.setItem('site_user_name', name);
-            localStorage.setItem('site_user_email', email);
+            localStorage.setItem('site_user_email', document.getElementById('regEmail').value);
             localStorage.setItem('site_user_logged', 'true');
-
-            alert('تم إنشاء الحساب بنجاح وتم تسجيل الدخول!');
+            alert(`أهلاً بك يا ${name}، تم تسجيل الحساب بنجاح!`);
             checkSessionState();
+            switchTab('tools');
         });
 
-        // معالجة تسجيل الدخول في النظام المحلي
         document.getElementById('siteLoginForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const email = document.getElementById('loginEmail').value;
-            
-            localStorage.setItem('site_user_name', email.split('@')[0]);
+            const derivedName = email.split('@')[0];
+            localStorage.setItem('site_user_name', derivedName);
             localStorage.setItem('site_user_email', email);
             localStorage.setItem('site_user_logged', 'true');
-
-            alert('مرحباً بك مجدداً، تم تسجيل الدخول بنجاح!');
+            alert(`مرحباً بك، تم تسجيل الدخول بنجاح!`);
             checkSessionState();
+            switchTab('tools');
         });
 
-        // التحقق من حالة الجلسة (مفعل أم لا)
         function checkSessionState() {
             const isLogged = localStorage.getItem('site_user_logged');
             const loginContainer = document.getElementById('loginFormContainer');
             const registerContainer = document.getElementById('registerFormContainer');
             const dashboard = document.getElementById('userDashboard');
+            
+            const lockNotice = document.getElementById('lockNotice');
+            const toolsContentBox = document.getElementById('toolsContentBox');
+            const navAuthLabel = document.getElementById('navAuthLabel');
+            const activeUserBadge = document.getElementById('activeUserBadge');
 
             if (isLogged === 'true') {
                 loginContainer.classList.add('hidden');
                 registerContainer.classList.add('hidden');
                 dashboard.classList.remove('hidden');
-
+                
                 const name = localStorage.getItem('site_user_name') || 'مستخدم';
-                const email = localStorage.getItem('site_user_email') || '';
                 document.getElementById('welcomeUserTitle').textContent = `أهلاً بك، ${name}`;
-                document.getElementById('welcomeUserEmail').textContent = email;
+                document.getElementById('welcomeUserEmail').textContent = localStorage.getItem('site_user_email');
                 document.getElementById('userInitial').textContent = name.charAt(0).toUpperCase();
+                
+                // إظهار اسم المستخدم مسجلاً في القائمة العلوية وفي شاشة الأدوات
+                navAuthLabel.textContent = `👤 ${name}`;
+                activeUserBadge.textContent = `👤 مسجل باسم: ${name}`;
+
+                // السماح باستخدام الأدوات وإخفاء القفل
+                lockNotice.classList.add('hidden');
+                toolsContentBox.classList.remove('opacity-40', 'pointer-events-none');
             } else {
                 dashboard.classList.add('hidden');
                 loginContainer.classList.remove('hidden');
+                
+                navAuthLabel.textContent = 'حسابي / الدخول';
+                
+                // قفل الأدوات وإظهار تنبيه التسجيل
+                lockNotice.classList.remove('hidden');
+                toolsContentBox.classList.add('opacity-40', 'pointer-events-none');
             }
         }
 
-        // تسجيل الخروج
         function siteLogout() {
             localStorage.removeItem('site_user_logged');
             localStorage.removeItem('site_user_name');
             localStorage.removeItem('site_user_email');
             checkSessionState();
+            alert('تم تسجيل الخروج بنجاح.');
         }
 
-        // دوائر الأدوات والأزرار الأخرى
+        // تشغيل النماذج والأدوات
         const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('fileInput');
         const fileNameDisplay = document.getElementById('fileNameDisplay');
@@ -363,25 +549,22 @@
             e.preventDefault();
             submitOrderBtn.textContent = 'جاري الإرسال...';
             submitOrderBtn.disabled = true;
-
             const formData = new FormData(telegramForm);
-
             try {
                 const response = await fetch(telegramForm.action, {
                     method: 'POST',
                     body: formData,
                     headers: { 'Accept': 'application/json' }
                 });
-
                 if (response.ok) {
                     formSuccessMsg.classList.remove('hidden');
                     telegramForm.reset();
                     setTimeout(() => formSuccessMsg.classList.add('hidden'), 6000);
                 } else {
-                    alert('حدث خطأ أثناء إرسال النموذج، يرجى المحاولة مرة أخرى.');
+                    alert('حدث خطأ أثناء إرسال النموذج.');
                 }
             } catch (error) {
-                alert('تعذر الاتصال، تحقق من شبكة الإنترنت لديك.');
+                alert('تعذر الاتصال بالشبكة.');
             } finally {
                 submitOrderBtn.textContent = 'إرسال طلب إنشاء الموقع';
                 submitOrderBtn.disabled = false;
@@ -389,8 +572,14 @@
         });
 
         let selectedFile = null;
-
-        dropZone.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('click', () => {
+            if(localStorage.getItem('site_user_logged') === 'true') {
+                fileInput.click();
+            } else {
+                alert('يرجى تسجيل الدخول أولاً لتتمكن من اختيار الملفات.');
+                switchTab('auth');
+            }
+        });
 
         fileInput.addEventListener('change', (e) => {
             if (e.target.files.length > 0) {
@@ -400,31 +589,16 @@
             }
         });
 
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.classList.add('border-indigo-500', 'bg-indigo-900/10');
-        });
-
-        dropZone.addEventListener('dragleave', () => {
-            dropZone.classList.remove('border-indigo-500', 'bg-indigo-900/10');
-        });
-
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('border-indigo-500', 'bg-indigo-900/10');
-            if (e.dataTransfer.files.length > 0) {
-                selectedFile = e.dataTransfer.files[0];
-                fileNameDisplay.textContent = `الملف المحدد: ${selectedFile.name} (${(selectedFile.size / 1024 / 1024).toFixed(2)} MB)`;
-                resultContainer.classList.add('hidden');
-            }
-        });
-
         convertBtn.addEventListener('click', () => {
+            if(localStorage.getItem('site_user_logged') !== 'true') {
+                alert('عذراً، يجب تسجيل الدخول أولاً لاستخدام الأدوات!');
+                switchTab('auth');
+                return;
+            }
             if (!selectedFile) {
                 alert('الرجاء اختيار ملف أو صورة أولاً!');
                 return;
             }
-
             const chosenType = conversionType.value;
             convertBtn.textContent = 'جاري تنفيذ الأداة...';
             convertBtn.disabled = true;
@@ -446,13 +620,8 @@
 
                             let mimeType = 'image/jpeg';
                             let ext = 'jpg';
-                            if (chosenType === 'img-to-png') {
-                                mimeType = 'image/png';
-                                ext = 'png';
-                            } else if (chosenType === 'img-to-webp') {
-                                mimeType = 'image/webp';
-                                ext = 'webp';
-                            }
+                            if (chosenType === 'img-to-png') { mimeType = 'image/png'; ext = 'png'; }
+                            else if (chosenType === 'img-to-webp') { mimeType = 'image/webp'; ext = 'webp'; }
 
                             canvas.toBlob((blob) => {
                                 const url = URL.createObjectURL(blob);
@@ -465,23 +634,16 @@
                         img.src = event.target.result;
                     };
                     reader.readAsDataURL(selectedFile);
-
                 } else if (chosenType.startsWith('text-')) {
                     const reader = new FileReader();
                     reader.onload = function(event) {
                         let text = event.target.result;
-                        if (chosenType === 'text-uppercase') {
-                            text = text.toUpperCase();
-                        } else if (chosenType === 'text-lowercase') {
-                            text = text.toLowerCase();
-                        }
-
-                        const blob = new Blob([text], { type: 'text/plain;charset=utf-8'>>1 });
+                        if (chosenType === 'text-uppercase') text = text.toUpperCase();
+                        const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
                         const url = URL.createObjectURL(blob);
                         downloadLink.href = url;
                         const baseName = selectedFile.name.substring(0, selectedFile.name.lastIndexOf('.')) || 'text';
                         downloadLink.download = `${baseName}_smartsite.txt`;
-                        resultContainer.classList.add('hidden'); // Fix small syntax
                         resultContainer.classList.remove('hidden');
                     };
                     reader.readAsText(selectedFile);
