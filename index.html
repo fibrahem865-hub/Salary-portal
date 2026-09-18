@@ -1,173 +1,317 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة الفيديوهات القصيرة</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Tahoma, sans-serif; }
-        body { background-color: #000; color: #fff; height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; }
-        
-        /* حاوية الفيديوهات الرئيسية (تكون بحجم الشاشة) */
-        .reels-container {
-            width: 100%;
-            max-width: 400px;
-            height: 100vh;
-            background: #111;
-            position: relative;
-            overflow-y: scroll;
-            scroll-snap-type: y mandatory;
-            scrollbar-width: none; /* إخفاء الشريط لمتصفحات فايرفوكس */
-        }
-        .reels-container::-webkit-scrollbar { display: none; /* إخفاء الشريط لمتصفحات كروم وسفاري */ }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        /* كل فيديو وشاشته */
-        .reel-card {
-            width: 100%;
-            height: 100vh;
-            position: relative;
-            scroll-snap-align: start;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #000;
-        }
+<title>BlueVideo</title>
 
-        .reel-card video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-        /* تفاصيل وصناع المحتوى أسفل الفيديو */
-        .reel-info {
-            position: absolute;
-            bottom: 20px;
-            right: 15px;
-            left: 70px;
-            text-align: right;
-            z-index: 2;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-        }
+body {
+    font-family: Arial, sans-serif;
+    background: #eef2f5;
+    color: #222;
+}
 
-        .username { font-weight: bold; font-size: 15px; margin-bottom: 5px; }
-        .description { font-size: 13px; color: #ddd; }
+/* الهيدر */
+header {
+    background: #0878b9;
+    padding: 14px 5%;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    box-shadow: 0 2px 5px #999;
+}
 
-        /* أزرار التفاعل الجانبية (إعجاب، تعليق، مشاركة) */
-        .action-buttons {
-            position: absolute;
-            bottom: 30px;
-            left: 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            z-index: 2;
-        }
+.logo {
+    color: white;
+    font-size: 27px;
+    font-weight: bold;
+    white-space: nowrap;
+}
 
-        .action-btn {
-            background: rgba(0, 0, 0, 0.4);
-            border: none;
-            color: white;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 18px;
-            transition: transform 0.2s;
-        }
-        .action-btn:hover { transform: scale(1.1); background: rgba(255, 255, 255, 0.2); }
-        .action-label { font-size: 11px; margin-top: 2px; text-align: center; }
-    </style>
+.search {
+    flex: 1;
+    display: flex;
+    max-width: 700px;
+}
+
+.search input {
+    width: 100%;
+    height: 42px;
+    border: none;
+    padding: 0 15px;
+    font-size: 16px;
+    outline: none;
+    border-radius: 5px 0 0 5px;
+}
+
+.search button {
+    width: 55px;
+    border: none;
+    background: #075d8e;
+    color: white;
+    font-size: 19px;
+    cursor: pointer;
+    border-radius: 0 5px 5px 0;
+}
+
+.login {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* القائمة */
+nav {
+    background: white;
+    border-bottom: 1px solid #ddd;
+    padding: 12px 5%;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+nav a {
+    display: inline-block;
+    color: #333;
+    text-decoration: none;
+    margin-left: 22px;
+    font-size: 15px;
+}
+
+nav a:hover {
+    color: #0878b9;
+}
+
+/* المحتوى */
+.container {
+    width: 90%;
+    max-width: 1250px;
+    margin: 25px auto;
+}
+
+.title {
+    font-size: 23px;
+    margin-bottom: 18px;
+    color: #075d8e;
+}
+
+/* الكروت */
+.videos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+}
+
+.card {
+    background: white;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 5px #ccc;
+    transition: .2s;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px #bbb;
+}
+
+.thumbnail {
+    height: 155px;
+    background: linear-gradient(135deg, #168fd0, #063c64);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 42px;
+}
+
+.info {
+    padding: 12px;
+}
+
+.info h3 {
+    font-size: 16px;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.views {
+    color: #888;
+    font-size: 13px;
+}
+
+/* زر تحميل المزيد */
+.more {
+    display: block;
+    width: 200px;
+    margin: 30px auto;
+    padding: 12px;
+    background: #0878b9;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.more:hover {
+    background: #075d8e;
+}
+
+/* الفوتر */
+footer {
+    margin-top: 40px;
+    background: #063c64;
+    color: white;
+    text-align: center;
+    padding: 25px;
+}
+
+/* الموبايل */
+@media (max-width: 900px) {
+    .videos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    header {
+        flex-wrap: wrap;
+    }
+
+    .search {
+        order: 3;
+        flex-basis: 100%;
+        max-width: none;
+    }
+}
+
+@media (max-width: 500px) {
+    .videos {
+        grid-template-columns: 1fr;
+    }
+
+    .thumbnail {
+        height: 190px;
+    }
+
+    .logo {
+        font-size: 22px;
+    }
+}
+</style>
 </head>
+
 <body>
 
-    <div class="reels-container">
-        <!-- فيديو رقم 1 -->
-        <div class="reel-card">
-            <video src="https://www.w3schools.com/html/mov_bbb.mp4" loop autoplay muted playsinline></video>
-            
-            <div class="action-buttons">
-                <div>
-                    <button class="action-btn" onclick="toggleLike(this)">❤️</button>
-                    <div class="action-label">12.5K</div>
-                </div>
-                <div>
-                    <button class="action-btn">💬</button>
-                    <div class="action-label">430</div>
-                </div>
-                <div>
-                    <button class="action-btn">↗️</button>
-                    <div class="action-label">مشاركة</div>
-                </div>
-            </div>
+<header>
 
-            <div class="reel-info">
-                <div class="username">@ibrahim_fathy</div>
-                <div class="description">تجربة تصميم واجهة فيديوهات قصيرة شبيهة بتيك توك برمجة ذاتية 🚀 #تطوير_مواقع</div>
-            </div>
-        </div>
-
-        <!-- فيديو رقم 2 -->
-        <div class="reel-card">
-            <video src="https://www.w3schools.com/html/mov_bbb.mp4" loop muted playsinline></video>
-            
-            <div class="action-buttons">
-                <div>
-                    <button class="action-btn" onclick="toggleLike(this)">❤️</button>
-                    <div class="action-label">8.2K</div>
-                </div>
-                <div>
-                    <button class="action-btn">💬</button>
-                    <div class="action-label">120</div>
-                </div>
-                <div>
-                    <button class="action-btn">↗️</button>
-                    <div class="action-label">مشاركة</div>
-                </div>
-            </div>
-
-            <div class="reel-info">
-                <div class="username">@sinai_cement</div>
-                <div class="description">أجواء العمل داخل المصنع اليوم بالتوفيق للجميع 👷‍♂️⚙️</div>
-            </div>
-        </div>
+    <div class="logo">
+        BlueVideo
     </div>
 
-    <script>
-        // تشغيل وإيقاف الفيديو عند الضغط عليه، وتفعيل التمرير التلقائي للصوت
-        document.querySelectorAll('.reel-card video').forEach(video => {
-            video.addEventListener('click', () => {
-                if (video.paused) {
-                    video.play();
-                } else {
-                    video.pause();
-                }
-            });
-        });
+    <div class="search">
+        <input type="text" placeholder="ابحث عن فيديو...">
+        <button>🔍</button>
+    </div>
 
-        // تشغيل الفيديو الظاهر في الشاشة فقط وإيقاف الباقي (Intersection Observer)
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                const video = entry.target.querySelector('video');
-                if (entry.isIntersecting) {
-                    video.play();
-                } else {
-                    video.pause();
-                }
-            });
-        }, { threshold: 0.6 });
+    <a href="#" class="login">تسجيل الدخول</a>
 
-        document.querySelectorAll('.reel-card').forEach(card => {
-            observer.observe(card);
-        });
+</header>
 
-        function toggleLike(btn) {
-            btn.style.color = btn.style.color === 'red' ? 'white' : 'red';
-        }
-    </script>
+<nav>
+    <a href="#">الرئيسية</a>
+    <a href="#">الأحدث</a>
+    <a href="#">الأكثر مشاهدة</a>
+    <a href="#">الشائع</a>
+    <a href="#">الفئات</a>
+    <a href="#">المفضلة</a>
+</nav>
+
+<main class="container">
+
+    <h2 class="title">أحدث الفيديوهات</h2>
+
+    <section class="videos">
+
+        <div class="card">
+            <div class="thumbnail">▶</div>
+            <div class="info">
+                <h3>فيديو تجريبي رقم 1</h3>
+                <div class="views">1.2K مشاهدة</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="thumbnail">▶</div>
+            <div class="info">
+                <h3>فيديو تجريبي رقم 2</h3>
+                <div class="views">845 مشاهدة</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="thumbnail">▶</div>
+            <div class="info">
+                <h3>فيديو تجريبي رقم 3</h3>
+                <div class="views">2.4K مشاهدة</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="thumbnail">▶</div>
+            <div class="info">
+                <h3>فيديو تجريبي رقم 4</h3>
+                <div class="views">3.1K مشاهدة</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="thumbnail">▶</div>
+            <div class="info">
+                <h3>فيديو تجريبي رقم 5</h3>
+                <div class="views">920 مشاهدة</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="thumbnail">▶</div>
+            <div class="info">
+                <h3>فيديو تجريبي رقم 6</h3>
+                <div class="views">5.6K مشاهدة</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="thumbnail">▶</div>
+            <div class="info">
+                <h3>فيديو تجريبي رقم 7</h3>
+                <div class="views">1.8K مشاهدة</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="thumbnail">▶</div>
+            <div class="info">
+                <h3>فيديو تجريبي رقم 8</h3>
+                <div class="views">4.2K مشاهدة</div>
+            </div>
+        </div>
+
+    </section>
+
+    <button class="more">تحميل المزيد</button>
+
+</main>
+
+<footer>
+    © 2026 BlueVideo - جميع الحقوق محفوظة
+</footer>
+
 </body>
 </html>
