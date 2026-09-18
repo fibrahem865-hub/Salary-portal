@@ -9,39 +9,62 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Cairo', sans-serif; }
+        
+        /* إيفكتات وحركات سلسة لكل الموقع */
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(15px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .animate-fade-in {
-            animation: fadeInUp 0.6s ease-out forwards;
+            animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
+
+        /* تأثير التوهج والزجاج الضبابي الشامل (Glassmorphism) */
+        .glass-card {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(99, 102, 241, 0.5);
+            box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.15);
+        }
+
+        /* تخصيص شريط التمرير (Scrollbar) ليكون فخماً */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4f46e5; }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between relative overflow-x-hidden selection:bg-indigo-500 selection:text-white">
 
-    <!-- خلفية مضيئة متحرّكة عصرية -->
+    <!-- خلفية مضيئة متحرّكة ذكية تغطي الموقع بالكامل -->
     <div class="fixed inset-0 overflow-hidden pointer-events-none -z-10">
-        <div class="absolute -top-40 -left-40 w-96 h-96 bg-indigo-600/10 rounded-full blur-[120px] animate-pulse"></div>
-        <div class="absolute top-1/2 -right-40 w-96 h-96 bg-purple-600/10 rounded-full blur-[120px] animate-pulse" style="animation-duration: 4s;"></div>
+        <div class="absolute -top-48 -left-48 w-[500px] h-[500px] bg-indigo-600/15 rounded-full blur-[140px] animate-pulse"></div>
+        <div class="absolute top-1/3 -right-48 w-[500px] h-[500px] bg-cyan-600/15 rounded-full blur-[140px] animate-pulse" style="animation-duration: 5s;"></div>
+        <div class="absolute -bottom-48 left-1/3 w-[500px] h-[500px] bg-purple-600/15 rounded-full blur-[140px] animate-pulse" style="animation-duration: 7s;"></div>
     </div>
 
-    <!-- Header -->
-    <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-50 shadow-lg">
+    <!-- Header بتأثير الزجاج والتفاعل -->
+    <header class="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-xl sticky top-0 z-50 transition-all duration-300">
         <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-3 space-x-reverse">
-                <div id="siteLogoBox" class="bg-indigo-600 text-white p-2 rounded-xl font-black text-xl shadow-md">YS</div>
-                <span id="siteBrandName" class="text-2xl font-bold tracking-wide bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">YourSmartSite</span>
+            <div class="flex items-center space-x-3 space-x-reverse group cursor-pointer" onclick="switchTab('tools')">
+                <div id="siteLogoBox" class="bg-indigo-600 text-white p-2.5 rounded-xl font-black text-xl shadow-lg shadow-indigo-600/30 group-hover:scale-110 transition duration-300">YS</div>
+                <span id="siteBrandName" class="text-2xl font-black tracking-wide bg-gradient-to-r from-indigo-400 via-cyan-300 to-indigo-500 bg-clip-text text-transparent">YourSmartSite</span>
             </div>
             
-            <nav id="mainNav" class="hidden md:flex space-x-6 space-x-reverse text-sm text-slate-300 items-center">
-                <button onclick="switchTab('tools')" class="hover:text-indigo-400 transition font-bold text-indigo-400">الأدوات الذكية</button>
-                <button onclick="switchTab('webservice')" class="hover:text-cyan-400 transition font-medium">تصميم المواقع</button>
-                <button onclick="switchTab('features')" class="hover:text-indigo-400 transition font-medium">المميزات</button>
-                <button onclick="switchTab('auth')" class="hover:text-indigo-400 transition font-medium flex items-center gap-1">
+            <nav id="mainNav" class="hidden md:flex space-x-2 space-x-reverse text-sm text-slate-300 items-center bg-slate-950/60 p-1.5 rounded-2xl border border-slate-800/60 shadow-inner">
+                <button onclick="switchTab('tools')" class="px-4 py-2 rounded-xl hover:text-white hover:bg-indigo-600/20 transition font-bold text-indigo-400">الأدوات الذكية</button>
+                <button onclick="switchTab('webservice')" class="px-4 py-2 rounded-xl hover:text-white hover:bg-cyan-600/20 transition font-medium">تصميم المواقع</button>
+                <button onclick="switchTab('features')" class="px-4 py-2 rounded-xl hover:text-white hover:bg-indigo-600/20 transition font-medium">المميزات</button>
+                <button onclick="switchTab('auth')" class="px-4 py-2 rounded-xl hover:text-white hover:bg-indigo-600/20 transition font-medium flex items-center gap-1.5">
                     <span id="navAuthLabel">حسابي / بياناتي</span>
                 </button>
-                <button onclick="switchTab('admin')" class="hover:text-amber-400 transition font-medium text-amber-400 border border-amber-500/30 px-3 py-1 rounded-xl bg-amber-500/10 shadow-sm">⚙️ لوحة المسؤول</button>
+                <button onclick="switchTab('admin')" class="hover:text-amber-300 transition font-medium text-amber-400 border border-amber-500/30 px-3.5 py-1.5 rounded-xl bg-amber-500/10 shadow-sm hover:bg-amber-500/20">⚙️ لوحة المسؤول</button>
             </nav>
         </div>
     </header>
@@ -50,15 +73,15 @@
     <main class="max-w-4xl mx-auto px-4 py-12 flex-grow w-full animate-fade-in">
         
         <!-- نافذة القفل الإجباري العامة -->
-        <div id="globalLockScreen" class="bg-slate-900/90 backdrop-blur-md border border-indigo-500/40 rounded-3xl p-8 md:p-12 text-center space-y-6 shadow-2xl max-w-xl mx-auto my-12">
-            <div class="w-20 h-20 bg-indigo-600/20 border border-indigo-500 text-indigo-400 rounded-3xl flex items-center justify-center text-4xl mx-auto shadow-inner">🔒</div>
+        <div id="globalLockScreen" class="glass-card rounded-3xl p-8 md:p-12 text-center space-y-6 max-w-xl mx-auto my-12 transition-all duration-500">
+            <div class="w-20 h-20 bg-indigo-600/20 border border-indigo-500/50 text-indigo-400 rounded-3xl flex items-center justify-center text-4xl mx-auto shadow-inner animate-bounce" style="animation-duration: 3s;">🔒</div>
             <h2 class="text-3xl font-black text-white">المنصة مغلقة بالكامل</h2>
             <p class="text-slate-300 text-sm leading-relaxed">عذراً، لا يمكنك تصفح الأدوات أو خدمات الموقع إلا بعد تسجيل الدخول بحسابك الشخصي أو إنشاء حساب جديد ببياناتك الخاصة.</p>
             <div class="flex flex-col sm:flex-row gap-3 justify-center pt-2">
-                <button onclick="openAuthMode('login')" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-6 py-3.5 rounded-xl transition shadow-lg shadow-indigo-600/30">
+                <button onclick="openAuthMode('login')" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-6 py-3.5 rounded-xl transition shadow-lg shadow-indigo-600/30 hover:scale-105">
                     تسجيل الدخول
                 </button>
-                <button onclick="openAuthMode('register')" class="bg-slate-800 hover:bg-slate-700 text-cyan-400 font-bold px-6 py-3.5 rounded-xl transition border border-cyan-500/30 shadow-md">
+                <button onclick="openAuthMode('register')" class="bg-slate-800 hover:bg-slate-700 text-cyan-400 font-bold px-6 py-3.5 rounded-xl transition border border-cyan-500/30 shadow-md hover:scale-105">
                     إنشاء حساب جديد ببياناتك
                 </button>
             </div>
@@ -70,13 +93,13 @@
             <!-- 1. قسم الأدوات والتحويل -->
             <section id="toolsSection" class="tab-content space-y-8">
                 
-                <!-- البانر الترويجي المُعدل باحترافية (خلفية متناسقة وبدون فراغات) -->
-                <div class="relative rounded-3xl overflow-hidden shadow-2xl bg-slate-900 border border-indigo-500/30 transition-all duration-500 hover:border-indigo-500/50 group">
+                <!-- البانر الترويجي الفخم المتكامل -->
+                <div class="relative rounded-3xl overflow-hidden shadow-2xl bg-slate-900 border border-indigo-500/30 group transition-all duration-500 hover:border-indigo-500/60 hover:shadow-indigo-500/20">
                     <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('https://i.ibb.co/gL4SPgnT/image.png');"></div>
                     <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-[2px]"></div>
 
                     <div class="relative z-10 p-8 md:p-12 text-center">
-                        <span class="bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider inline-block mb-3 shadow-sm">
+                        <span class="bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-xs font-bold px-3.5 py-1.5 rounded-full uppercase tracking-wider inline-block mb-3 shadow-sm animate-pulse">
                             منصة رقمية متكاملة
                         </span>
                         <h1 id="mainHeading" class="text-3xl md:text-5xl font-black mb-3 tracking-tight bg-gradient-to-r from-white via-indigo-100 to-indigo-300 bg-clip-text text-transparent">منصة أدواتك الذكية الشاملة</h1>
@@ -84,34 +107,34 @@
                     </div>
                 </div>
 
-                <div class="bg-slate-900/80 backdrop-blur-md border border-slate-800 rounded-2xl p-6 md:p-8 shadow-2xl transition">
+                <div class="glass-card rounded-2xl p-6 md:p-8 transition-all duration-300">
                     <div class="mb-6 space-y-4">
                         <div class="flex justify-between items-center">
                             <label class="block text-sm font-semibold text-slate-300">اختر الأداة المطلوبة:</label>
                             <span id="activeUserBadge" class="text-xs bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-3 py-1 rounded-full font-bold shadow-sm">مرحباً بك</span>
                         </div>
-                        <select id="conversionType" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 focus:outline-none focus:border-indigo-500 transition shadow-inner">
+                        <select id="conversionType" class="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-4 py-3 text-slate-200 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 transition shadow-inner cursor-pointer">
                         </select>
                     </div>
 
-                    <div id="dropZone" class="border-2 border-dashed border-slate-700 hover:border-indigo-500 rounded-xl p-8 text-center cursor-pointer transition bg-slate-950/50 mb-6 group">
+                    <div id="dropZone" class="border-2 border-dashed border-slate-700 hover:border-indigo-500 rounded-xl p-8 text-center cursor-pointer transition-all bg-slate-950/50 mb-6 group hover:bg-indigo-950/10">
                         <input type="file" id="fileInput" class="hidden">
                         <div class="flex flex-col items-center justify-center space-y-3">
-                            <svg class="w-12 h-12 text-indigo-400 group-hover:scale-110 transition duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-12 h-12 text-indigo-400 group-hover:scale-110 group-hover:text-indigo-300 transition duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                             </svg>
-                            <p class="text-lg font-medium text-slate-200">اسحب الملف هنا أو <span class="text-indigo-400 underline">اضغط لاختيار ملف من جهازك</span></p>
+                            <p class="text-lg font-medium text-slate-200">اسحب الملف هنا أو <span class="text-indigo-400 underline group-hover:text-indigo-300">اضغط لاختيار ملف من جهازك</span></p>
                             <p id="fileNameDisplay" class="text-sm text-slate-400">يدعم الصور والنصوص بشكل كامل</p>
                         </div>
                     </div>
 
-                    <button id="convertBtn" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-indigo-600/30">
+                    <button id="convertBtn" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-indigo-600/30 hover:scale-[1.01] active:scale-[0.99]">
                         تشغيل الأداة والمعالجة الفورية
                     </button>
 
-                    <div id="resultContainer" class="hidden mt-6 p-4 bg-slate-950 rounded-xl border border-slate-800 text-center shadow-inner">
+                    <div id="resultContainer" class="hidden mt-6 p-4 bg-slate-950 rounded-xl border border-slate-800 text-center shadow-inner animate-fade-in">
                         <p class="text-green-400 font-semibold mb-3">تم إنجاز العملية بنجاح تام!</p>
-                        <a id="downloadLink" href="#" class="inline-block bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-2 rounded-lg font-bold transition shadow-md">
+                        <a id="downloadLink" href="#" class="inline-block bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-2.5 rounded-lg font-bold transition shadow-md hover:scale-105">
                             تنزيل الملف الناتج
                         </a>
                     </div>
@@ -119,7 +142,7 @@
             </section>
 
             <!-- 2. قسم خدمة تصميم المواقع -->
-            <section id="webserviceSection" class="tab-content hidden bg-gradient-to-br from-slate-900 to-slate-900/90 backdrop-blur-md border border-cyan-500/30 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+            <section id="webserviceSection" class="tab-content hidden glass-card border-cyan-500/30 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden transition-all duration-300">
                 <div class="text-center max-w-2xl mx-auto mb-8">
                     <span class="bg-cyan-500/10 text-cyan-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-cyan-500/20 shadow-sm">قسم خدمة العملاء</span>
                     <h2 class="text-3xl md:text-4xl font-black mt-4 mb-3">هل تريد موقعاً خاصاً لعملك أو مشروعك؟</h2>
@@ -150,7 +173,7 @@
                         <label class="block text-xs font-semibold text-slate-300 mb-1">تفاصيل إضافية:</label>
                         <textarea id="projectDetails" rows="3" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-cyan-400 shadow-inner" placeholder="اكتب نبذة مختصرة عن فكرة موقعك..."></textarea>
                     </div>
-                    <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-slate-950 font-black py-3.5 rounded-xl transition shadow-lg">
+                    <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-slate-950 font-black py-3.5 rounded-xl transition-all shadow-lg hover:scale-[1.01]">
                         إرسال طلب إنشاء الموقع
                     </button>
                     <p id="formSuccessMsg" class="hidden text-center text-emerald-400 text-sm font-semibold mt-2">تم تسجيل وإرسال طلبك بنجاح وسيتم مراجعته من الإدارة!</p>
@@ -164,18 +187,18 @@
                     <p class="text-slate-400">لماذا يختار المستخدمون خدماتنا وأدواتنا الرقمية؟</p>
                 </div>
                 <div class="grid md:grid-cols-3 gap-6 text-center">
-                    <div class="p-8 bg-slate-900/80 backdrop-blur-md rounded-2xl border border-slate-800 shadow-xl hover:border-indigo-500/50 transition">
-                        <div class="text-indigo-400 text-4xl mb-4">⚡</div>
+                    <div class="glass-card rounded-2xl p-8 transition-all duration-300 hover:scale-105 group">
+                        <div class="text-indigo-400 text-4xl mb-4 group-hover:scale-125 transition duration-300">⚡</div>
                         <h3 class="font-bold text-xl mb-2 text-slate-100">أدوات متجددة</h3>
                         <p class="text-slate-400 text-sm">أدوات ذكية متنوعة تلبي احتياجاتك اليومية بسرعة وسهولة.</p>
                     </div>
-                    <div class="p-8 bg-slate-900/80 backdrop-blur-md rounded-2xl border border-slate-800 shadow-xl hover:border-cyan-500/50 transition">
-                        <div class="text-cyan-400 text-4xl mb-4">🛠️</div>
+                    <div class="glass-card rounded-2xl p-8 transition-all duration-300 hover:scale-105 group">
+                        <div class="text-cyan-400 text-4xl mb-4 group-hover:scale-125 transition duration-300">🛠️</div>
                         <h3 class="font-bold text-xl mb-2 text-slate-100">دعم ومساعدة تقنية</h3>
                         <p class="text-slate-400 text-sm">فريق متخصص لمساعدتك في بناء وتنفيذ موقعك الإلكتروني الخاص.</p>
                     </div>
-                    <div class="p-8 bg-slate-900/80 backdrop-blur-md rounded-2xl border border-slate-800 shadow-xl hover:border-indigo-500/50 transition">
-                        <div class="text-indigo-400 text-4xl mb-4">💎</div>
+                    <div class="glass-card rounded-2xl p-8 transition-all duration-300 hover:scale-105 group">
+                        <div class="text-indigo-400 text-4xl mb-4 group-hover:scale-125 transition duration-300">💎</div>
                         <h3 class="font-bold text-xl mb-2 text-slate-100">حساب شخصي خاص</h3>
                         <p class="text-slate-400 text-sm">تسجيل دخول مباشر لإدارة أدواتك وتفضيلاتك بكل أمان.</p>
                     </div>
@@ -185,7 +208,7 @@
         </div>
 
         <!-- 4. قسم المصادقة وإدارة الحساب الشخصي -->
-        <section id="authSection" class="tab-content hidden max-w-md mx-auto bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-8 shadow-2xl">
+        <section id="authSection" class="tab-content hidden max-w-md mx-auto glass-card rounded-2xl p-8 shadow-2xl transition-all">
             <div id="loginFormContainer">
                 <h2 class="text-2xl font-black mb-2 text-center">تسجيل الدخول لمنصتك</h2>
                 <p class="text-slate-400 text-xs text-center mb-6">أدخل بريدك وكلمة المرور الخاصة بحسابك</p>
@@ -198,7 +221,7 @@
                         <label class="block text-xs font-semibold text-slate-300 mb-1">كلمة المرور:</label>
                         <input type="password" id="loginPassword" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-indigo-500 shadow-inner" placeholder="••••••••">
                     </div>
-                    <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl transition shadow-lg">
+                    <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl transition shadow-lg hover:scale-[1.01]">
                         تسجيل الدخول
                     </button>
                 </form>
@@ -223,7 +246,7 @@
                         <label class="block text-xs font-semibold text-slate-300 mb-1">كلمة المرور الخاصة بك:</label>
                         <input type="password" id="regPassword" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-indigo-500 shadow-inner" placeholder="••••••••">
                     </div>
-                    <button type="submit" class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3 rounded-xl transition shadow-lg">
+                    <button type="submit" class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3 rounded-xl transition shadow-lg hover:scale-[1.01]">
                         حفظ بياناتي وإنشاء الحساب
                     </button>
                 </form>
@@ -235,7 +258,7 @@
             <!-- لوحة تحكم الحساب الشخصي وتعديل البيانات والصورة -->
             <div id="userDashboard" class="hidden space-y-6">
                 <div class="text-center space-y-3 border-b border-slate-800 pb-6">
-                    <div id="userAvatarContainer" class="w-20 h-20 bg-indigo-600/30 border-2 border-indigo-500 text-indigo-300 rounded-full flex items-center justify-center text-3xl font-black mx-auto overflow-hidden shadow-lg">
+                    <div id="userAvatarContainer" class="w-20 h-20 bg-indigo-600/30 border-2 border-indigo-500 text-indigo-300 rounded-full flex items-center justify-center text-3xl font-black mx-auto overflow-hidden shadow-lg shadow-indigo-500/20">
                         <span id="userInitial">U</span>
                     </div>
                     <h3 class="text-xl font-bold" id="welcomeUserTitle">أهلاً بك</h3>
@@ -256,7 +279,7 @@
                         <label class="block text-xs font-semibold text-slate-300 mb-1">كلمة المرور الجديدة:</label>
                         <input type="password" id="editUserPassword" placeholder="اتركها فارغة إن لم ترغب بتغييرها" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-sm text-slate-100 shadow-inner">
                     </div>
-                    <button onclick="saveUserProfileChanges()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 rounded-xl transition text-sm shadow">
+                    <button onclick="saveUserProfileChanges()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 rounded-xl transition text-sm shadow hover:scale-[1.01]">
                         حفظ التعديلات الشخصية
                     </button>
                     <p id="profileSavedMsg" class="hidden text-center text-emerald-400 text-xs font-semibold">تم تحديث بياناتك الشخصية بنجاح!</p>
@@ -269,7 +292,7 @@
         </section>
 
         <!-- 5. لوحة تحكم المسؤول الشاملة المتقدمة -->
-        <section id="adminSection" class="tab-content hidden max-w-2xl mx-auto bg-slate-900/90 backdrop-blur-md border border-amber-500/40 rounded-2xl p-8 shadow-2xl">
+        <section id="adminSection" class="tab-content hidden max-w-2xl mx-auto glass-card border-amber-500/40 rounded-2xl p-8 shadow-2xl">
             <div id="adminLoginBox">
                 <div class="text-center mb-6">
                     <span class="text-amber-400 text-3xl">🛡️</span>
@@ -281,7 +304,7 @@
                         <label class="block text-xs font-semibold text-slate-300 mb-1">كلمة مرور المسؤول:</label>
                         <input type="password" id="adminPassInput" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-amber-500 shadow-inner" placeholder="••••••••">
                     </div>
-                    <button type="submit" class="w-full bg-amber-600 hover:bg-amber-500 text-slate-950 font-black py-3 rounded-xl transition shadow-lg">
+                    <button type="submit" class="w-full bg-amber-600 hover:bg-amber-500 text-slate-950 font-black py-3 rounded-xl transition shadow-lg hover:scale-[1.01]">
                         دخول لوحة التحكم
                     </button>
                 </form>
@@ -293,7 +316,7 @@
                         <h2 class="text-2xl font-black text-amber-400">لوحة تحكم المسؤول المتقدمة</h2>
                         <p class="text-slate-400 text-xs">إدارة محتوى المنصة، الطلبات، والمستخدمين بالكامل</p>
                     </div>
-                    <button onclick="adminLogout()" class="bg-red-500/20 border border-red-500 text-red-300 hover:bg-red-500 hover:text-white px-3 py-1.5 rounded-xl text-xs font-bold transition shadow-sm">خروج</button>
+                    <button onclick="adminLogout()" class="bg-red-500/20 border border-red-500 text-red-300 hover:bg-red-500 hover:text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition shadow-sm">خروج</button>
                 </div>
 
                 <!-- إحصائيات حية -->
@@ -352,7 +375,7 @@
                     </div>
                 </div>
 
-                <button onclick="saveAdminSettings()" class="w-full bg-gradient-to-r from-amber-500 to-emerald-600 hover:from-amber-400 text-slate-950 font-black py-3.5 rounded-xl transition shadow-lg mt-2">
+                <button onclick="saveAdminSettings()" class="w-full bg-gradient-to-r from-amber-500 to-emerald-600 hover:from-amber-400 text-slate-950 font-black py-3.5 rounded-xl transition shadow-lg mt-2 hover:scale-[1.01]">
                     حفظ وتطبيق التغييرات فوراً
                 </button>
                 <p id="adminSavedMsg" class="hidden text-center text-emerald-400 text-xs font-semibold">تم حفظ التغييرات وتطبيقها بنجاح!</p>
@@ -362,7 +385,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-slate-800 bg-slate-900/50 py-6 text-center text-sm text-slate-500">
+    <footer class="border-t border-slate-800/80 bg-slate-950/80 backdrop-blur-md py-6 text-center text-sm text-slate-500">
         <p id="footerText">&copy; 2026 YourSmartSite. جميع الحقوق محفوظة.</p>
     </footer>
 
@@ -412,7 +435,7 @@
             document.getElementById('pageTitle').textContent = brand;
             const logoBox = document.getElementById('siteLogoBox');
             logoBox.textContent = logoText;
-            logoBox.className = `${logoBg} text-white p-2 rounded-xl font-black text-xl shadow-md`;
+            logoBox.className = `${logoBg} text-white p-2.5 rounded-xl font-black text-xl shadow-lg group-hover:scale-110 transition duration-300`;
             document.getElementById('mainHeading').textContent = heading;
             document.getElementById('mainSubHeading').textContent = subHeading;
 
@@ -635,6 +658,7 @@
 
         function siteLogout() {
             localStorage.removeItem('site_user_logged');
+            checkSessionStyle = false;
             checkSessionState();
             switchTab('auth');
         }
@@ -660,7 +684,7 @@
         dropZone.addEventListener('click', () => fileInput.click());
 
         fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
+            if (e.target.files.length > 10 || e.target.files.length > 0) {
                 selectedFile = e.target.files[0];
                 document.getElementById('fileNameDisplay').textContent = `الملف: ${selectedFile.name}`;
                 document.getElementById('resultContainer').classList.add('hidden');
@@ -691,6 +715,7 @@
                             canvas.toBlob((blob) => {
                                 document.getElementById('downloadLink').href = URL.createObjectURL(blob);
                                 document.getElementById('downloadLink').download = `converted_file.${ext}`;
+                                document.getElementById('resultContext'] = '';
                                 document.getElementById('resultContainer').classList.remove('hidden');
                             }, mime, 0.9);
                         };
