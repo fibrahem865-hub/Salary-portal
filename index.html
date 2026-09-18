@@ -36,7 +36,7 @@
     <!-- Main Content -->
     <main class="max-w-4xl mx-auto px-4 py-12 flex-grow w-full">
         
-        <!-- نافذة القفل الإجباري العامة (تظهر إذا لم يسجل المستخدم دخول) -->
+        <!-- نافذة القفل الإجباري العامة -->
         <div id="globalLockScreen" class="bg-slate-800 border border-indigo-500/40 rounded-3xl p-8 md:p-12 text-center space-y-6 shadow-2xl max-w-xl mx-auto my-12">
             <div class="w-20 h-20 bg-indigo-600/20 border border-indigo-500 text-indigo-400 rounded-3xl flex items-center justify-center text-4xl mx-auto shadow-inner">🔒</div>
             <h2 class="text-3xl font-black text-white">المنصة مغلقة بالكامل</h2>
@@ -55,10 +55,15 @@
         <div id="protectedPlatformContent" class="hidden space-y-12">
 
             <!-- 1. قسم الأدوات والتحويل -->
-            <section id="toolsSection" class="tab-content">
-                <div class="text-center mb-10">
-                    <h1 id="mainHeading" class="text-4xl md:text-5xl font-black mb-4 tracking-tight">منصة أدواتك الذكية الشاملة</h1>
-                    <p id="mainSubHeading" class="text-slate-400 text-lg">حول ملفاتك، أنجز مهامك، واستمتع بأدوات رقمية سريعة ومجانية.</p>
+            <section id="toolsSection" class="tab-content space-y-8">
+                
+                <!-- البانر الترويجي الجديد باستخدام الصورة -->
+                <div class="relative rounded-3xl overflow-hidden border border-indigo-500/30 shadow-2xl bg-slate-800">
+                    <img src="77856.png" alt="YourSmartSite Banner" class="w-full h-64 md:h-80 object-cover opacity-90 hover:scale-105 transition duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent flex flex-col justify-end p-6 md:p-8 text-center">
+                        <h1 id="mainHeading" class="text-3xl md:text-4xl font-black mb-2 tracking-tight text-white">منصة أدواتك الذكية الشاملة</h1>
+                        <p id="mainSubHeading" class="text-slate-300 text-sm md:text-base">حول ملفاتك، أنجز مهامك، واستمتع بأدوات رقمية سريعة ومجانية بدقائق.</p>
+                    </div>
                 </div>
 
                 <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 md:p-8 shadow-2xl transition">
@@ -161,7 +166,7 @@
 
         </div>
 
-        <!-- 4. قسم المصادقة وإدارة الحساب الشخصي (تعديل البيانات والصورة) -->
+        <!-- 4. قسم المصادقة وإدارة الحساب الشخصي -->
         <section id="authSection" class="tab-content hidden max-w-md mx-auto bg-slate-800 border border-slate-700 rounded-2xl p-8 shadow-2xl">
             <div id="loginFormContainer">
                 <h2 class="text-2xl font-black mb-2 text-center">تسجيل الدخول لمنصتك</h2>
@@ -231,7 +236,7 @@
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-300 mb-1">كلمة المرور الجديدة:</label>
-                        <input type="password" id="editUserPassword" placeholder="اتركها فارغة إن لمغن ترغب بتغييرها" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-sm text-slate-100">
+                        <input type="password" id="editUserPassword" placeholder="اتركها فارغة إن لم ترغب بتغييرها" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-sm text-slate-100">
                     </div>
                     <button onclick="saveUserProfileChanges()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 rounded-xl transition text-sm shadow">
                         حفظ التعديلات الشخصية
@@ -495,7 +500,6 @@
             setTimeout(() => document.getElementById('formSuccessMsg').classList.add('hidden'), 4000);
         });
 
-        // إدارة الحسابات وبيانات المستخدمين الخاصة
         function openAuthMode(mode) {
             if (mode === 'register') {
                 document.getElementById('loginFormContainer').classList.add('hidden');
@@ -671,7 +675,7 @@
                         img.onload = function() {
                             const canvas = document.createElement('canvas');
                             canvas.width = img.width; canvas.height = img.height;
-                            canvas.getContext('2D').drawImage(img, 0, 0);
+                            canvas.getContext('2d').drawImage(img, 0, 0);
                             let mime = 'image/jpeg', ext = 'jpg';
                             if(type === 'img-to-png') { mime = 'image/png'; ext = 'png'; }
                             if(type === 'img-to-webp') { mime = 'image/webp'; ext = 'webp'; }
