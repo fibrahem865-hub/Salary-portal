@@ -21,14 +21,14 @@
                 <span id="siteBrandName" class="text-2xl font-bold tracking-wide bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">YourSmartSite</span>
             </div>
             
-            <nav class="hidden md:flex space-x-6 space-x-reverse text-sm text-slate-300 items-center">
-                <button id="navTools" onclick="switchTab('tools')" class="hover:text-indigo-400 transition font-bold text-indigo-400">الأدوات الذكية</button>
-                <button id="navWebservice" onclick="switchTab('webservice')" class="hover:text-cyan-400 transition font-medium">تصميم المواقع</button>
-                <button id="navFeatures" onclick="switchTab('features')" class="hover:text-indigo-400 transition font-medium">المميزات</button>
-                <button id="navAuth" onclick="switchTab('auth')" class="hover:text-indigo-400 transition font-medium flex items-center gap-1">
-                    <span id="navAuthLabel">حسابي / الدخول</span>
+            <nav id="mainNav" class="hidden md:flex space-x-6 space-x-reverse text-sm text-slate-300 items-center">
+                <button onclick="switchTab('tools')" class="hover:text-indigo-400 transition font-bold text-indigo-400">الأدوات الذكية</button>
+                <button onclick="switchTab('webservice')" class="hover:text-cyan-400 transition font-medium">تصميم المواقع</button>
+                <button onclick="switchTab('features')" class="hover:text-indigo-400 transition font-medium">المميزات</button>
+                <button onclick="switchTab('auth')" class="hover:text-indigo-400 transition font-medium flex items-center gap-1">
+                    <span id="navAuthLabel">حسابي / بياناتي</span>
                 </button>
-                <button id="navAdmin" onclick="switchTab('admin')" class="hover:text-amber-400 transition font-medium text-amber-400 border border-amber-500/30 px-3 py-1 rounded-xl bg-amber-500/10">⚙️ لوحة المسؤول</button>
+                <button onclick="switchTab('admin')" class="hover:text-amber-400 transition font-medium text-amber-400 border border-amber-500/30 px-3 py-1 rounded-xl bg-amber-500/10">⚙️ لوحة المسؤول</button>
             </nav>
         </div>
     </header>
@@ -36,179 +36,212 @@
     <!-- Main Content -->
     <main class="max-w-4xl mx-auto px-4 py-12 flex-grow w-full">
         
-        <!-- 1. قسم الأدوات والتحويل -->
-        <section id="toolsSection" class="tab-content">
-            <div class="text-center mb-10">
-                <h1 id="mainHeading" class="text-4xl md:text-5xl font-black mb-4 tracking-tight">منصة أدواتك الذكية الشاملة</h1>
-                <p id="mainSubHeading" class="text-slate-400 text-lg">حول ملفاتك، أنجز مهامك، واستمتع بأدوات رقمية سريعة ومجانية.</p>
-            </div>
-
-            <div id="lockNotice" class="hidden bg-amber-500/10 border border-amber-500/40 rounded-2xl p-8 text-center space-y-4 mb-6">
-                <div class="text-4xl">🔒</div>
-                <h3 class="text-xl font-bold text-amber-400">عذراً، يجب تسجيل الدخول أولاً لاستخدام الأدوات</h3>
-                <p class="text-slate-300 text-sm">يرجى تسجيل الدخول بحسابك أو إنشاء حساب جديد للوصول الفوري إلى كافة أدوات المنصة.</p>
-                <button onclick="switchTab('auth')" class="inline-block bg-amber-500 hover:bg-amber-400 text-slate-950 font-black px-6 py-3 rounded-xl transition shadow-lg">
-                    الذهاب لتسجيل الدخول الآن
+        <!-- نافذة القفل الإجباري العامة (تظهر إذا لم يسجل المستخدم دخول) -->
+        <div id="globalLockScreen" class="bg-slate-800 border border-indigo-500/40 rounded-3xl p-8 md:p-12 text-center space-y-6 shadow-2xl max-w-xl mx-auto my-12">
+            <div class="w-20 h-20 bg-indigo-600/20 border border-indigo-500 text-indigo-400 rounded-3xl flex items-center justify-center text-4xl mx-auto shadow-inner">🔒</div>
+            <h2 class="text-3xl font-black text-white">المنصة مغلقة بالكامل</h2>
+            <p class="text-slate-300 text-sm leading-relaxed">عذراً، لا يمكنك تصفح الأدوات أو خدمات الموقع إلا بعد تسجيل الدخول بحسابك الشخصي أو إنشاء حساب جديد ببياناتك الخاصة.</p>
+            <div class="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+                <button onclick="openAuthMode('login')" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-6 py-3.5 rounded-xl transition shadow-lg">
+                    تسجيل الدخول
+                </button>
+                <button onclick="openAuthMode('register')" class="bg-slate-700 hover:bg-slate-600 text-cyan-400 font-bold px-6 py-3.5 rounded-xl transition border border-cyan-500/30">
+                    إنشاء حساب جديد ببياناتك
                 </button>
             </div>
+        </div>
 
-            <div id="toolsContentBox" class="bg-slate-800 border border-slate-700 rounded-2xl p-6 md:p-8 shadow-2xl transition">
-                <div class="mb-6 space-y-4">
-                    <div class="flex justify-between items-center">
-                        <label class="block text-sm font-semibold text-slate-300">اختر الأداة المطلوبة:</label>
-                        <span id="activeUserBadge" class="text-xs bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-3 py-1 rounded-full font-bold">مرحباً بك</span>
+        <!-- محتوى المنصة (يظهر فقط للمستخدم المسجل) -->
+        <div id="protectedPlatformContent" class="hidden space-y-12">
+
+            <!-- 1. قسم الأدوات والتحويل -->
+            <section id="toolsSection" class="tab-content">
+                <div class="text-center mb-10">
+                    <h1 id="mainHeading" class="text-4xl md:text-5xl font-black mb-4 tracking-tight">منصة أدواتك الذكية الشاملة</h1>
+                    <p id="mainSubHeading" class="text-slate-400 text-lg">حول ملفاتك، أنجز مهامك، واستمتع بأدوات رقمية سريعة ومجانية.</p>
+                </div>
+
+                <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 md:p-8 shadow-2xl transition">
+                    <div class="mb-6 space-y-4">
+                        <div class="flex justify-between items-center">
+                            <label class="block text-sm font-semibold text-slate-300">اختر الأداة المطلوبة:</label>
+                            <span id="activeUserBadge" class="text-xs bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-3 py-1 rounded-full font-bold">مرحباً بك</span>
+                        </div>
+                        <select id="conversionType" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 focus:outline-none focus:border-indigo-500 transition">
+                        </select>
                     </div>
-                    <select id="conversionType" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 focus:outline-none focus:border-indigo-500 transition">
-                    </select>
-                </div>
 
-                <div id="dropZone" class="border-2 border-dashed border-slate-600 hover:border-indigo-500 rounded-xl p-8 text-center cursor-pointer transition bg-slate-900/50 mb-6">
-                    <input type="file" id="fileInput" class="hidden">
-                    <div class="flex flex-col items-center justify-center space-y-3">
-                        <svg class="w-12 h-12 text-indigo-400 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-                        </svg>
-                        <p class="text-lg font-medium">اسحب الملف هنا أو <span class="text-indigo-400 underline">اضغط لاختيار ملف من جهازك</span></p>
-                        <p id="fileNameDisplay" class="text-sm text-slate-400">يدعم الصور والنصوص بشكل كامل</p>
+                    <div id="dropZone" class="border-2 border-dashed border-slate-600 hover:border-indigo-500 rounded-xl p-8 text-center cursor-pointer transition bg-slate-900/50 mb-6">
+                        <input type="file" id="fileInput" class="hidden">
+                        <div class="flex flex-col items-center justify-center space-y-3">
+                            <svg class="w-12 h-12 text-indigo-400 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                            </svg>
+                            <p class="text-lg font-medium">اسحب الملف هنا أو <span class="text-indigo-400 underline">اضغط لاختيار ملف من جهازك</span></p>
+                            <p id="fileNameDisplay" class="text-sm text-slate-400">يدعم الصور والنصوص بشكل كامل</p>
+                        </div>
+                    </div>
+
+                    <button id="convertBtn" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-indigo-600/30">
+                        تشغيل الأداة والمعالجة الفورية
+                    </button>
+
+                    <div id="resultContainer" class="hidden mt-6 p-4 bg-slate-900 rounded-xl border border-slate-700 text-center">
+                        <p class="text-green-400 font-semibold mb-3">تم إنجاز العملية بنجاح تام!</p>
+                        <a id="downloadLink" href="#" class="inline-block bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-2 rounded-lg font-bold transition">
+                            تنزيل الملف الناتج
+                        </a>
                     </div>
                 </div>
+            </section>
 
-                <button id="convertBtn" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-indigo-600/30">
-                    تشغيل الأداة والمعالجة الفورية
-                </button>
-
-                <div id="resultContainer" class="hidden mt-6 p-4 bg-slate-900 rounded-xl border border-slate-700 text-center">
-                    <p class="text-green-400 font-semibold mb-3">تم إنجاز العملية بنجاح تام!</p>
-                    <a id="downloadLink" href="#" class="inline-block bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-2 rounded-lg font-bold transition">
-                        تنزيل الملف الناتج
-                    </a>
+            <!-- 2. قسم خدمة تصميم المواقع -->
+            <section id="webserviceSection" class="tab-content hidden bg-gradient-to-br from-slate-800 to-slate-800/80 border border-cyan-500/40 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+                <div class="text-center max-w-2xl mx-auto mb-8">
+                    <span class="bg-cyan-500/10 text-cyan-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-cyan-500/20">قسم خدمة العملاء</span>
+                    <h2 class="text-3xl md:text-4xl font-black mt-4 mb-3">هل تريد موقعاً خاصاً لعملك أو مشروعك؟</h2>
+                    <p class="text-slate-300 text-sm md:text-base">دعنا نساعدك في تصميم، تطوير، وإطلاق موقعك الإلكتروني الاحترافي بالكامل.</p>
                 </div>
-            </div>
-        </section>
 
-        <!-- 2. قسم خدمة تصميم المواقع -->
-        <section id="webserviceSection" class="tab-content hidden bg-gradient-to-br from-slate-800 to-slate-800/80 border border-cyan-500/40 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
-            <div class="text-center max-w-2xl mx-auto mb-8">
-                <span class="bg-cyan-500/10 text-cyan-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-cyan-500/20">قسم خدمة العملاء</span>
-                <h2 id="webServiceTitleText" class="text-3xl md:text-4xl font-black mt-4 mb-3">هل تريد موقعاً خاصاً لعملك أو مشروعك؟</h2>
-                <p id="webServiceDescText" class="text-slate-300 text-sm md:text-base">دعنا نساعدك في تصميم، تطوير، وإطلاق موقعك الإلكتروني الاحترافي بالكامل.</p>
-            </div>
-
-            <form id="siteOrderForm" class="space-y-4 max-w-xl mx-auto">
-                <div class="grid md:grid-cols-2 gap-4">
+                <form id="siteOrderForm" class="space-y-4 max-w-xl mx-auto">
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">اسمك الكريم:</label>
+                            <input type="text" id="clientName" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-cyan-400" placeholder="مثال: أحمد محمد">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">وسيلة التواصل (بريد/هاتف):</label>
+                            <input type="text" id="clientContact" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-cyan-400" placeholder="رقم الهاتف أو البريد">
+                        </div>
+                    </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">اسمك الكريم:</label>
-                        <input type="text" id="clientName" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-cyan-400" placeholder="مثال: أحمد محمد">
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">نوع الموقع المطلوب:</label>
+                        <select id="projectType" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-cyan-400">
+                            <option value="موقع شخصي / معرض أعمال">موقع شخصي / معرض أعمال (Portfolio)</option>
+                            <option value="صفحة هبوط تسويقية">صفحة هبوط تسويقية (Landing Page)</option>
+                            <option value="منصة أدوات">منصة أدوات أو خدمات مصغرة</option>
+                            <option value="موقع شركة أو نشاط تجاري">موقع شركة أو نشاط تجاري</option>
+                        </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">وسيلة التواصل (بريد/هاتف):</label>
-                        <input type="text" id="clientContact" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-cyan-400" placeholder="رقم الهاتف أو البريد">
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">تفاصيل إضافية:</label>
+                        <textarea id="projectDetails" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-cyan-400" placeholder="اكتب نبذة مختصرة عن فكرة موقعك..."></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-slate-950 font-black py-3.5 rounded-xl transition shadow-lg">
+                        إرسال طلب إنشاء الموقع
+                    </button>
+                    <p id="formSuccessMsg" class="hidden text-center text-emerald-400 text-sm font-semibold mt-2">تم تسجيل وإرسال طلبك بنجاح وسيتم مراجعته من الإدارة!</p>
+                </form>
+            </section>
+
+            <!-- 3. قسم المميزات -->
+            <section id="featuresSection" class="tab-content hidden space-y-8">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl md:text-4xl font-black mb-3">مميزات منصتنا الذكية</h2>
+                    <p class="text-slate-400">لماذا يختار المستخدمون خدماتنا وأدواتنا الرقمية؟</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-6 text-center">
+                    <div class="p-8 bg-slate-800/60 rounded-2xl border border-slate-700 shadow-xl">
+                        <div class="text-indigo-400 text-4xl mb-4">⚡</div>
+                        <h3 class="font-bold text-xl mb-2 text-slate-100">أدوات متجددة</h3>
+                        <p class="text-slate-400 text-sm">أدوات ذكية متنوعة تلبي احتياجاتك اليومية بسرعة وسهولة.</p>
+                    </div>
+                    <div class="p-8 bg-slate-800/60 rounded-2xl border border-slate-700 shadow-xl">
+                        <div class="text-cyan-400 text-4xl mb-4">🛠️</div>
+                        <h3 class="font-bold text-xl mb-2 text-slate-100">دعم ومساعدة تقنية</h3>
+                        <p class="text-slate-400 text-sm">فريق متخصص لمساعدتك في بناء وتنفيذ موقعك الإلكتروني الخاص.</p>
+                    </div>
+                    <div class="p-8 bg-slate-800/60 rounded-2xl border border-slate-700 shadow-xl">
+                        <div class="text-indigo-400 text-4xl mb-4">💎</div>
+                        <h3 class="font-bold text-xl mb-2 text-slate-100">حساب شخصي خاص</h3>
+                        <p class="text-slate-400 text-sm">تسجيل دخول مباشر لإدارة أدواتك وتفضيلاتك بكل أمان.</p>
                     </div>
                 </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">نوع الموقع المطلوب:</label>
-                    <select id="projectType" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-cyan-400">
-                        <option value="موقع شخصي / معرض أعمال">موقع شخصي / معرض أعمال (Portfolio)</option>
-                        <option value="صفحة هبوط تسويقية">صفحة هبوط تسويقية (Landing Page)</option>
-                        <option value="منصة أدوات">منصة أدوات أو خدمات مصغرة</option>
-                        <option value="موقع شركة أو نشاط تجاري">موقع شركة أو نشاط تجاري</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">تفاصيل إضافية:</label>
-                    <textarea id="projectDetails" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-cyan-400" placeholder="اكتب نبذة مختصرة عن فكرة موقعك..."></textarea>
-                </div>
-                <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-slate-950 font-black py-3.5 rounded-xl transition shadow-lg">
-                    إرسال طلب إنشاء الموقع
-                </button>
-                <p id="formSuccessMsg" class="hidden text-center text-emerald-400 text-sm font-semibold mt-2">تم تسجيل وإرسال طلبك بنجاح وسيتم مراجعته من الإدارة!</p>
-            </form>
-        </section>
+            </section>
 
-        <!-- 3. قسم المميزات -->
-        <section id="featuresSection" class="tab-content hidden space-y-8">
-            <div class="text-center mb-8">
-                <h2 class="text-3xl md:text-4xl font-black mb-3">مميزات منصتنا الذكية</h2>
-                <p class="text-slate-400">لماذا يختار المستخدمون خدماتنا وأدواتنا الرقمية؟</p>
-            </div>
-            <div class="grid md:grid-cols-3 gap-6 text-center">
-                <div class="p-8 bg-slate-800/60 rounded-2xl border border-slate-700 shadow-xl">
-                    <div class="text-indigo-400 text-4xl mb-4">⚡</div>
-                    <h3 class="font-bold text-xl mb-2 text-slate-100">أدوات متجددة</h3>
-                    <p class="text-slate-400 text-sm">أدوات ذكية متنوعة تلبي احتياجاتك اليومية بسرعة وسهولة.</p>
-                </div>
-                <div class="p-8 bg-slate-800/60 rounded-2xl border border-slate-700 shadow-xl">
-                    <div class="text-cyan-400 text-4xl mb-4">🛠️</div>
-                    <h3 class="font-bold text-xl mb-2 text-slate-100">دعم ومساعدة تقنية</h3>
-                    <p class="text-slate-400 text-sm">فريق متخصص لمساعدتك في بناء وتنفيذ موقعك الإلكتروني الخاص.</p>
-                </div>
-                <div class="p-8 bg-slate-800/60 rounded-2xl border border-slate-700 shadow-xl">
-                    <div class="text-indigo-400 text-4xl mb-4">💎</div>
-                    <h3 class="font-bold text-xl mb-2 text-slate-100">حساب شخصي خاص</h3>
-                    <p class="text-slate-400 text-sm">تسجيل دخول مباشر لإدارة أدواتك وتفضيلاتك بكل أمان.</p>
-                </div>
-            </div>
-        </section>
+        </div>
 
-        <!-- 4. قسم المصادقة -->
+        <!-- 4. قسم المصادقة وإدارة الحساب الشخصي (تعديل البيانات والصورة) -->
         <section id="authSection" class="tab-content hidden max-w-md mx-auto bg-slate-800 border border-slate-700 rounded-2xl p-8 shadow-2xl">
-            <div id="authContentArea">
-                <div id="loginFormContainer">
-                    <h2 class="text-2xl font-black mb-2 text-center">تسجيل الدخول لمنصتك</h2>
-                    <p class="text-slate-400 text-xs text-center mb-6">يجب تسجيل الدخول لاستخدام الأدوات</p>
-                    <form id="siteLoginForm" class="space-y-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">البريد الإلكتروني:</label>
-                            <input type="email" id="loginEmail" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-indigo-500" placeholder="name@example.com">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">كلمة المرور:</label>
-                            <input type="password" id="loginPassword" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-indigo-500" placeholder="••••••••">
-                        </div>
-                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl transition shadow-lg">
-                            تسجيل الدخول
-                        </button>
-                    </form>
-                    <div class="text-center mt-6 text-xs text-slate-400">
-                        ليس لديك حساب؟ <button onclick="toggleAuthMode('register')" class="text-indigo-400 font-bold underline">أنشئ حساباً جديداً</button>
+            <div id="loginFormContainer">
+                <h2 class="text-2xl font-black mb-2 text-center">تسجيل الدخول لمنصتك</h2>
+                <p class="text-slate-400 text-xs text-center mb-6">أدخل بريدك وكلمة المرور الخاصة بحسابك</p>
+                <form id="siteLoginForm" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">البريد الإلكتروني:</label>
+                        <input type="email" id="loginEmail" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-indigo-500" placeholder="name@example.com">
                     </div>
-                </div>
-
-                <div id="registerFormContainer" class="hidden">
-                    <h2 class="text-2xl font-black mb-2 text-center">إنشاء حساب جديد</h2>
-                    <p class="text-slate-400 text-xs text-center mb-6">سجل اسمك للبدء الفوري في المنصة</p>
-                    <form id="siteRegisterForm" class="space-y-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">الاسم الكريم:</label>
-                            <input type="text" id="regName" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-indigo-500" placeholder="اسمك الكامل">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">البريد الإلكتروني:</label>
-                            <input type="email" id="regEmail" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-indigo-500" placeholder="name@example.com">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">كلمة المرور:</label>
-                            <input type="password" id="regPassword" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-indigo-500" placeholder="••••••••">
-                        </div>
-                        <button type="submit" class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3 rounded-xl transition shadow-lg">
-                            تسجيل الحساب والبدء
-                        </button>
-                    </form>
-                    <div class="text-center mt-6 text-xs text-slate-400">
-                        لديك حساب بالفعل؟ <button onclick="toggleAuthMode('login')" class="text-cyan-400 font-bold underline">سجل دخولك هنا</button>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">كلمة المرور:</label>
+                        <input type="password" id="loginPassword" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-indigo-500" placeholder="••••••••">
                     </div>
+                    <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl transition shadow-lg">
+                        تسجيل الدخول
+                    </button>
+                </form>
+                <div class="text-center mt-6 text-xs text-slate-400">
+                    ليس لديك حساب ببيانات خاصة؟ <button onclick="openAuthMode('register')" class="text-indigo-400 font-bold underline">أنشئ حساباً جديداً</button>
                 </div>
+            </div>
 
-                <div id="userDashboard" class="hidden text-center space-y-4">
-                    <div class="w-16 h-16 bg-indigo-600/30 border border-indigo-500 text-indigo-400 rounded-full flex items-center justify-center text-2xl font-black mx-auto">
+            <div id="registerFormContainer" class="hidden">
+                <h2 class="text-2xl font-black mb-2 text-center">إنشاء حساب جديد ببياناتك</h2>
+                <p class="text-slate-400 text-xs text-center mb-6">سجل بياناتك الخاصة للوصول للمنصة</p>
+                <form id="siteRegisterForm" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">الاسم الكريم:</label>
+                        <input type="text" id="regName" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-indigo-500" placeholder="اسمك الكامل">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">البريد الإلكتروني:</label>
+                        <input type="email" id="regEmail" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-indigo-500" placeholder="name@example.com">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">كلمة المرور الخاصة بك:</label>
+                        <input type="password" id="regPassword" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-indigo-500" placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3 rounded-xl transition shadow-lg">
+                        حفظ بياناتي وإنشاء الحساب
+                    </button>
+                </form>
+                <div class="text-center mt-6 text-xs text-slate-400">
+                    لديك حساب بالفعل؟ <button onclick="openAuthMode('login')" class="text-cyan-400 font-bold underline">سجل دخولك هنا</button>
+                </div>
+            </div>
+
+            <!-- لوحة تحكم الحساب الشخصي وتعديل البيانات والصورة -->
+            <div id="userDashboard" class="hidden space-y-6">
+                <div class="text-center space-y-3 border-b border-slate-700 pb-6">
+                    <div id="userAvatarContainer" class="w-20 h-20 bg-indigo-600/30 border-2 border-indigo-500 text-indigo-300 rounded-full flex items-center justify-center text-3xl font-black mx-auto overflow-hidden shadow-lg">
                         <span id="userInitial">U</span>
                     </div>
                     <h3 class="text-xl font-bold" id="welcomeUserTitle">أهلاً بك</h3>
                     <p class="text-slate-400 text-xs" id="welcomeUserEmail">user@example.com</p>
-                    <button onclick="siteLogout()" class="w-full bg-red-600/20 border border-red-500/50 hover:bg-red-600 text-red-300 hover:text-white font-bold py-2.5 rounded-xl transition text-sm">
-                        تسجيل الخروج
-                    </button>
                 </div>
+
+                <div class="space-y-4">
+                    <h4 class="font-bold text-sm text-indigo-400">تعديل بيانات الحساب والصورة الشخصية:</h4>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">تحديث الاسم:</label>
+                        <input type="text" id="editUserName" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-sm text-slate-100">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">رابط صورة شخصية جديدة (صورة عبر الإنترنت):</label>
+                        <input type="text" id="editUserAvatar" placeholder="https://example.com/image.jpg" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-sm text-slate-100">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">كلمة المرور الجديدة:</label>
+                        <input type="password" id="editUserPassword" placeholder="اتركها فارغة إن لمغن ترغب بتغييرها" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-sm text-slate-100">
+                    </div>
+                    <button onclick="saveUserProfileChanges()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 rounded-xl transition text-sm shadow">
+                        حفظ التعديلات الشخصية
+                    </button>
+                    <p id="profileSavedMsg" class="hidden text-center text-emerald-400 text-xs font-semibold">تم تحديث بياناتك الشخصية بنجاح!</p>
+                </div>
+
+                <button onclick="siteLogout()" class="w-full bg-red-600/20 border border-red-500/50 hover:bg-red-600 text-red-300 hover:text-white font-bold py-2.5 rounded-xl transition text-sm">
+                    تسجيل الخروج
+                </button>
             </div>
         </section>
 
@@ -237,10 +270,10 @@
                         <h2 class="text-2xl font-black text-amber-400">لوحة تحكم المسؤول المتقدمة</h2>
                         <p class="text-slate-400 text-xs">إدارة محتوى المنصة، الطلبات، والمستخدمين بالكامل</p>
                     </div>
-                    <button onclick="adminLogout()" class="bg-red-500/20 border border-red-500 text-red-300 hover:bg-red-500 hover:text-white px-3 py-1.5 rounded-xl text-xs font-bold transition">خروج</button>
+                    <button onclick="adminLogout()" class="bg-red-500/20 border border-red-500 text-red-300 hover:bg-red-500 hover:text-white px-3 py-1.5 rounded-xs text-xs font-bold transition">خروج</button>
                 </div>
 
-                <!-- قسم الإحصائيات الحية -->
+                <!-- إحصائيات حية -->
                 <div class="grid grid-cols-2 gap-4">
                     <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 text-center">
                         <p class="text-slate-400 text-xs">إجمالي المستخدمين المسجلين</p>
@@ -252,7 +285,7 @@
                     </div>
                 </div>
 
-                <!-- إعدادات عامة للموقع -->
+                <!-- إعدادات عامة -->
                 <div class="space-y-4 border-t border-slate-700 pt-4">
                     <h3 class="font-bold text-sm text-amber-400">إعدادات المحتوى والشعار:</h3>
                     <div>
@@ -279,7 +312,7 @@
                     </div>
                 </div>
 
-                <!-- تغيير كلمة مرور المسؤول من داخل اللوحة -->
+                <!-- تغيير كلمة مرور المسؤول -->
                 <div class="border-t border-slate-700 pt-4 space-y-3">
                     <h3 class="font-bold text-sm text-amber-400">تغيير كلمة مرور المسؤول:</h3>
                     <div class="flex gap-2">
@@ -288,7 +321,7 @@
                     </div>
                 </div>
 
-                <!-- قسم إدارة الطلبات الواردة -->
+                <!-- إدارة الطلبات -->
                 <div class="border-t border-slate-700 pt-4 space-y-3">
                     <h3 class="font-bold text-sm text-cyan-400">طلبات تصميم المواقع الواردة:</h3>
                     <div id="adminOrdersList" class="space-y-2 max-h-48 overflow-y-auto text-xs bg-slate-900 p-3 rounded-xl border border-slate-700">
@@ -319,11 +352,30 @@
         });
 
         function switchTab(tabName) {
+            const isLogged = localStorage.getItem('site_user_logged') === 'true';
+            if (!isLogged && tabName !== 'auth' && tabName !== 'admin') {
+                alert('يجب تسجيل الدخول أولاً لتصفح أقسام المنصة!');
+                switchTab('auth');
+                return;
+            }
+
             const sections = ['toolsSection', 'webserviceSection', 'featuresSection', 'authSection', 'adminSection'];
             sections.forEach(sec => document.getElementById(sec).classList.add('hidden'));
+            
             document.getElementById(tabName + 'Section').classList.remove('hidden');
             if(tabName === 'admin') checkAdminSession();
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function openAuthMode(mode) {
+            switchTab('auth');
+            if (mode === 'register') {
+                document.getElementById('loginFormContainer').classList.add('hidden');
+                document.getElementById('registerFormContainer').classList.remove('hidden');
+            } else {
+                document.getElementById('registerFormContainer').classList.add('hidden');
+                document.getElementById('loginFormContainer').classList.remove('hidden');
+            }
         }
 
         function loadSiteSettings() {
@@ -346,7 +398,6 @@
             document.getElementById('settingLogoBg').value = logoBg;
             document.getElementById('settingMainHeading').value = heading;
 
-            // تحديث الإحصائيات
             const users = JSON.parse(localStorage.getItem('site_users_db') || '[]');
             const orders = JSON.parse(localStorage.getItem('site_orders_db') || '[]');
             document.getElementById('statUsersCount').textContent = users.length;
@@ -368,12 +419,9 @@
 
         function updateAdminPassword() {
             const newPass = document.getElementById('newAdminPassword').value;
-            if(!newPass) {
-                alert('الرجاء كتابة كلمة المرور الجديدة!');
-                return;
-            }
+            if(!newPass) { alert('الرجاء كتابة كلمة المرور الجديدة!'); return; }
             localStorage.setItem('admin_custom_pass', newPass);
-            alert('تم تغيير كلمة مرور المسؤول بنجاح! كلمة المرور الجديدة أصبحت: ' + newPass);
+            alert('تم تغيير كلمة مرور المسؤول بنجاح: ' + newPass);
             document.getElementById('newAdminPassword').value = '';
         }
 
@@ -387,7 +435,7 @@
                 <div class="p-2.5 bg-slate-800 rounded-lg border border-slate-700 flex justify-between items-center">
                     <div>
                         <strong class="text-cyan-400">${o.name}</strong> (${o.contact})<br>
-                        <span class="text-slate-300">النوع: ${o.type}</span> - <span class="text-slate-400">${o.details || 'بدون تفاصيل'}</span>
+                        <span class="text-slate-300">النوع: ${o.type}</span>
                     </div>
                     <button onclick="deleteOrder(${index})" class="text-red-400 hover:text-red-300 text-xs px-2 py-1 bg-red-500/10 rounded">حذف</button>
                 </div>
@@ -429,7 +477,6 @@
             checkAdminSession();
         }
 
-        // التعامل مع طلبات تصميم المواقع وحفظها داخل النظام
         document.getElementById('siteOrderForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const newOrder = {
@@ -448,8 +495,8 @@
             setTimeout(() => document.getElementById('formSuccessMsg').classList.add('hidden'), 4000);
         });
 
-        // إدارة المستخدمين والتسجيل
-        function toggleAuthMode(mode) {
+        // إدارة الحسابات وبيانات المستخدمين الخاصة
+        function openAuthMode(mode) {
             if (mode === 'register') {
                 document.getElementById('loginFormContainer').classList.add('hidden');
                 document.getElementById('registerFormContainer').classList.remove('hidden');
@@ -463,14 +510,17 @@
             e.preventDefault();
             const name = document.getElementById('regName').value;
             const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
             
             let users = JSON.parse(localStorage.getItem('site_users_db') || '[]');
-            users.push({ name, email });
+            users.push({ name, email, password, avatar: '' });
             localStorage.setItem('site_users_db', JSON.stringify(users));
 
             localStorage.setItem('site_user_name', name);
             localStorage.setItem('site_user_email', email);
+            localStorage.setItem('site_user_avatar', '');
             localStorage.setItem('site_user_logged', 'true');
+            
             checkSessionState();
             switchTab('tools');
         });
@@ -478,42 +528,103 @@
         document.getElementById('siteLoginForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const email = document.getElementById('loginEmail').value;
-            const name = email.split('@')[0];
+            const password = document.getElementById('loginPassword').value;
+            
+            let users = JSON.parse(localStorage.getItem('site_users_db') || '[]');
+            let foundUser = users.find(u => u.email === email);
+
+            if (foundUser && foundUser.password !== password) {
+                alert('كلمة المرور غير صحيحة!');
+                return;
+            }
+
+            let name = foundUser ? foundUser.name : email.split('@')[0];
+            let avatar = foundUser ? (foundUser.avatar || '') : '';
+
+            if(!foundUser) {
+                users.push({ name, email, password, avatar: '' });
+                localStorage.setItem('site_users_db', JSON.stringify(users));
+            }
+
             localStorage.setItem('site_user_name', name);
             localStorage.setItem('site_user_email', email);
+            localStorage.setItem('site_user_avatar', avatar);
             localStorage.setItem('site_user_logged', 'true');
+            
             checkSessionState();
             switchTab('tools');
         });
 
+        function saveUserProfileChanges() {
+            const newName = document.getElementById('editUserName').value;
+            const newAvatar = document.getElementById('editUserAvatar').value;
+            const currentEmail = localStorage.getItem('site_user_email');
+
+            let users = JSON.parse(localStorage.getItem('site_users_db') || '[]');
+            let user = users.find(u => u.email === currentEmail);
+            if(user) {
+                if(newName) user.name = newName;
+                if(newAvatar) user.avatar = newAvatar;
+                localStorage.setItem('site_users_db', JSON.stringify(users));
+            }
+
+            if(newName) localStorage.setItem('site_user_name', newName);
+            if(newAvatar) localStorage.setItem('site_user_avatar', newAvatar);
+
+            checkSessionState();
+            const msg = document.getElementById('profileSavedMsg');
+            msg.classList.remove('hidden');
+            setTimeout(() => msg.classList.add('hidden'), 3000);
+        }
+
         function checkSessionState() {
             const isLogged = localStorage.getItem('site_user_logged') === 'true';
+            const globalLock = document.getElementById('globalLockScreen');
+            const protectedContent = document.getElementById('protectedPlatformContent');
+            const nav = document.getElementById('mainNav');
+
             if (isLogged) {
+                globalLock.classList.add('hidden');
+                protectedContent.classList.remove('hidden');
+                nav.classList.remove('hidden');
+
                 document.getElementById('loginFormContainer').classList.add('hidden');
                 document.getElementById('registerFormContainer').classList.add('hidden');
                 document.getElementById('userDashboard').classList.remove('hidden');
                 
                 const name = localStorage.getItem('site_user_name');
+                const email = localStorage.getItem('site_user_email');
+                const avatar = localStorage.getItem('site_user_avatar');
+
                 document.getElementById('welcomeUserTitle').textContent = `أهلاً بك، ${name}`;
-                document.getElementById('welcomeUserEmail').textContent = localStorage.getItem('site_user_email');
-                document.getElementById('userInitial').textContent = name.charAt(0).toUpperCase();
+                document.getElementById('welcomeUserEmail').textContent = email;
                 document.getElementById('navAuthLabel').textContent = `👤 ${name}`;
                 document.getElementById('activeUserBadge').textContent = `👤 مسجل: ${name}`;
 
-                document.getElementById('lockNotice').classList.add('hidden');
-                document.getElementById('toolsContentBox').classList.remove('opacity-40', 'pointer-events-none');
+                document.getElementById('editUserName').value = name;
+                document.getElementById('editUserAvatar').value = avatar || '';
+
+                const avatarBox = document.getElementById('userAvatarContainer');
+                if (avatar) {
+                    avatarBox.innerHTML = `<img src="${avatar}" class="w-full h-full object-cover">`;
+                } else {
+                    document.getElementById('userInitial').textContent = name.charAt(0).toUpperCase();
+                }
             } else {
+                globalLock.classList.remove('hidden');
+                protectedContent.classList.add('hidden');
+                nav.classList.add('hidden');
+
                 document.getElementById('userDashboard').classList.add('hidden');
                 document.getElementById('loginFormContainer').classList.remove('hidden');
-                document.getElementById('navAuthLabel').textContent = 'حسابي / الدخول';
-                document.getElementById('lockNotice').classList.remove('hidden');
-                document.getElementById('toolsContentBox').classList.add('opacity-40', 'pointer-events-none');
+                document.getElementById('navAuthLabel').textContent = 'حسابي / بياناتي';
             }
         }
 
         function siteLogout() {
             localStorage.removeItem('site_user_logged');
             checkSessionState();
+            switchTab('auth');
         }
 
         function updateConversionDropdown() {
@@ -530,15 +641,11 @@
             `;
         }
 
-        // تشغيل معالجة الملفات والأدوات
         let selectedFile = null;
         const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('fileInput');
 
-        dropZone.addEventListener('click', () => {
-            if(localStorage.getItem('site_user_logged') === 'true') fileInput.click();
-            else { alert('يرجى تسجيل الدخول أولاً!'); switchTab('auth'); }
-        });
+        dropZone.addEventListener('click', () => fileInput.click());
 
         fileInput.addEventListener('change', (e) => {
             if (e.target.files.length > 0) {
@@ -549,7 +656,6 @@
         });
 
         document.getElementById('convertBtn').addEventListener('click', () => {
-            if(localStorage.getItem('site_user_logged') !== 'true') { switchTab('auth'); return; }
             if(!selectedFile) { alert('الرجاء اختيار ملف أولاً!'); return; }
             
             const type = document.getElementById('conversionType').value;
@@ -565,7 +671,7 @@
                         img.onload = function() {
                             const canvas = document.createElement('canvas');
                             canvas.width = img.width; canvas.height = img.height;
-                            canvas.getContext('2d').drawImage(img, 0, 0);
+                            canvas.getContext('2D').drawImage(img, 0, 0);
                             let mime = 'image/jpeg', ext = 'jpg';
                             if(type === 'img-to-png') { mime = 'image/png'; ext = 'png'; }
                             if(type === 'img-to-webp') { mime = 'image/webp'; ext = 'webp'; }
