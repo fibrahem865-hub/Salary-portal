@@ -8,13 +8,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; }
+        body { font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
     </style>
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between">
 
     <!-- Header -->
-    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50">
+    <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-3 space-x-reverse">
                 <div class="bg-indigo-600 text-white p-2 rounded-xl font-black text-xl">YS</div>
@@ -23,7 +23,7 @@
             
             <nav class="hidden md:flex space-x-6 space-x-reverse text-sm text-slate-300 items-center">
                 <a href="#tools" class="hover:text-indigo-400 transition">الأدوات الذكية</a>
-                <a href="#webservice" class="hover:text-indigo-400 transition text-cyan-400 font-semibold">خدمة تصميم المواقع</a>
+                <a href="#webservice" class="hover:text-cyan-400 transition font-bold text-cyan-400">تصميم المواقع</a>
                 <a href="#features" class="hover:text-indigo-400 transition">المميزات</a>
                 
                 <!-- زر تسجيل الدخول -->
@@ -43,10 +43,10 @@
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-4xl mx-auto px-4 py-12 flex-grow w-full space-y-16">
+    <main class="max-w-4xl mx-auto px-4 py-12 flex-grow w-full space-y-24">
         
-        <!-- قسم الأدوات والتحويل -->
-        <section id="tools">
+        <!-- قسم الأدوات والتحويل (مستقل تماماً) -->
+        <section id="tools" class="pt-6">
             <div class="text-center mb-10">
                 <h1 class="text-4xl md:text-5xl font-black mb-4 tracking-tight">منصة أدواتك الذكية الشاملة</h1>
                 <p class="text-slate-400 text-lg">حول ملفاتك، أنجز مهامك، واستمتع بأدوات رقمية سريعة ومجانية.</p>
@@ -92,13 +92,13 @@
             </div>
         </section>
 
-        <!-- قسم خدمة مساعدة الناس في إنشاء مواقعهم -->
-        <section id="webservice" class="bg-gradient-to-br from-slate-800 to-slate-800/80 border border-cyan-500/30 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+        <!-- قسم خدمة تصميم المواقع (قسم مستقل بذاته وعليه تركيز كامل) -->
+        <section id="webservice" class="bg-gradient-to-br from-slate-800 to-slate-800/80 border border-cyan-500/40 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden pt-10">
             <div class="absolute -top-24 -left-24 w-48 h-48 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
             
             <div class="text-center max-w-2xl mx-auto mb-8">
-                <span class="bg-cyan-500/10 text-cyan-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-cyan-500/20">خدمة حصرية</span>
-                <h2 class="text-3xl font-black mt-4 mb-3">هل تريد موقعاً خاصاً لعملك أو مشروعك؟</h2>
+                <span class="bg-cyan-500/10 text-cyan-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-cyan-500/20">قسم خدمة العملاء</span>
+                <h2 class="text-3xl md:text-4xl font-black mt-4 mb-3">هل تريد موقعاً خاصاً لعملك أو مشروعك؟</h2>
                 <p class="text-slate-300 text-sm md:text-base">دعنا نساعدك في تصميم، تطوير، وإطلاق موقعك الإلكتروني الاحترافي بالكامل وبأسعار مناسبة.</p>
             </div>
 
@@ -315,7 +315,6 @@
                         downloadLink.href = url;
                         const baseName = selectedFile.name.substring(0, selectedFile.name.lastIndexOf('.')) || 'text';
                         downloadLink.download = `${baseName}_smartsite.txt`;
-                        resultContainer.classList.منذ_قليلحهزن_النتايج; // (تم التصحيح إلى الأسلوب البرمجي السليم)
                         resultContainer.classList.remove('hidden');
                     };
                     reader.readAsText(selectedFile);
