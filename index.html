@@ -4,314 +4,695 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>BlueVideo</title>
+<title>BlueTube</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    background: #eef2f5;
-    color: #222;
+body{
+    background:#eeeeee;
+    font-family:Arial,Tahoma,sans-serif;
+    color:#333;
 }
 
-/* الهيدر */
-header {
-    background: #0878b9;
-    padding: 14px 5%;
-    display: flex;
-    align-items: center;
-    gap: 25px;
-    box-shadow: 0 2px 5px #999;
+/* ================= HEADER ================= */
+
+.header{
+    background:#0878b9;
+    height:70px;
+    display:flex;
+    align-items:center;
+    padding:0 4%;
+    gap:20px;
 }
 
-.logo {
-    color: white;
-    font-size: 27px;
-    font-weight: bold;
-    white-space: nowrap;
+.logo{
+    color:#fff;
+    font-size:30px;
+    font-weight:bold;
+    min-width:150px;
 }
 
-.search {
-    flex: 1;
-    display: flex;
-    max-width: 700px;
+.logo span{
+    color:#bdeaff;
 }
 
-.search input {
-    width: 100%;
-    height: 42px;
-    border: none;
-    padding: 0 15px;
-    font-size: 16px;
-    outline: none;
-    border-radius: 5px 0 0 5px;
+/* SEARCH */
+
+.search{
+    display:flex;
+    height:42px;
+    max-width:650px;
+    flex:1;
 }
 
-.search button {
-    width: 55px;
-    border: none;
-    background: #075d8e;
-    color: white;
-    font-size: 19px;
-    cursor: pointer;
-    border-radius: 0 5px 5px 0;
+.search input{
+    flex:1;
+    border:0;
+    outline:0;
+    padding:0 16px;
+    font-size:16px;
+    border-radius:5px 0 0 5px;
 }
 
-.login {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
+.search button{
+    width:55px;
+    border:0;
+    background:#055d8d;
+    color:white;
+    font-size:20px;
+    cursor:pointer;
+    border-radius:0 5px 5px 0;
 }
 
-/* القائمة */
-nav {
-    background: white;
-    border-bottom: 1px solid #ddd;
-    padding: 12px 5%;
-    overflow-x: auto;
-    white-space: nowrap;
+.search button:hover{
+    background:#044b72;
 }
 
-nav a {
-    display: inline-block;
-    color: #333;
-    text-decoration: none;
-    margin-left: 22px;
-    font-size: 15px;
+.login{
+    color:#fff;
+    text-decoration:none;
+    font-size:15px;
+    white-space:nowrap;
 }
 
-nav a:hover {
-    color: #0878b9;
+/* ================= NAV ================= */
+
+.nav{
+    background:#fff;
+    border-bottom:1px solid #d6d6d6;
+    padding:0 4%;
+    height:48px;
+    display:flex;
+    align-items:center;
+    gap:25px;
+    overflow-x:auto;
 }
 
-/* المحتوى */
-.container {
-    width: 90%;
-    max-width: 1250px;
-    margin: 25px auto;
+.nav a{
+    color:#444;
+    text-decoration:none;
+    font-size:14px;
+    white-space:nowrap;
 }
 
-.title {
-    font-size: 23px;
-    margin-bottom: 18px;
-    color: #075d8e;
+.nav a:hover{
+    color:#0878b9;
 }
 
-/* الكروت */
-.videos {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
+/* ================= PAGE ================= */
+
+.container{
+    width:92%;
+    max-width:1250px;
+    margin:25px auto;
 }
 
-.card {
-    background: white;
-    border-radius: 6px;
-    overflow: hidden;
-    box-shadow: 0 1px 5px #ccc;
-    transition: .2s;
+.section-title{
+    background:#fff;
+    border-right:4px solid #0878b9;
+    padding:13px 16px;
+    margin-bottom:15px;
+    font-size:21px;
 }
 
-.card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 12px #bbb;
+/* ================= VIDEO GRID ================= */
+
+.video-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
 }
 
-.thumbnail {
-    height: 155px;
-    background: linear-gradient(135deg, #168fd0, #063c64);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 42px;
+.video-card{
+    background:#fff;
+    border:1px solid #ddd;
+    border-radius:4px;
+    overflow:hidden;
+    cursor:pointer;
+    transition:.2s;
 }
 
-.info {
-    padding: 12px;
+.video-card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 4px 12px rgba(0,0,0,.18);
 }
 
-.info h3 {
-    font-size: 16px;
-    margin-bottom: 8px;
-    line-height: 1.4;
+/* THUMBNAIL */
+
+.thumbnail{
+    height:155px;
+    position:relative;
+    background:linear-gradient(135deg,#0878b9,#022e4a);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-size:45px;
 }
 
-.views {
-    color: #888;
-    font-size: 13px;
+.play{
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    background:rgba(255,255,255,.9);
+    color:#0878b9;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px;
+    padding-right:3px;
 }
 
-/* زر تحميل المزيد */
-.more {
-    display: block;
-    width: 200px;
-    margin: 30px auto;
-    padding: 12px;
-    background: #0878b9;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
+.duration{
+    position:absolute;
+    left:8px;
+    bottom:7px;
+    background:rgba(0,0,0,.8);
+    color:#fff;
+    padding:4px 7px;
+    font-size:12px;
+    border-radius:3px;
 }
 
-.more:hover {
-    background: #075d8e;
+/* VIDEO INFO */
+
+.info{
+    padding:11px;
 }
 
-/* الفوتر */
-footer {
-    margin-top: 40px;
-    background: #063c64;
-    color: white;
-    text-align: center;
-    padding: 25px;
+.info h3{
+    font-size:15px;
+    line-height:1.5;
+    margin-bottom:7px;
 }
 
-/* الموبايل */
-@media (max-width: 900px) {
-    .videos {
-        grid-template-columns: repeat(2, 1fr);
+.meta{
+    color:#888;
+    font-size:12px;
+}
+
+/* ================= CATEGORIES ================= */
+
+.categories{
+    margin-top:30px;
+}
+
+.category-list{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    background:#fff;
+    padding:15px;
+}
+
+.category{
+    background:#0878b9;
+    color:#fff;
+    padding:9px 18px;
+    border-radius:4px;
+    cursor:pointer;
+    font-size:13px;
+}
+
+.category:hover{
+    background:#055d8d;
+}
+
+/* ================= LOAD MORE ================= */
+
+.load-more{
+    display:block;
+    margin:28px auto;
+    padding:12px 40px;
+    border:0;
+    background:#0878b9;
+    color:#fff;
+    font-size:15px;
+    border-radius:4px;
+    cursor:pointer;
+}
+
+.load-more:hover{
+    background:#055d8d;
+}
+
+/* ================= FOOTER ================= */
+
+.footer{
+    margin-top:40px;
+    background:#073c5c;
+    color:#fff;
+    text-align:center;
+    padding:28px;
+    font-size:13px;
+}
+
+/* ================= VIDEO MODAL ================= */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.85);
+    z-index:1000;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal-box{
+    background:#111;
+    width:900px;
+    max-width:100%;
+    border-radius:5px;
+    overflow:hidden;
+}
+
+.modal-video{
+    width:100%;
+    aspect-ratio:16/9;
+    background:#000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-size:30px;
+}
+
+.close{
+    position:absolute;
+    top:20px;
+    left:25px;
+    color:white;
+    font-size:30px;
+    cursor:pointer;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:1000px){
+
+    .video-grid{
+        grid-template-columns:repeat(3,1fr);
     }
 
-    header {
-        flex-wrap: wrap;
-    }
-
-    .search {
-        order: 3;
-        flex-basis: 100%;
-        max-width: none;
-    }
 }
 
-@media (max-width: 500px) {
-    .videos {
-        grid-template-columns: 1fr;
+@media(max-width:700px){
+
+    .header{
+        height:auto;
+        padding:12px 4%;
+        flex-wrap:wrap;
     }
 
-    .thumbnail {
-        height: 190px;
+    .logo{
+        font-size:24px;
+        min-width:auto;
     }
 
-    .logo {
-        font-size: 22px;
+    .login{
+        margin-right:auto;
     }
+
+    .search{
+        order:3;
+        flex-basis:100%;
+    }
+
+    .video-grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:10px;
+    }
+
+    .thumbnail{
+        height:130px;
+    }
+
+}
+
+@media(max-width:430px){
+
+    .video-grid{
+        grid-template-columns:1fr;
+    }
+
+    .thumbnail{
+        height:190px;
+    }
+
+    .container{
+        width:94%;
+    }
+
 }
 </style>
 </head>
 
 <body>
 
-<header>
+<!-- ================= HEADER ================= -->
+
+<header class="header">
 
     <div class="logo">
-        BlueVideo
+        Blue<span>Tube</span>
     </div>
 
     <div class="search">
-        <input type="text" placeholder="ابحث عن فيديو...">
-        <button>🔍</button>
+        <input
+            id="searchInput"
+            type="text"
+            placeholder="ابحث عن فيديو..."
+        >
+
+        <button onclick="searchVideos()">
+            🔍
+        </button>
     </div>
 
-    <a href="#" class="login">تسجيل الدخول</a>
+    <a href="#" class="login">
+        تسجيل الدخول
+    </a>
 
 </header>
 
-<nav>
+
+<!-- ================= NAV ================= -->
+
+<nav class="nav">
+
     <a href="#">الرئيسية</a>
     <a href="#">الأحدث</a>
     <a href="#">الأكثر مشاهدة</a>
     <a href="#">الشائع</a>
     <a href="#">الفئات</a>
     <a href="#">المفضلة</a>
+    <a href="#">رفع فيديو</a>
+
 </nav>
+
+
+<!-- ================= CONTENT ================= -->
 
 <main class="container">
 
-    <h2 class="title">أحدث الفيديوهات</h2>
+    <div class="section-title">
+        أحدث الفيديوهات
+    </div>
 
-    <section class="videos">
 
-        <div class="card">
-            <div class="thumbnail">▶</div>
+    <section class="video-grid" id="videoGrid">
+
+        <div class="video-card" onclick="openVideo('فيديو تجريبي 1')">
+
+            <div class="thumbnail">
+                <div class="play">▶</div>
+                <div class="duration">10:25</div>
+            </div>
+
             <div class="info">
                 <h3>فيديو تجريبي رقم 1</h3>
-                <div class="views">1.2K مشاهدة</div>
+                <div class="meta">
+                    1.2K مشاهدة • منذ ساعتين
+                </div>
             </div>
+
         </div>
 
-        <div class="card">
-            <div class="thumbnail">▶</div>
+
+        <div class="video-card" onclick="openVideo('فيديو تجريبي 2')">
+
+            <div class="thumbnail">
+                <div class="play">▶</div>
+                <div class="duration">07:41</div>
+            </div>
+
             <div class="info">
                 <h3>فيديو تجريبي رقم 2</h3>
-                <div class="views">845 مشاهدة</div>
+                <div class="meta">
+                    845 مشاهدة • منذ 3 ساعات
+                </div>
             </div>
+
         </div>
 
-        <div class="card">
-            <div class="thumbnail">▶</div>
+
+        <div class="video-card" onclick="openVideo('فيديو تجريبي 3')">
+
+            <div class="thumbnail">
+                <div class="play">▶</div>
+                <div class="duration">15:32</div>
+            </div>
+
             <div class="info">
                 <h3>فيديو تجريبي رقم 3</h3>
-                <div class="views">2.4K مشاهدة</div>
+                <div class="meta">
+                    3.4K مشاهدة • منذ 5 ساعات
+                </div>
             </div>
+
         </div>
 
-        <div class="card">
-            <div class="thumbnail">▶</div>
+
+        <div class="video-card" onclick="openVideo('فيديو تجريبي 4')">
+
+            <div class="thumbnail">
+                <div class="play">▶</div>
+                <div class="duration">04:58</div>
+            </div>
+
             <div class="info">
                 <h3>فيديو تجريبي رقم 4</h3>
-                <div class="views">3.1K مشاهدة</div>
+                <div class="meta">
+                    2.1K مشاهدة • منذ 6 ساعات
+                </div>
             </div>
+
         </div>
 
-        <div class="card">
-            <div class="thumbnail">▶</div>
+
+        <div class="video-card" onclick="openVideo('فيديو تجريبي 5')">
+
+            <div class="thumbnail">
+                <div class="play">▶</div>
+                <div class="duration">09:16</div>
+            </div>
+
             <div class="info">
                 <h3>فيديو تجريبي رقم 5</h3>
-                <div class="views">920 مشاهدة</div>
+                <div class="meta">
+                    950 مشاهدة • أمس
+                </div>
             </div>
+
         </div>
 
-        <div class="card">
-            <div class="thumbnail">▶</div>
+
+        <div class="video-card" onclick="openVideo('فيديو تجريبي 6')">
+
+            <div class="thumbnail">
+                <div class="play">▶</div>
+                <div class="duration">12:03</div>
+            </div>
+
             <div class="info">
                 <h3>فيديو تجريبي رقم 6</h3>
-                <div class="views">5.6K مشاهدة</div>
+                <div class="meta">
+                    4.8K مشاهدة • أمس
+                </div>
             </div>
+
         </div>
 
-        <div class="card">
-            <div class="thumbnail">▶</div>
+
+        <div class="video-card" onclick="openVideo('فيديو تجريبي 7')">
+
+            <div class="thumbnail">
+                <div class="play">▶</div>
+                <div class="duration">06:35</div>
+            </div>
+
             <div class="info">
                 <h3>فيديو تجريبي رقم 7</h3>
-                <div class="views">1.8K مشاهدة</div>
+                <div class="meta">
+                    1.7K مشاهدة • أمس
+                </div>
             </div>
+
         </div>
 
-        <div class="card">
-            <div class="thumbnail">▶</div>
+
+        <div class="video-card" onclick="openVideo('فيديو تجريبي 8')">
+
+            <div class="thumbnail">
+                <div class="play">▶</div>
+                <div class="duration">18:20</div>
+            </div>
+
             <div class="info">
                 <h3>فيديو تجريبي رقم 8</h3>
-                <div class="views">4.2K مشاهدة</div>
+                <div class="meta">
+                    6.2K مشاهدة • منذ يومين
+                </div>
             </div>
+
         </div>
 
     </section>
 
-    <button class="more">تحميل المزيد</button>
+
+    <!-- CATEGORIES -->
+
+    <section class="categories">
+
+        <div class="section-title">
+            الفئات
+        </div>
+
+        <div class="category-list">
+
+            <div class="category">موسيقى</div>
+            <div class="category">رياضة</div>
+            <div class="category">ألعاب</div>
+            <div class="category">ترفيه</div>
+            <div class="category">أخبار</div>
+            <div class="category">تعليم</div>
+            <div class="category">تقنية</div>
+            <div class="category">مقاطع قصيرة</div>
+
+        </div>
+
+    </section>
+
+
+    <button class="load-more" onclick="loadMore()">
+        تحميل المزيد
+    </button>
 
 </main>
 
-<footer>
-    © 2026 BlueVideo - جميع الحقوق محفوظة
+
+<!-- ================= VIDEO MODAL ================= -->
+
+<div class="modal" id="videoModal">
+
+    <div class="close" onclick="closeVideo()">
+        ✕
+    </div>
+
+    <div class="modal-box">
+
+        <div class="modal-video" id="videoTitle">
+            ▶
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="footer">
+
+    © 2026 BlueTube — جميع الحقوق محفوظة
+
 </footer>
+
+
+<script>
+
+/* فتح الفيديو */
+
+function openVideo(title){
+
+    document.getElementById("videoTitle").innerHTML =
+        "▶ " + title;
+
+    document.getElementById("videoModal").style.display =
+        "flex";
+}
+
+
+/* إغلاق الفيديو */
+
+function closeVideo(){
+
+    document.getElementById("videoModal").style.display =
+        "none";
+}
+
+
+/* البحث */
+
+function searchVideos(){
+
+    let input =
+        document.getElementById("searchInput").value
+        .toLowerCase();
+
+    let cards =
+        document.querySelectorAll(".video-card");
+
+    cards.forEach(function(card){
+
+        let title =
+            card.querySelector("h3")
+            .innerText
+            .toLowerCase();
+
+        if(title.includes(input)){
+            card.style.display = "";
+        }else{
+            card.style.display = "none";
+        }
+
+    });
+
+}
+
+
+/* البحث بالضغط على Enter */
+
+document
+.getElementById("searchInput")
+.addEventListener("keypress",function(e){
+
+    if(e.key === "Enter"){
+        searchVideos();
+    }
+
+});
+
+
+/* زر تحميل المزيد */
+
+function loadMore(){
+
+    alert("هنا يمكنك ربط زر تحميل المزيد بقاعدة البيانات.");
+
+}
+
+
+/* الضغط خارج الفيديو */
+
+document
+.getElementById("videoModal")
+.addEventListener("click",function(e){
+
+    if(e.target === this){
+        closeVideo();
+    }
+
+});
+
+</script>
 
 </body>
 </html>
