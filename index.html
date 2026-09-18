@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Convify - المحول الشامل الفعلي للصور والنصوص</title>
+    <title>YourSmartSite - منصة الأدوات الذكية والمتحولات</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
@@ -17,29 +17,40 @@
     <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-3 space-x-reverse">
-                <div class="bg-indigo-600 text-white p-2 rounded-xl font-black text-xl">CV</div>
-                <span class="text-2xl font-bold tracking-wide bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">Convify</span>
+                <div class="bg-indigo-600 text-white p-2 rounded-xl font-black text-xl">YS</div>
+                <span class="text-2xl font-bold tracking-wide bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">YourSmartSite</span>
             </div>
-            <nav class="hidden md:flex space-x-6 space-x-reverse text-sm text-slate-300">
-                <a href="#converter" class="hover:text-indigo-400 transition">تحويل الملفات</a>
+            
+            <nav class="hidden md:flex space-x-6 space-x-reverse text-sm text-slate-300 items-center">
+                <a href="#tools" class="hover:text-indigo-400 transition">الأدوات الذكية</a>
                 <a href="#features" class="hover:text-indigo-400 transition">المميزات</a>
+                <!-- زر تسجيل الدخول بـ Google -->
+                <button id="googleLoginBtn" class="flex items-center space-x-2 space-x-reverse bg-white hover:bg-slate-100 text-slate-900 px-4 py-2 rounded-xl font-semibold text-sm transition shadow-md">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+                        <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.19v3.15C3.17 21.36 7.23 24 12 24z"/>
+                        <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.19C.43 8.12 0 9.87 0 11.7c0 1.83.43 3.58 1.19 5.12l4.09-2.55z"/>
+                        <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.23 0 3.17 2.64 1.19 6.58l4.09 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                    </svg>
+                    <span>تسجيل الدخول بـ Google</span>
+                </button>
             </nav>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-4xl mx-auto px-4 py-12 flex-grow w-full" id="converter">
+    <main class="max-w-4xl mx-auto px-4 py-12 flex-grow w-full" id="tools">
         <div class="text-center mb-10">
-            <h1 class="text-4xl md:text-5xl font-black mb-4 tracking-tight">المحول الذكي والفعلي لملفاتك</h1>
-            <p class="text-slate-400 text-lg">حول صورك ومعالجة نصوصك مباشرة وبشكل آمن تماماً داخل متصفحك.</p>
+            <h1 class="text-4xl md:text-5xl font-black mb-4 tracking-tight">منصة أدواتك الذكية الشاملة</h1>
+            <p class="text-slate-400 text-lg">حول ملفاتك، أنجز مهامك، واستمتع بأدوات رقمية سريعة ومجانية.</p>
         </div>
 
-        <!-- Converter Card -->
+        <!-- Tools Hub Card -->
         <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 md:p-8 shadow-2xl">
             
-            <!-- Format Selector Categories -->
+            <!-- Tool Category Selector -->
             <div class="mb-6 space-y-4">
-                <label class="block text-sm font-semibold text-slate-300">اختر نوع التحويل المطلوب:</label>
+                <label class="block text-sm font-semibold text-slate-300">اختر الأداة المطلوبة:</label>
                 
                 <select id="conversionType" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 focus:outline-none focus:border-indigo-500 transition">
                     <optgroup label="🖼️ تحويل الصور الفعلي">
@@ -47,9 +58,9 @@
                         <option value="img-to-png">تحويل الصورة إلى PNG</option>
                         <option value="img-to-webp">تحويل الصورة إلى WEBP</option>
                     </optgroup>
-                    <optgroup label="✍️ أدوات النصوص الفورية">
-                        <option value="text-uppercase">تحويل النص الإنجليزي إلى أحرف كبيرة (UPPERCASE)</option>
-                        <option value="text-lowercase">تحويل النص الإنجليزي إلى أحرف صغيرة (lowercase)</option>
+                    <optgroup label="✍️ أدوات النصوص الذكية">
+                        <option value="text-uppercase">تحويل النص إلى أحرف كبيرة (UPPERCASE)</option>
+                        <option value="text-lowercase">تحويل النص إلى أحرف صغيرة (lowercase)</option>
                     </optgroup>
                 </select>
             </div>
@@ -68,14 +79,14 @@
 
             <!-- Action Button -->
             <button id="convertBtn" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-indigo-600/30">
-                بدء المعالجة والتحويل الفعلي
+                تشغيل الأداة والمعالجة الفورية
             </button>
 
             <!-- Result Box -->
             <div id="resultContainer" class="hidden mt-6 p-4 bg-slate-900 rounded-xl border border-slate-700 text-center">
-                <p class="text-green-400 font-semibold mb-3">تم تحويل الملف بنجاح تام!</p>
+                <p class="text-green-400 font-semibold mb-3">تم إنجاز العملية بنجاح تام!</p>
                 <a id="downloadLink" href="#" class="inline-block bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-2 rounded-lg font-bold transition">
-                    تنزيل الملف المحول
+                    تنزيل الملف الناتج
                 </a>
             </div>
 
@@ -86,27 +97,27 @@
     <section id="features" class="max-w-6xl mx-auto px-4 py-12 border-t border-slate-800 grid md:grid-cols-3 gap-6 text-center">
         <div class="p-6 bg-slate-800/50 rounded-2xl border border-slate-800">
             <div class="text-indigo-400 text-3xl mb-3">⚡</div>
-            <h3 class="font-bold text-lg mb-2">سرعة فائقة</h3>
-            <p class="text-slate-400 text-sm">التحويل يتم بلمح البصر داخل جهازك.</p>
+            <h3 class="font-bold text-lg mb-2">أدوات متجددة</h3>
+            <p class="text-slate-400 text-sm">منصة مصممة لتضم أدوات ذكية متنوعة تلبي احتياجاتك اليومية.</p>
         </div>
         <div class="p-6 bg-slate-800/50 rounded-2xl border border-slate-800">
             <div class="text-indigo-400 text-3xl mb-3">🔒</div>
-            <h3 class="font-bold text-lg mb-2">خصوصية مطلقة</h3>
-            <p class="text-slate-400 text-sm">ملفاتك لا تغادر متصفحك أبداً.</p>
+            <h3 class="font-bold text-lg mb-2">خصوصية عالية</h3>
+            <p class="text-slate-400 text-sm">معالجة سريعة وآمنة للملفات مباشرة داخل المتصفح.</p>
         </div>
         <div class="p-6 bg-slate-800/50 rounded-2xl border border-slate-800">
             <div class="text-indigo-400 text-3xl mb-3">💎</div>
-            <h3 class="font-bold text-lg mb-2">مجاني تماماً</h3>
-            <p class="text-slate-400 text-sm">استمتع بكافة الأدوات بدون قيود.</p>
+            <h3 class="font-bold text-lg mb-2">حساب شخصي</h3>
+            <p class="text-slate-400 text-sm">إمكانية تسجيل الدخول بحسابك لمتابعة استخدام أدواتك المفضلة.</p>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="border-t border-slate-800 bg-slate-900/50 py-6 text-center text-sm text-slate-500">
-        <p>&copy; 2026 Convify. جميع الحقوق محفوظة.</p>
+        <p>&copy; 2026 YourSmartSite. جميع الحقوق محفوظة.</p>
     </footer>
 
-    <!-- JavaScript Real Conversion Logic -->
+    <!-- JavaScript Logic -->
     <script>
         const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('fileInput');
@@ -115,8 +126,14 @@
         const resultContainer = document.getElementById('resultContainer');
         const downloadLink = document.getElementById('downloadLink');
         const conversionType = document.getElementById('conversionType');
+        const googleLoginBtn = document.getElementById('googleLoginBtn');
 
         let selectedFile = null;
+
+        // محاكاة زر تسجيل الدخول
+        googleLoginBtn.addEventListener('click', () => {
+            alert('قريباً سيتم تفعيل ربط تسجيل الدخول عبر Google Firebase لكي يتمكن الزوار من حفظ تفضيلاتهم!');
+        });
 
         dropZone.addEventListener('click', () => fileInput.click());
 
@@ -154,15 +171,14 @@
             }
 
             const chosenType = conversionType.value;
-            convertBtn.textContent = 'جاري التحويل الفعلي للملف...';
+            convertBtn.textContent = 'جاري تنفيذ الأداة...';
             convertBtn.disabled = true;
 
             setTimeout(() => {
-                convertBtn.textContent = 'بدء المعالجة والتحويل الفعلي';
+                convertBtn.textContent = 'تشغيل الأداة والمعالجة الفورية';
                 convertBtn.disabled = false;
 
                 if (chosenType.startsWith('img-')) {
-                    // التحويل الحقيقي للصور باستخدام Canvas
                     const reader = new FileReader();
                     reader.onload = function(event) {
                         const img = new Image();
@@ -187,7 +203,7 @@
                                 const url = URL.createObjectURL(blob);
                                 downloadLink.href = url;
                                 const baseName = selectedFile.name.substring(0, selectedFile.name.lastIndexOf('.')) || 'image';
-                                downloadLink.download = `${baseName}_convify.${ext}`;
+                                downloadLink.download = `${baseName}_smartsite.${ext}`;
                                 resultContainer.classList.remove('hidden');
                             }, mimeType, 0.9);
                         };
@@ -196,7 +212,6 @@
                     reader.readAsDataURL(selectedFile);
 
                 } else if (chosenType.startsWith('text-')) {
-                    // التحويل الحقيقي للنصوص
                     const reader = new FileReader();
                     reader.onload = function(event) {
                         let text = event.target.result;
@@ -210,7 +225,7 @@
                         const url = URL.createObjectURL(blob);
                         downloadLink.href = url;
                         const baseName = selectedFile.name.substring(0, selectedFile.name.lastIndexOf('.')) || 'text';
-                        downloadLink.download = `${baseName}_modified.txt`;
+                        downloadLink.download = `${baseName}_smartsite.txt`;
                         resultContainer.classList.remove('hidden');
                     };
                     reader.readAsText(selectedFile);
