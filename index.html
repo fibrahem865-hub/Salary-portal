@@ -10,7 +10,6 @@
     <style>
         body { font-family: 'Cairo', sans-serif; }
         
-        /* إيفكتات وحركات سلسة لكل الموقع */
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -19,7 +18,6 @@
             animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        /* تأثير التوهج والزجاج الضبابي الشامل (Glassmorphism) */
         .glass-card {
             background: rgba(15, 23, 42, 0.75);
             backdrop-filter: blur(16px);
@@ -30,10 +28,8 @@
 
         .glass-card:hover {
             border-color: rgba(99, 102, 241, 0.5);
-            box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.15);
         }
 
-        /* تخصيص شريط التمرير (Scrollbar) ليكون فخماً */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #020617; }
         ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
@@ -42,14 +38,14 @@
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between relative overflow-x-hidden selection:bg-indigo-500 selection:text-white">
 
-    <!-- خلفية مضيئة متحرّكة ذكية تغطي الموقع بالكامل -->
+    <!-- خلفية مضيئة متحرّكة ذكية -->
     <div class="fixed inset-0 overflow-hidden pointer-events-none -z-10">
         <div class="absolute -top-48 -left-48 w-[500px] h-[500px] bg-indigo-600/15 rounded-full blur-[140px] animate-pulse"></div>
         <div class="absolute top-1/3 -right-48 w-[500px] h-[500px] bg-cyan-600/15 rounded-full blur-[140px] animate-pulse" style="animation-duration: 5s;"></div>
         <div class="absolute -bottom-48 left-1/3 w-[500px] h-[500px] bg-purple-600/15 rounded-full blur-[140px] animate-pulse" style="animation-duration: 7s;"></div>
     </div>
 
-    <!-- Header بتأثير الزجاج والتفاعل -->
+    <!-- Header -->
     <header class="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-xl sticky top-0 z-50 transition-all duration-300">
         <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-3 space-x-reverse group cursor-pointer" onclick="switchTab('tools')">
@@ -226,7 +222,7 @@
                     </button>
                 </form>
                 <div class="text-center mt-6 text-xs text-slate-400">
-                    ليس لديك حساب ببيانات خاصة؟ <button onclick="openAuthMode('register')" class="text-indigo-400 font-bold underline">أنشئ حساباً جديداً</button>
+                    ليس لديك حساب ببيانات خاصة؟ <button type="button" onclick="openAuthMode('register')" class="text-indigo-400 font-bold underline">أنشئ حساباً جديداً</button>
                 </div>
             </div>
 
@@ -251,7 +247,7 @@
                     </button>
                 </form>
                 <div class="text-center mt-6 text-xs text-slate-400">
-                    لديك حساب بالفعل؟ <button onclick="openAuthMode('login')" class="text-cyan-400 font-bold underline">سجل دخولك هنا</button>
+                    لديك حساب بالفعل؟ <button type="button" onclick="openAuthMode('login')" class="text-cyan-400 font-bold underline">سجل دخولك هنا</button>
                 </div>
             </div>
 
@@ -279,13 +275,13 @@
                         <label class="block text-xs font-semibold text-slate-300 mb-1">كلمة المرور الجديدة:</label>
                         <input type="password" id="editUserPassword" placeholder="اتركها فارغة إن لم ترغب بتغييرها" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-sm text-slate-100 shadow-inner">
                     </div>
-                    <button onclick="saveUserProfileChanges()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 rounded-xl transition text-sm shadow hover:scale-[1.01]">
+                    <button type="button" onclick="saveUserProfileChanges()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 rounded-xl transition text-sm shadow hover:scale-[1.01]">
                         حفظ التعديلات الشخصية
                     </button>
                     <p id="profileSavedMsg" class="hidden text-center text-emerald-400 text-xs font-semibold">تم تحديث بياناتك الشخصية بنجاح!</p>
                 </div>
 
-                <button onclick="siteLogout()" class="w-full bg-red-600/20 border border-red-500/50 hover:bg-red-600 text-red-300 hover:text-white font-bold py-2.5 rounded-xl transition text-sm shadow">
+                <button type="button" onclick="siteLogout()" class="w-full bg-red-600/20 border border-red-500/50 hover:bg-red-600 text-red-300 hover:text-white font-bold py-2.5 rounded-xl transition text-sm shadow">
                     تسجيل الخروج
                 </button>
             </div>
@@ -316,7 +312,7 @@
                         <h2 class="text-2xl font-black text-amber-400">لوحة تحكم المسؤول المتقدمة</h2>
                         <p class="text-slate-400 text-xs">إدارة محتوى المنصة، الطلبات، والمستخدمين بالكامل</p>
                     </div>
-                    <button onclick="adminLogout()" class="bg-red-500/20 border border-red-500 text-red-300 hover:bg-red-500 hover:text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition shadow-sm">خروج</button>
+                    <button type="button" onclick="adminLogout()" class="bg-red-500/20 border border-red-500 text-red-300 hover:bg-red-500 hover:text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition shadow-sm">خروج</button>
                 </div>
 
                 <!-- إحصائيات حية -->
@@ -363,7 +359,7 @@
                     <h3 class="font-bold text-sm text-amber-400">تغيير كلمة مرور المسؤول:</h3>
                     <div class="flex gap-2">
                         <input type="text" id="newAdminPassword" placeholder="كلمة المرور الجديدة للمسؤول" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-sm text-slate-100 shadow-inner">
-                        <button onclick="updateAdminPassword()" class="bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs whitespace-nowrap shadow">تحديث الكلمة</button>
+                        <button type="button" onclick="updateAdminPassword()" class="bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs whitespace-nowrap shadow">تحديث الكلمة</button>
                     </div>
                 </div>
 
@@ -375,7 +371,7 @@
                     </div>
                 </div>
 
-                <button onclick="saveAdminSettings()" class="w-full bg-gradient-to-r from-amber-500 to-emerald-600 hover:from-amber-400 text-slate-950 font-black py-3.5 rounded-xl transition shadow-lg mt-2 hover:scale-[1.01]">
+                <button type="button" onclick="saveAdminSettings()" class="w-full bg-gradient-to-r from-amber-500 to-emerald-600 hover:from-amber-400 text-slate-950 font-black py-3.5 rounded-xl transition shadow-lg mt-2 hover:scale-[1.01]">
                     حفظ وتطبيق التغييرات فوراً
                 </button>
                 <p id="adminSavedMsg" class="hidden text-center text-emerald-400 text-xs font-semibold">تم حفظ التغييرات وتطبيقها بنجاح!</p>
@@ -406,9 +402,14 @@
             }
 
             const sections = ['toolsSection', 'webserviceSection', 'featuresSection', 'authSection', 'adminSection'];
-            sections.forEach(sec => document.getElementById(sec).classList.add('hidden'));
+            sections.forEach(sec => {
+                const el = document.getElementById(sec);
+                if(el) el.classList.add('hidden');
+            });
             
-            document.getElementById(tabName + 'Section').classList.remove('hidden');
+            const target = document.getElementById(tabName + 'Section');
+            if(target) target.classList.remove('hidden');
+
             if(tabName === 'admin') checkAdminSession();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -435,7 +436,7 @@
             document.getElementById('pageTitle').textContent = brand;
             const logoBox = document.getElementById('siteLogoBox');
             logoBox.textContent = logoText;
-            logoBox.className = `${logoBg} text-white p-2.5 rounded-xl font-black text-xl shadow-lg group-hover:scale-110 transition duration-300`;
+            logoBox.className = `${logoBg} text-white p-2.5 rounded-xl font-black text-xl shadow-lg transition duration-300`;
             document.getElementById('mainHeading').textContent = heading;
             document.getElementById('mainSubHeading').textContent = subHeading;
 
@@ -483,7 +484,7 @@
                         <strong class="text-cyan-400">${o.name}</strong> (${o.contact})<br>
                         <span class="text-slate-300">النوع: ${o.type}</span>
                     </div>
-                    <button onclick="deleteOrder(${index})" class="text-red-400 hover:text-red-300 text-xs px-2 py-1 bg-red-500/10 rounded">حذف</button>
+                    <button type="button" onclick="deleteOrder(${index})" class="text-red-400 hover:text-red-300 text-xs px-2 py-1 bg-red-500/10 rounded">حذف</button>
                 </div>
             `).join('');
         }
@@ -619,9 +620,9 @@
             const nav = document.getElementById('mainNav');
 
             if (isLogged) {
-                globalLock.classList.add('hidden');
-                protectedContent.classList.remove('hidden');
-                nav.classList.remove('hidden');
+                if(globalLock) globalLock.classList.add('hidden');
+                if(protectedContent) protectedContent.classList.remove('hidden');
+                if(nav) nav.classList.remove('hidden');
 
                 document.getElementById('loginFormContainer').classList.add('hidden');
                 document.getElementById('registerFormContainer').classList.add('hidden');
@@ -646,9 +647,9 @@
                     document.getElementById('userInitial').textContent = name.charAt(0).toUpperCase();
                 }
             } else {
-                globalLock.classList.remove('hidden');
-                protectedContent.classList.add('hidden');
-                nav.classList.add('hidden');
+                if(globalLock) globalLock.classList.remove('hidden');
+                if(protectedContent) protectedContent.classList.add('hidden');
+                if(nav) nav.classList.add('hidden');
 
                 document.getElementById('userDashboard').classList.add('hidden');
                 document.getElementById('loginFormContainer').classList.remove('hidden');
@@ -658,7 +659,6 @@
 
         function siteLogout() {
             localStorage.removeItem('site_user_logged');
-            checkSessionStyle = false;
             checkSessionState();
             switchTab('auth');
         }
@@ -684,7 +684,7 @@
         dropZone.addEventListener('click', () => fileInput.click());
 
         fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 10 || e.target.files.length > 0) {
+            if (e.target.files.length > 0) {
                 selectedFile = e.target.files[0];
                 document.getElementById('fileNameDisplay').textContent = `الملف: ${selectedFile.name}`;
                 document.getElementById('resultContainer').classList.add('hidden');
@@ -715,7 +715,6 @@
                             canvas.toBlob((blob) => {
                                 document.getElementById('downloadLink').href = URL.createObjectURL(blob);
                                 document.getElementById('downloadLink').download = `converted_file.${ext}`;
-                                document.getElementById('resultContext'] = '';
                                 document.getElementById('resultContainer').classList.remove('hidden');
                             }, mime, 0.9);
                         };
