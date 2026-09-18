@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Convify - المحول الشامل للصور والمستندات والملفات</title>
+    <title>Convify - المحول الشامل الفعلي للصور والنصوص</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
@@ -30,8 +30,8 @@
     <!-- Main Content -->
     <main class="max-w-4xl mx-auto px-4 py-12 flex-grow w-full" id="converter">
         <div class="text-center mb-10">
-            <h1 class="text-4xl md:text-5xl font-black mb-4 tracking-tight">المحول الشامل لكل ملفاتك</h1>
-            <p class="text-slate-400 text-lg">حول الصور، المستندات، والصوتيات بضغطة زر وبدون برامج معقدة.</p>
+            <h1 class="text-4xl md:text-5xl font-black mb-4 tracking-tight">المحول الذكي والفعلي لملفاتك</h1>
+            <p class="text-slate-400 text-lg">حول صورك ومعالجة نصوصك مباشرة وبشكل آمن تماماً داخل متصفحك.</p>
         </div>
 
         <!-- Converter Card -->
@@ -42,25 +42,14 @@
                 <label class="block text-sm font-semibold text-slate-300">اختر نوع التحويل المطلوب:</label>
                 
                 <select id="conversionType" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 focus:outline-none focus:border-indigo-500 transition">
-                    <optgroup label="🖼️ تحويل الصور">
-                        <option value="img-png-jpg">تحويل صورة من PNG إلى JPG</option>
-                        <option value="img-jpg-png">تحويل صورة من JPG إلى PNG</option>
-                        <option value="img-to-webp">تحويل صورة إلى WEBP (لتحسين السرعة)</option>
-                        <option value="img-to-gif">تحويل صورة إلى GIF</option>
+                    <optgroup label="🖼️ تحويل الصور الفعلي">
+                        <option value="img-to-jpg">تحويل الصورة إلى JPG</option>
+                        <option value="img-to-png">تحويل الصورة إلى PNG</option>
+                        <option value="img-to-webp">تحويل الصورة إلى WEBP</option>
                     </optgroup>
-                    <optgroup label="📄 المستندات وملفات الـ PDF">
-                        <option value="pdf-to-images">استخراج الصور من ملف PDF</option>
-                        <option value="word-to-pdf">تحويل مستند Word إلى PDF (محاكاة)</option>
-                        <option value="compress-pdf">ضغط وتصغير حجم ملف PDF</option>
-                    </optgroup>
-                    <optgroup label="🎵 الصوت والفيديو">
-                        <option value="video-to-gif">تحويل فيديو قصير إلى GIF</option>
-                        <option value="audio-mp3">استخراج وتحويل الصوت إلى MP3</option>
-                    </optgroup>
-                    <optgroup label="✍️ أدوات النصوص">
+                    <optgroup label="✍️ أدوات النصوص الفورية">
                         <option value="text-uppercase">تحويل النص الإنجليزي إلى أحرف كبيرة (UPPERCASE)</option>
                         <option value="text-lowercase">تحويل النص الإنجليزي إلى أحرف صغيرة (lowercase)</option>
-                        <option value="text-count">عد الكلمات والحروف في النص</option>
                     </optgroup>
                 </select>
             </div>
@@ -73,18 +62,18 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                     </svg>
                     <p class="text-lg font-medium">اسحب الملف هنا أو <span class="text-indigo-400 underline">اضغط لاختيار ملف من جهازك</span></p>
-                    <p id="fileNameDisplay" class="text-sm text-slate-400">يدعم جميع الصيغ الشهيرة (صور، مستندات، صوتيات)</p>
+                    <p id="fileNameDisplay" class="text-sm text-slate-400">يدعم الصور والنصوص بشكل كامل</p>
                 </div>
             </div>
 
             <!-- Action Button -->
             <button id="convertBtn" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-indigo-600/30">
-                بدء المعالجة والتحويل
+                بدء المعالجة والتحويل الفعلي
             </button>
 
             <!-- Result Box -->
             <div id="resultContainer" class="hidden mt-6 p-4 bg-slate-900 rounded-xl border border-slate-700 text-center">
-                <p class="text-green-400 font-semibold mb-3">تم تجهيز ملفك بنجاح!</p>
+                <p class="text-green-400 font-semibold mb-3">تم تحويل الملف بنجاح تام!</p>
                 <a id="downloadLink" href="#" class="inline-block bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-2 rounded-lg font-bold transition">
                     تنزيل الملف المحول
                 </a>
@@ -98,17 +87,17 @@
         <div class="p-6 bg-slate-800/50 rounded-2xl border border-slate-800">
             <div class="text-indigo-400 text-3xl mb-3">⚡</div>
             <h3 class="font-bold text-lg mb-2">سرعة فائقة</h3>
-            <p class="text-slate-400 text-sm">يتم معالجة الملفات في أجزاء من الثانية مباشرة داخل متصفحك بأمان تام.</p>
+            <p class="text-slate-400 text-sm">التحويل يتم بلمح البصر داخل جهازك.</p>
         </div>
         <div class="p-6 bg-slate-800/50 rounded-2xl border border-slate-800">
             <div class="text-indigo-400 text-3xl mb-3">🔒</div>
-            <h3 class="font-bold text-lg mb-2">خصوصية كاملة</h3>
-            <p class="text-slate-400 text-sm">ملفاتك لا يتم حفظها على أي خادم خارجي، مما يضمن سرية بياناتك بنسبة 100%.</p>
+            <h3 class="font-bold text-lg mb-2">خصوصية مطلقة</h3>
+            <p class="text-slate-400 text-sm">ملفاتك لا تغادر متصفحك أبداً.</p>
         </div>
         <div class="p-6 bg-slate-800/50 rounded-2xl border border-slate-800">
             <div class="text-indigo-400 text-3xl mb-3">💎</div>
             <h3 class="font-bold text-lg mb-2">مجاني تماماً</h3>
-            <p class="text-slate-400 text-sm">بدون تسجيل حساب، وبدون حدود خفية، استخدم كل الأدوات مجاناً تماماً.</p>
+            <p class="text-slate-400 text-sm">استمتع بكافة الأدوات بدون قيود.</p>
         </div>
     </section>
 
@@ -117,7 +106,7 @@
         <p>&copy; 2026 Convify. جميع الحقوق محفوظة.</p>
     </footer>
 
-    <!-- JavaScript logic -->
+    <!-- JavaScript Real Conversion Logic -->
     <script>
         const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('fileInput');
@@ -129,13 +118,13 @@
 
         let selectedFile = null;
 
-        dropZone.click = () => fileInput.click();
         dropZone.addEventListener('click', () => fileInput.click());
 
         fileInput.addEventListener('change', (e) => {
             if (e.target.files.length > 0) {
                 selectedFile = e.target.files[0];
                 fileNameDisplay.textContent = `الملف المحدد: ${selectedFile.name} (${(selectedFile.size / 1024 / 1024).toFixed(2)} MB)`;
+                resultContainer.classList.add('hidden');
             }
         });
 
@@ -154,41 +143,79 @@
             if (e.dataTransfer.files.length > 0) {
                 selectedFile = e.dataTransfer.files[0];
                 fileNameDisplay.textContent = `الملف المحدد: ${selectedFile.name} (${(selectedFile.size / 1024 / 1024).toFixed(2)} MB)`;
+                resultContainer.classList.add('hidden');
             }
         });
 
         convertBtn.addEventListener('click', () => {
             if (!selectedFile) {
-                alert('الرجاء اختيار ملف أولاً لكي يتم تحويله!');
+                alert('الرجاء اختيار ملف أو صورة أولاً!');
                 return;
             }
 
             const chosenType = conversionType.value;
-            convertBtn.textContent = 'جاري معالجة وتحويل الملف...';
+            convertBtn.textContent = 'جاري التحويل الفعلي للملف...';
             convertBtn.disabled = true;
 
             setTimeout(() => {
-                convertBtn.textContent = 'بدء المعالجة والتحويل';
+                convertBtn.textContent = 'بدء المعالجة والتحويل الفعلي';
                 convertBtn.disabled = false;
-                resultContainer.classList.remove('hidden');
-                
-                // محاكاة مخصصة بناءً على خيار التحويل
-                let extension = 'out';
-                if (chosenType.includes('png-jpg')) extension = 'jpg';
-                else if (chosenType.includes('jpg-png')) extension = 'png';
-                else if (chosenType.includes('webp')) extension = 'webp';
-                else if (chosenType.includes('gif')) extension = 'gif';
-                else if (chosenType.includes('pdf')) extension = 'pdf';
-                else if (chosenType.includes('mp3')) extension = 'mp3';
-                else extension = 'txt';
 
-                const blob = new Blob([selectedFile], { type: selectedFile.type });
-                const url = URL.createObjectURL(blob);
-                downloadLink.href = url;
-                
-                const baseName = selectedFile.name.substring(0, selectedFile.name.lastIndexOf('.')) || 'file';
-                downloadLink.download = `${baseName}_converted.${extension}`;
-            }, 2000);
+                if (chosenType.startsWith('img-')) {
+                    // التحويل الحقيقي للصور باستخدام Canvas
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        const img = new Image();
+                        img.onload = function() {
+                            const canvas = document.createElement('canvas');
+                            canvas.width = img.width;
+                            canvas.height = img.height;
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0);
+
+                            let mimeType = 'image/jpeg';
+                            let ext = 'jpg';
+                            if (chosenType === 'img-to-png') {
+                                mimeType = 'image/png';
+                                ext = 'png';
+                            } else if (chosenType === 'img-to-webp') {
+                                mimeType = 'image/webp';
+                                ext = 'webp';
+                            }
+
+                            canvas.toBlob((blob) => {
+                                const url = URL.createObjectURL(blob);
+                                downloadLink.href = url;
+                                const baseName = selectedFile.name.substring(0, selectedFile.name.lastIndexOf('.')) || 'image';
+                                downloadLink.download = `${baseName}_convify.${ext}`;
+                                resultContainer.classList.remove('hidden');
+                            }, mimeType, 0.9);
+                        };
+                        img.src = event.target.result;
+                    };
+                    reader.readAsDataURL(selectedFile);
+
+                } else if (chosenType.startsWith('text-')) {
+                    // التحويل الحقيقي للنصوص
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        let text = event.target.result;
+                        if (chosenType === 'text-uppercase') {
+                            text = text.toUpperCase();
+                        } else if (chosenType === 'text-lowercase') {
+                            text = text.toLowerCase();
+                        }
+
+                        const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+                        const url = URL.createObjectURL(blob);
+                        downloadLink.href = url;
+                        const baseName = selectedFile.name.substring(0, selectedFile.name.lastIndexOf('.')) || 'text';
+                        downloadLink.download = `${baseName}_modified.txt`;
+                        resultContainer.classList.remove('hidden');
+                    };
+                    reader.readAsText(selectedFile);
+                }
+            }, 1000);
         });
     </script>
 </body>
